@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="webjars/bootstrap/5.0.0-beta3/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>SignIn</title>
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<header th:insert="fragments/header.html"></header>
+<div class="container">
+    <main class="text-center">
+        <div class="py-5">
+            <span th:if="${message}">
+                <a th:text="${message}" style="color: red"></a>
+            </span>
+            <span> - </span>
+            <span th:if="${fieldError}">
+                <a th:text="${fieldError}" style="color: red"></a>
+            </span>
+            <div th:if="${errorMessage}" th:utext="${errorMessage}"
+                 style="color:red;font-style:italic;">
+            </div>
+            <h1 class="h3 mb-3 font-weight-normal">Créer un compte</h1>
+            <form class="form" action="#" th:action="@{/signin(bibliothequeId=${bibliotheque.id})}"
+                  th:object="${abonne}" method="post">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="prenom" class="form-label">Prenom</label>
+                        <input type="text" th:field="*{prenom}" class="form-control" id="prenom" placeholder=""
+                               value=""
+                               required>
+                        <span th:if="${#fields.hasErrors('prenom')}" th:text="${fieldError}"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" th:field="*{nom}" class="form-control" id="nom" placeholder="" value=""
+                               required>
+                        <span th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="username" class="form-label">Username</label>
+                        <!--                        <div class="input-group">-->
+                        <input type="text" th:field="*{username}" class="form-control" id="username"
+                               placeholder=""
+                               value="" required>
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="telephone" class="form-label">Numéro de Téléphone</label>
+                        <input type="text" th:field="*{numTelephone}" class="form-control" id="telephone"
+                               placeholder="" value="" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="password" class="form-label">Mot de Passe</label>
+                        <input type="password" th:field="*{password}" class="form-control" id="password"
+                               placeholder=""
+                               value="" required>
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                        <span th:if="${messagePw}" th:text="${messagePw}"></span>
+                    </div>
+<!--                    <div class="col-sm-6">-->
+<!--                        <label for="passwordVerif" class="form-label">Verifier mot de passe</label>-->
+<!--                        <input type="password" class="form-control" id="passwordVerif"-->
+<!--                               placeholder=""-->
+<!--                               value="" required>-->
+<!--                    </div>-->
+                    <div class="col-12">
+                        <label for="email" class="form-label">Email <span class="text-muted"></span></label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">@</span>
+                            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder=""
+                                   value=""
+                                   required>
+                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="adresse" class="form-label">Adresse</label>
+                        <input type="text" th:field="*{adresse.rue}" class="form-control" id="adresse"
+                               placeholder=""
+                               value="" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="code-postal" class="form-label">Code Postal</label>
+                        <input type="text" th:field="*{adresse.codePostal}" class="form-control" id="code-postal"
+                               placeholder="" value="" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="ville" class="form-label">Ville</label>
+                        <input type="text" th:field="*{adresse.ville}" class="form-control" id="ville"
+                               placeholder=""
+                               value="" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="pays" class="form-label">Pays</label>
+                        <select class="form-control" id="pays" name="paysId" required>
+                            <option value="">Pays...</option>
+                            <option value=1>France</option>
+                        </select>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" onclick="matchPassword()">Créer un compte</button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<footer th:insert="fragments/footer.html"></footer>
+</body>
+</html>
+
+

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="webjars/bootstrap/5.0.0-beta3/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+    <title>Emprunt</title>
+</head>
+<body>
+<header th:insert="fragments/header.html"></header>
+<div class="container">
+    <div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+    </div>
+    <h4>Formulaire de création d'un emprunt :</h4>
+    <div th:if="${messageCreateEmprunt}">
+        <br>
+        <a th:utext="${messageCreateEmprunt}" style="color:red;font-style:italic;font-size: large"></a>
+    </div>
+    <br>
+    <form th:action="@{createEmpruntSearchForm(bibliothequeId=${bibliotheque.id})}" th:object="${createEmpruntBean}"
+          method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group">Rechercher un abonné : </span>
+                    <span>
+                    <input class="input-group" type="text" name="numAbonne" th:field="*{numAbonne}">
+                </span>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group">Rechercher un ouvrage :</span>
+                    <span>
+                    <input class="input-group" type="text" name="idInterne" th:field="*{idInterne}">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-4">
+            <button class="btn-md btn-primary" type="submit">Rechercher</button>
+        </div>
+    </form>
+    <br><br>
+    <div th:if="${createEmpruntBean}">
+        <form th:action="@{createEmprunt(bibliothequeId=${bibliotheque.id})}" th:object="${createEmpruntBean}"
+              method="post">
+            <h5>Création de l'emprunt :</h5>
+            <table class="table table-striped  table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Numero d'Abonné</th>
+                    <th>Prenom</th>
+                    <th>Nom</th>
+                    <th>Numéro de Téléphone</th>
+                    <th>Identifiant interne</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${createEmpruntBean.numAbonne}"></td>
+                    <td th:text="${createEmpruntBean.prenom}"></td>
+                    <td th:text="${createEmpruntBean.nom}"></td>
+                    <td th:text="${createEmpruntBean.numTelephone}"></td>
+                    <td th:text="${createEmpruntBean.idInterne}"></td>
+                    <td th:text="${createEmpruntBean.titre}"></td>
+                    <td th:text="${createEmpruntBean.auteur}"></td>
+                    <input type="hidden" name="abonneId" th:value="${createEmpruntBean.abonneId}">
+                    <input type="hidden" name="ouvrageId" th:value="${createEmpruntBean.ouvrageId}">
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn-md btn-primary" type="submit">Valider</button>
+        </form>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(abonnes) or #lists.size(abonnes)>1}">
+        <a th:text="${message}"></a>
+        <h4>Résultat de recherche</h4>
+        <table class="table table-striped  table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Numero d'Abonné</th>
+                <th>Prenom</th>
+                <th>Nom</th>
+                <th>Numéro de Téléphone</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tempAbonne : ${abonnes}">
+                <td th:text="${tempAbonne.numAbonne}"></td>
+                <td th:text="${tempAbonne.prenom}"></td>
+                <td th:text="${tempAbonne.nom}"></td>
+                <td th:text="${tempAbonne.numTelephone}"></td>
+                <td>
+                    <a th:href="@{showEmpruntPage(bibliothequeId=${bibliotheque.id}, numAbonne=${tempAbonne.numAbonne}, idInterne=${createEmpruntBean.idInterne})}"
+                       class="card-link">Selectionner</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br>
+    <div th:if="${!#lists.isEmpty(ouvrages) or #lists.size(ouvrages)>1}">
+        <a th:text="${message}"></a>
+        <h4>Résultat de recherche</h4>
+        <table class="table table-striped  table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Identifiant interne</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tempOuvrage : ${ouvrages}">
+                <td th:text="${tempOuvrage.idInterne}"></td>
+                <td th:text="${tempOuvrage.titre}"></td>
+                <td th:text="${tempOuvrage.auteur}"></td>
+                <td>
+                    <span th:if="${!tempOuvrage.emprunte}">
+                    <a th:href="@{showEmpruntPage(bibliothequeId=${bibliotheque.id}, idInterne=${tempOuvrage.idInterne}, numAbonne=${createEmpruntBean.numAbonne})}"
+                       class="card-link">Selectionner</a>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<br>
+<br>
+<footer th:insert="fragments/footer.html"></footer>
+</body>
+</html>

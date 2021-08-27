@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="webjars/bootstrap/5.0.0-beta3/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>LogIn</title>
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<header th:insert="fragments/header.html"></header>
+<div class="container">
+    <main class="text-center">
+            <div th:if="${errorMessage}" th:utext="${errorMessage}"
+                 style="color:red;font-style:italic;">
+            </div>
+        <div class="py-5">
+            <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
+            <form class="form-login" action="#" th:action="@{/login(bibliothequeId=${bibliotheque.id})}" th:object="${user}" method="post">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-3">
+                        <label for="username" class="form-label">Email</label>
+                        <input type="email" th:field="*{email}" id="username" class="form-control" placeholder="Email"
+                               required
+                               autofocus>
+                    </div>
+                </div>
+                <br/>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-3">
+                        <label for="inputPassword" class="form-label">Password</label>
+                        <input type="password" th:field="*{password}" id="inputPassword" class="form-control"
+                               placeholder="Password"
+                               required>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<footer th:insert="fragments/footer.html"></footer>
+</body>
+</html>
+
+
