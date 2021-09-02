@@ -19,7 +19,7 @@ public interface OuvrageRepository extends JpaRepository<Ouvrage, Long> {
 
     Ouvrage findOuvrageByIdInterne(String idInterne);
 
-    @Query(value = "SELECT * FROM ouvrage WHERE (id_interne) ILIKE '%' || ?1 || '%'", nativeQuery = true)
+    @Query(value = "SELECT * FROM ouvrage WHERE (id_interne) ILIKE '%' || ?1 || '%' ORDER BY id_interne ASC", nativeQuery = true)
     List<Ouvrage> findOuvragesByIdInterne(String idInterne);
 
     Ouvrage findOuvrageById(Long ouvrageId);
