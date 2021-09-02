@@ -332,8 +332,8 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (133, 'CEN_DUN1_12_1', false, 1, 12);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (37, 'CEN_CHA_4_1', false, 1, 4);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (62, 'CEN_CA1_6_2', false, 1, 6);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (10, 'SER_VOY_1_1', true, 4, 1);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (135, 'CEN_DUN1_12_3', true, 1, 12);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (10, 'SER_VOY_1_1', false, 4, 1);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (135, 'CEN_DUN1_12_3', false, 1, 12);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (25, 'CEN_GUI_3_1', false, 1, 3);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (39, 'CEN_CHA_4_3', false, 1, 4);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (27, 'CEN_GUI_3_3', false, 1, 3);
