@@ -201,15 +201,19 @@ public class LivreController {
                 theModel.addObject("livre", livreResponseModelBean);
                 int nbExDispoInOne = ouvrageService.getOuvrageDispoInOneBibliotheque(livreId, bibliothequeId);
                 theModel.addObject("nbExDispoInOne", nbExDispoInOne);
+                if (nbExDispoInOne==0) {
+                    boolean reservationPossible = true;
+                    theModel.addObject("reservationPossible", reservationPossible);
+                }
                 List<Object> nbExDispoInOtherElements = ouvrageService.getOuvrageDispoInOtherBibliotheque(livreId, bibliothequeId);
                 if (!nbExDispoInOtherElements.isEmpty()) {
                     theModel.addObject("nbExDispoInOtherElements", nbExDispoInOtherElements);
-                    for (Object elements : nbExDispoInOtherElements) {
-                        List<Object> elementsList = (List<Object>) elements;
-                        Integer nbEx = (Integer) elementsList.get(0);
-                        Integer bibliothequeIdForEx = (Integer) elementsList.get(1);
-                        String bibliothequeNom = (String) elementsList.get(2);
-                    }
+//                    for (Object elements : nbExDispoInOtherElements) {
+//                        List<Object> elementsList = (List<Object>) elements;
+//                        Integer nbEx = (Integer) elementsList.get(0);
+//                        Integer bibliothequeIdForEx = (Integer) elementsList.get(1);
+//                        String bibliothequeNom = (String) elementsList.get(2);
+//                    }
                 }
             } else {
                 String errorMessage = (String) response.getBody();

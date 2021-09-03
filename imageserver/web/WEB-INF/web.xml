@@ -17,7 +17,7 @@
 
     <context-param>
         <param-name>rep_images</param-name>
-        <param-value>C:\Workplace\IntelliJ\OpenClassrooms - Projets\OCprojet10\imageserver\web\public\images</param-value>
+        <param-value>C:\Development\Workplace\OpenClassrooms - Projets\OCprojet10\imageserver\web\public\images</param-value>
 
     </context-param>
 

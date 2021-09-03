@@ -50,7 +50,8 @@
             </div>
             <div class="card-footer row">
                 <div class="description col-md-12 text-center">
-                    <div>Maison d'édition : <a th:text="${livre.editeur.nomMaisonEdition}" style="font-weight: bold; font-size: large"></a></div>
+                    <div>Maison d'édition : <a th:text="${livre.editeur.nomMaisonEdition}"
+                                               style="font-weight: bold; font-size: large"></a></div>
                     <div>Date d'édition : <a th:text="${livre.dateEdition}"></a></div>
                     <div>Genre(s) : <a th:text="${livre.genres}"></a>
                         <div>
@@ -58,7 +59,11 @@
                             <span> / Langue :  <a th:text="${livre.langue.getLangue()}"></a></span>
                         </div>
                         <br>
-                        <span>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a></span>
+                        <span>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a>
+                        <div th:if="${reservationPossible}">
+                            <button type="submit" class="btn btn-primary btn-md btn-block">reserver</button>
+                        </div>
+                        </span>
                         <br>
                         <hr>
                         <div th:if="${nbExDispoInOtherElements}">

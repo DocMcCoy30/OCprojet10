@@ -1,6 +1,6 @@
 HELP.md
 target/
-out/
+imageserver/out/
 production/
 .gitignore
 !.mvn/wrapper/maven-wrapper.jar
