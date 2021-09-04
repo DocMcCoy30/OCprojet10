@@ -25,38 +25,55 @@
 
 ##Documentation 
 
-La documentation se trouve dans le dossier "1-Documents" : 
-+ sql : structure et data de la base de données PostgreSQL
-+ uml : diagrammes UML (classes, MPD, arborescence, usecase, activité)
+La documentation du projet pour les différents tickets se trouve dans le dossier "-docs" : 
++ ticket1 :
+  + sql : scripts de création (structure et datas) de la base de données PostgreSQL (projet 7)
+  et script de migration (cf modèle physique de données dans dossier infos)
+  + documentation : Document de conception
+    + enjeux et objectifs du ticket 1 
+    + comparaison entre l'existant (Projet 7)
+    et l'implémentation à réaliser
+      (architecture du projet, diagrammes UML, arborescence du site, modèle physique de données)
 
-##application.properties => modification de la configuration
+
+##Modification de la configuration : application.properties
 
 
 + configuration de la base de données (livre-service, utilisateur-service- emprunt-service) :
 
-![](.README_images/5be63c66.png)
+![img.png](.README_images/properties.png)
 
 ## Base de données
 
-- les backup pour la base de données sont dans le répertoire 1-Documents/sql
+- les backup pour la base de données sont dans le répertoire -docs/docs_ticket1/sql
 
-- Créer une nouvelle base de données DB_P7_Bibliotheque dans pgAdmin : owner => POSTGRES
+- Créer une nouvelle base de données DB_P10_Bibliotheque dans pgAdmin
 
-![](.README_images/c796e4f5.png)
+![img.png](.README_images/db-create.png)!
 
-- Copier/Coller le contenu du fichier structure.sql dans le QueryEditor et executer le script
+- Copier/Coller le contenu du fichier StructureFromP7.sql dans le QueryEditor et executer le script
 
-![](.README_images/42d92377.png)
+![img.png](.README_images/db-structure.png)
 
-- Copier/Coller le contenu du fichier data.sql dans le QueryEditor et executer le script
+- Copier/Coller le contenu du fichier DataFromP7WithUsersAndEmprunts.sql dans le QueryEditor et executer le script
 
-![](.README_images/9f6c00c6.png)
+![img.png](.README_images/db-datas.png)
+
+A ce niveau, la base de données créée correspond à celle utilisé par la bibliothèque avant l'implémentation de
+nouvelles fonctionnalités.
+
+- Copier/Coller le contenu du fichier MigrationFromP7toP10.sql dans le QueryEditor et executer le script
+
+![img.png](.README_images/db-migration.png)
+
+Ce script ajoute les tables nécessaires à l'implémentation de la fonctionnalité demandée dans le premier ticket
+(réservation d'ouvrages).
 
 ## Installation
 
 IntelliJ = File -> New ->Project from Version Control
 
-url : https://github.com/DocMcCoy30/OCprojet7.git
+url : https://github.com/DocMcCoy30/OCprojet10.git
 
 file : dossier de destination
 
@@ -64,7 +81,7 @@ ou
 
 ```
 $ cd ../chemin/vers/le/dossier/de/destination
-$ git clone https://github.com/DocMcCoy30/OCprojet7.git
+$ git clone https://github.com/DocMcCoy30/OCprojet10.git
 
 $mvn install pour chaque service si nécessaire
 ```
@@ -77,7 +94,7 @@ $mvn install pour chaque service si nécessaire
 
 3- clientUI
 
-4- utilisateur-service / livre-service / emprunt-service / email-service
+4- utilisateur-service / livre-service / emprunt-service / reservation-service / email-service
 
 5- imageserver contient les images (couvertures des livres notamment) : les infos pour l'installation et la configuration sont dans le ReadMe du module.
 
@@ -97,15 +114,32 @@ Page d'accueil accessible à : https://localhost:8999/ (gateway)
 
 Les nouveaux utilisateurs crées dans "s'inscrire" seront toujours des abonnés.
 
-*Fonctionnalités d'un USER non connecté :*
+###**Fonctionalités de base (projet 7)**
+
+*Fonctionnalités d'un utilisateur non connecté :*
 + s'inscrire / se connecter
 + effectuer une recherche
 + consulter le détail d'un livre
-
-*Fonctionnalités d'un ABONNE connecté :*
++ 
+*Fonctionnalités d'un abonné connecté :*
 + consulter et modifier son profil
 + prolonger un emprunt
-
-*Fonctionnalités d'un EMPLOYE connecté :*
++ 
+*Fonctionnalités d'un employe connecté :*
 + enregistrer un emprunt
 + enregistrer un retour
+
+*Fonctionnalités batch :*
++ controler les emprunts en cours
++ envoyer un mail de relance automatique
+
+###**Ajout de fonctionnalités (projet 10 / ticket 1)**
+
+*Fonctionnalités d'un abonne connecté :*
++ réserver un ouvrage
++ annuler une réservation
++ consulter ses réservations
+
+*Fonctionnalités batch :*
++ controler les réservations
++ envoyer un mail d'information (retour d'un ouvrage réservé)
