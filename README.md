@@ -38,7 +38,7 @@ La documentation du projet pour les différents tickets se trouve dans le dossie
 
 ### Modification de la configuration : application.properties ###
 
-+ configuration de la base de données (livre-service, utilisateur-service- emprunt-service) :
++ configuration de la base de données (livre-service, utilisateur-service, emprunt-service, reservation-service) :
 
 ![img.png](.README_images/properties.png)
 
@@ -123,17 +123,17 @@ Abonné  | mongier@mail.com  | test123
 
 Les nouveaux utilisateurs crées dans "s'inscrire" seront toujours des abonnés.
 
-### **Fonctionalités de base (projet 7)** ###
+#### **Fonctionalités de base (projet 7)** ####
 
 *Fonctionnalités d'un utilisateur non connecté :*
 + s'inscrire / se connecter
 + effectuer une recherche
 + consulter le détail d'un livre
-+ 
+
 *Fonctionnalités d'un abonné connecté :*
 + consulter et modifier son profil
 + prolonger un emprunt
-+ 
+
 *Fonctionnalités d'un employe connecté :*
 + enregistrer un emprunt
 + enregistrer un retour
@@ -142,7 +142,7 @@ Les nouveaux utilisateurs crées dans "s'inscrire" seront toujours des abonnés.
 + controler les emprunts en cours
 + envoyer un mail de relance automatique
 
-### **Ajout de fonctionnalités (projet 10 / ticket 1)** ###
+#### **Ajout de fonctionnalités (projet 10 / ticket 1)** ####
 
 *Fonctionnalités d'un abonne connecté :*
 + réserver un ouvrage
