@@ -1,9 +1,9 @@
-# OpenClassrooms Projet 10 - Developpeur d'Application Java
+# OpenClassrooms Projet 10 - Developpeur d'Application Java #
 
-##Améliorez le système d’information de la bibliothèque
+## Améliorez le système d’information de la bibliothèque ##
 
 
-##Langages et Technologies utilisées :
+### Langages et Technologies utilisées : ###
 
 + Java / Html / Css
 
@@ -23,7 +23,7 @@
 
 + Thymeleaf / Bootstrap
 
-##Documentation 
+### Documentation ### 
 
 La documentation du projet pour les différents tickets se trouve dans le dossier "-docs" : 
 + ticket1 :
@@ -36,14 +36,13 @@ La documentation du projet pour les différents tickets se trouve dans le dossie
       (architecture du projet, diagrammes UML, arborescence du site, modèle physique de données)
 
 
-##Modification de la configuration : application.properties
-
+### Modification de la configuration : application.properties ###
 
 + configuration de la base de données (livre-service, utilisateur-service- emprunt-service) :
 
 ![img.png](.README_images/properties.png)
 
-## Base de données
+### Base de données ###
 
 - les backup pour la base de données sont dans le répertoire -docs/docs_ticket1/sql
 
@@ -69,7 +68,7 @@ nouvelles fonctionnalités.
 Ce script ajoute les tables nécessaires à l'implémentation de la fonctionnalité demandée dans le premier ticket
 (réservation d'ouvrages).
 
-## Installation
+### Installation ###
 
 IntelliJ = File -> New ->Project from Version Control
 
@@ -86,7 +85,7 @@ $ git clone https://github.com/DocMcCoy30/OCprojet10.git
 $mvn install pour chaque service si nécessaire
 ```
 
-## Demarrage des services
+### Demarrage des services ###
 
 1- eureka-server
 
@@ -104,17 +103,27 @@ $ cd ../path/to/the/file/target
 $ java -jar nom-du-service.jar
 ```
 
-## Utilisation et fonctionnalités
+### Utilisation et fonctionnalités ###
 
 Page d'accueil accessible à : https://localhost:8999/ (gateway)
 
-2 utilisateurs sont créés dans la base de données :
-+ abonné : login : abonne@test.com / password : abonnetest
-+ employé : login : employe@test.com/ password : employetest
+Pour les besoins des tests des cas d'utilisation des nouvelles fonctionnalités, 8 utilisateurs sont créés dans 
+la base de données (ainsi qu'un certain nombre de prêts en cours sur l'ouvrage "Dune" de la Bibliothèque du Carré d'Art) :
+
+Catégorie  | Login | Password
+------------- | ------------- | -------------
+Employé  | oss117@mail.com  | test123
+Abonné  | comolet@mail.com  | test123
+Abonné  | charpon@mail.com  | test123
+Abonné  | leboissier@mail.com  | test123
+Abonné  | delannoy@mail.com  | test123
+Abonné  | labouse@mail.com  | test123
+Abonné  | francard@mail.com  | test123
+Abonné  | mongier@mail.com  | test123
 
 Les nouveaux utilisateurs crées dans "s'inscrire" seront toujours des abonnés.
 
-###**Fonctionalités de base (projet 7)**
+### **Fonctionalités de base (projet 7)** ###
 
 *Fonctionnalités d'un utilisateur non connecté :*
 + s'inscrire / se connecter
@@ -133,7 +142,7 @@ Les nouveaux utilisateurs crées dans "s'inscrire" seront toujours des abonnés.
 + controler les emprunts en cours
 + envoyer un mail de relance automatique
 
-###**Ajout de fonctionnalités (projet 10 / ticket 1)**
+### **Ajout de fonctionnalités (projet 10 / ticket 1)** ###
 
 *Fonctionnalités d'un abonne connecté :*
 + réserver un ouvrage
