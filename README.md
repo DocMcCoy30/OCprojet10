@@ -5,23 +5,17 @@
 
 ### Langages et Technologies utilisées : ###
 
-+ Java / Html / Css
-
-+ SpringBoot / Web / Jpa / Actuator / Lombok / DevTools
-
++ Java 11 / Html / Css
++ SpringBoot 2.5.3
++ SpringDoc / Actuator / Lombok / DevTools
 + PostgreSQL
-
 + SpringSecurity
-
 + SpringCloud Gateway
-
 + SpringMail / SpringScheduler
-
 + Eureka
-
 + Feign
-
 + Thymeleaf / Bootstrap
++ Mapstruct
 
 ### Documentation ### 
 
