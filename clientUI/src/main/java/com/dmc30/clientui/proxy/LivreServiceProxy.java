@@ -1,6 +1,5 @@
 package com.dmc30.clientui.proxy;
 
-import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.LivreBean;
@@ -18,7 +17,7 @@ public interface LivreServiceProxy {
     @GetMapping("/livres/all") //
     List<LivreBean> getLivres();
 
-    @GetMapping("/livres/id") //
+    @GetMapping("/livres/livreId") //
     ResponseEntity<?> getLivreById(@RequestParam("livreId") Long livreId);
 
     @PostMapping("/livres/titre") //

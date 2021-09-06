@@ -2,12 +2,9 @@ package com.dmc30.clientui.web.controller;
 
 import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
-import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
-import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
-import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

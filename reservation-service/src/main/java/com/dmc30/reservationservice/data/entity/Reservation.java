@@ -1,15 +1,14 @@
 package com.dmc30.reservationservice.data.entity;
 
+import com.dmc30.reservationservice.model.bean.OuvrageBean;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "reservation")
@@ -21,6 +20,7 @@ public class Reservation {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "date_reservation")
@@ -31,5 +31,8 @@ public class Reservation {
 
     @Column(name = "id_utilisateur")
     private Long utilisateurId;
+
+    @Transient
+    List<OuvrageBean> ouvrageBeans;
 
 }

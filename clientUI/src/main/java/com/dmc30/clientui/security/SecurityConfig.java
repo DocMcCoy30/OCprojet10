@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/showAccueil", "/showLivreDetails", "/searchLivresOrAuteurs", "/searchLivreByAuteurs", "/login", "/signin").permitAll()
-                .antMatchers("/showProfil", "/update", "/prolongerEmprunt").hasAnyRole("ABONNE", "EMPLOYE")
+                .antMatchers("/showProfil", "/update", "/prolongerEmprunt", "/reservations/").hasAnyRole("ABONNE", "EMPLOYE")
                 .antMatchers("/showEmpruntPage", "/createEmpruntSearchForm", "/createEmprunt", "/searchEmpruntsEnCours", "/retournerEmprunt").hasRole("EMPLOYE")
                 .and()
                 .exceptionHandling().accessDeniedPage("/accessDenied")

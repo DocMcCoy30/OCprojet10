@@ -1,5 +1,6 @@
 package com.dmc30.reservationservice.service.impl;
 
+import com.dmc30.reservationservice.data.entity.Reservation;
 import com.dmc30.reservationservice.data.repository.ReservationRepository;
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 import com.dmc30.reservationservice.model.mappers.ReservationMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,16 +27,26 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto createReservation(ReservationDto reservationDto) {
-        return null;
+        Reservation newReservation = reservationMapper.reservationDtoToReservation(reservationDto);
+        Reservation savedReservation = reservationRepository.save(newReservation);
+        ReservationDto savedReservationDto = reservationMapper.reservationToReservationDto(savedReservation);
+        return savedReservationDto;
     }
 
     @Override
     public List<ReservationDto> getAllReservations() {
-        return null;
+        List<Reservation> reservations = reservationRepository.findAll();
+        List<ReservationDto> reservationDtos =
+                reservations.stream()
+                        .map(reservation -> reservationMapper.reservationToReservationDto(reservation))
+                        .collect(Collectors.toList());
+        return reservationDtos;
     }
 
     @Override
-    public ReservationDto getReservationById(Long resrvationId) {
-        return null;
+    public ReservationDto getReservationById(Long reservationId) {
+        Reservation reservation = reservationRepository.getById(reservationId);
+        ReservationDto reservationDto = reservationMapper.reservationToReservationDto(reservation);
+        return reservationDto;
     }
 }

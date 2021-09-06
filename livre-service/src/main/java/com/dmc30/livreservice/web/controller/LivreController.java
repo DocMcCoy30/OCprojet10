@@ -47,7 +47,7 @@ public class LivreController {
      * @param livreId l'identifiant du livre
      * @return le livre recherché
      */
-    @GetMapping(path = "/id")
+    @GetMapping(path = "/livreId")
     public ResponseEntity<?> getLivreById(@RequestParam("livreId") Long livreId) {
         return livreService.findLivreById(livreId);
     }
