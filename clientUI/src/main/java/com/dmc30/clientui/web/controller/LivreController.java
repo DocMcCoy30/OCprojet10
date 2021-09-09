@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A terme, connecte l'interface utilisateur (Front) avec le microservice Livre (livre-service) via la couche service et proxy.
@@ -205,10 +206,18 @@ public class LivreController {
                     theModel.addObject("livre", livreResponseModelBean);
                     int nbExDispoInOne = ouvrageService.getOuvrageDispoInOneBibliotheque(livreId, bibliothequeId);
                     theModel.addObject("nbExDispoInOne", nbExDispoInOne);
-                    if ((nbExDispoInOne == 0)&&(username!=null)) {
+                    if ((nbExDispoInOne == 0)&&(!Objects.equals(username, "anonymousUser"))) {
+                        //TODO : checkReservationPossible dans ReservationService :
+                        // -> Check1 : pas d'emprunt en cours pour ce livre
+                        // -> Check2 : pas de réservation déjà en cours pour ce livre
+                        // -> Check3 : le liste d'attente n'est pas complète
+                        // reservationPossible = reservationService.checkReservationPossible
                         UtilisateurBean utilisateurBean = userService.getUtilisateurByUsername(username);
                         List<EmpruntBean> emprunts = empruntService.getEmpruntByUtilisateurId(utilisateurBean.getId());
                         reservationPossible = true;
+                    }
+                    if (nbExDispoInOne == 0) {
+                        //TODO : afficher dateDeRetour et listeReservations.size
                     }
                     List<Object> nbExDispoInOtherElements = ouvrageService.getOuvrageDispoInOtherBibliotheque(livreId, bibliothequeId);
                     if (!nbExDispoInOtherElements.isEmpty()) {

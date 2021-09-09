@@ -209,6 +209,7 @@ public class UserController {
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         String message = "";
         utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
+        //TODO : afficher la liste des reservations en cours : titre du livre + date de retour prévu + position sur liste d'attente
         return theModel;
     }
 
