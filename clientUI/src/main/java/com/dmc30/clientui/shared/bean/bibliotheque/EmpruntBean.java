@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class PretBean {
+public class EmpruntBean {
 
     private Long id;
     private Date dateEmprunt;

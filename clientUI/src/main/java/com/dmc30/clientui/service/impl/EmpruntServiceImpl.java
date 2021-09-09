@@ -1,22 +1,16 @@
 package com.dmc30.clientui.service.impl;
 
 import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntModelBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.PretBean;
-import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
+import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.proxy.EmpruntServiceProxy;
 import com.dmc30.clientui.service.contract.EmpruntService;
-import com.dmc30.clientui.service.contract.OuvrageService;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,36 +24,36 @@ public class EmpruntServiceImpl implements EmpruntService {
     }
 
     @Override
-    public PretBean createEmprunt(CreateEmpruntBean createEmpruntBean) throws TechnicalException {
-        PretBean pretBean = new PretBean();
+    public EmpruntBean createEmprunt(CreateEmpruntBean createEmpruntBean) throws TechnicalException {
+        EmpruntBean empruntBean = new EmpruntBean();
         try {
-            pretBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
+            empruntBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
-        return pretBean;
+        return empruntBean;
     }
 
     @Override
-    public List<PretBean> getEmpruntsEnCours(Long bibliothequeId) throws TechnicalException {
-        List<PretBean> pretBeanList = new ArrayList<>();
+    public List<EmpruntBean> getEmpruntsEnCours(Long bibliothequeId) throws TechnicalException {
+        List<EmpruntBean> empruntBeanList = new ArrayList<>();
         try {
-            pretBeanList = empruntServiceProxy.findEmpruntEnCours(bibliothequeId);
+            empruntBeanList = empruntServiceProxy.findEmpruntEnCours(bibliothequeId);
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
-        return pretBeanList;
+        return empruntBeanList;
     }
 
     @Override
-    public List<PretBean> getEmpruntByUtilisateurId(Long utilisateurId) throws TechnicalException {
-        List<PretBean> pretBeanList = new ArrayList<>();
+    public List<EmpruntBean> getEmpruntByUtilisateurId(Long utilisateurId) throws TechnicalException {
+        List<EmpruntBean> empruntBeanList = new ArrayList<>();
         try {
-            pretBeanList = empruntServiceProxy.findEmpruntByUtilisateurId(utilisateurId);
+            empruntBeanList = empruntServiceProxy.findEmpruntByUtilisateurId(utilisateurId);
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
-        return pretBeanList;
+        return empruntBeanList;
     }
 
 

@@ -44,7 +44,7 @@
                         <p class="card-text" th:text="${tempLivre.editeur.nomMaisonEdition}"></p>
                     </div>
                     <div class="text-center" th:if="${bibliotheque}">
-                        <a th:href="@{showLivreDetails(livreId=${tempLivre.id}, bibliothequeId=${bibliotheque.id})}"
+                        <a th:href="@{showLivreDetails(livreId=${tempLivre.id}, bibliothequeId=${bibliotheque.id}, username=${#authentication.getPrincipal()})}"
                            class="card-link">Détail du livre</a>
                     </div>
                 </div>

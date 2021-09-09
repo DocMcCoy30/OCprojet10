@@ -1,10 +1,7 @@
 package com.dmc30.reservationservice.data.entity;
 
 import com.dmc30.reservationservice.model.bean.OuvrageBean;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,10 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "reservation")
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class Reservation {
 
     @Id
@@ -32,7 +26,10 @@ public class Reservation {
     @Column(name = "id_utilisateur")
     private Long utilisateurId;
 
-    @Transient
-    List<OuvrageBean> ouvrageBeans;
+    @Column(name = "id_livre")
+    private Long livreId;
+
+    @Column(name = "id_bibliotheque")
+    private Long bibliothequeId;
 
 }

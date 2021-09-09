@@ -1,13 +1,13 @@
 -- Diff code generated with pgModeler (PostgreSQL Database Modeler)
 -- pgModeler version: 0.9.3
--- Diff date: 2021-09-04 11:06:10
+-- Diff date: 2021-09-09 14:25:59
 -- Source model: DB_P10_Biliotheque
 -- Database: DB_P7_Bibliotheque
 -- PostgreSQL version: 13.0
 
 -- [ Diff summary ]
 -- Dropped objects: 0
--- Created objects: 6
+-- Created objects: 5
 -- Changed objects: 2
 -- Truncated tables: 0
 
@@ -36,21 +36,13 @@ CREATE TABLE public.reservation (
 	date_reservation date,
 	expiree boolean,
 	id_utilisateur integer,
+	id_livre integer,
+	id_bibliotheque integer,
 	CONSTRAINT reservation_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --
 ALTER TABLE public.reservation OWNER TO postgres;
--- ddl-end --
-
--- object: public.many_reservation_has_many_ouvrage | type: TABLE --
--- DROP TABLE IF EXISTS public.many_reservation_has_many_ouvrage CASCADE;
-CREATE TABLE public.many_reservation_has_many_ouvrage (
-	id_reservation integer NOT NULL,
-	id_ouvrage integer NOT NULL,
-	CONSTRAINT many_reservation_has_many_ouvrage_pk PRIMARY KEY (id_reservation,id_ouvrage)
-
-);
 -- ddl-end --
 
 
@@ -74,17 +66,17 @@ REFERENCES public.utilisateur (id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: reservation_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_reservation_has_many_ouvrage DROP CONSTRAINT IF EXISTS reservation_fk CASCADE;
-ALTER TABLE public.many_reservation_has_many_ouvrage ADD CONSTRAINT reservation_fk FOREIGN KEY (id_reservation)
-REFERENCES public.reservation (id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
+-- object: livre_fk | type: CONSTRAINT --
+-- ALTER TABLE public.reservation DROP CONSTRAINT IF EXISTS livre_fk CASCADE;
+ALTER TABLE public.reservation ADD CONSTRAINT livre_fk FOREIGN KEY (id_livre)
+REFERENCES public.livre (id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
--- object: ouvrage_fk | type: CONSTRAINT --
--- ALTER TABLE public.many_reservation_has_many_ouvrage DROP CONSTRAINT IF EXISTS ouvrage_fk CASCADE;
-ALTER TABLE public.many_reservation_has_many_ouvrage ADD CONSTRAINT ouvrage_fk FOREIGN KEY (id_ouvrage)
-REFERENCES public.ouvrage (id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
+-- object: bibliotheque_fk | type: CONSTRAINT --
+-- ALTER TABLE public.reservation DROP CONSTRAINT IF EXISTS bibliotheque_fk CASCADE;
+ALTER TABLE public.reservation ADD CONSTRAINT bibliotheque_fk FOREIGN KEY (id_bibliotheque)
+REFERENCES public.bibliotheque (id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 

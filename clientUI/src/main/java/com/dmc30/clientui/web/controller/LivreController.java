@@ -2,8 +2,10 @@ package com.dmc30.clientui.web.controller;
 
 import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
+import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
+import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +34,7 @@ public class LivreController {
     BibliothequeService bibliothequeService;
     OuvrageService ouvrageService;
     UserService userService;
+    EmpruntService empruntService;
 
     @Autowired
     public LivreController(UtilsMethodService utilsMethodService,
@@ -39,13 +42,15 @@ public class LivreController {
                            AuteurService auteurService,
                            BibliothequeService bibliothequeService,
                            OuvrageService ouvrageService,
-                           UserService userService) {
+                           UserService userService,
+                           EmpruntService empruntService) {
         this.utilsMethodService = utilsMethodService;
         this.livreService = livreService;
         this.auteurService = auteurService;
         this.bibliothequeService = bibliothequeService;
         this.ouvrageService = ouvrageService;
         this.userService = userService;
+        this.empruntService = empruntService;
     }
 
     /**
@@ -186,41 +191,39 @@ public class LivreController {
      */
     @GetMapping("/showLivreDetails")
     public ModelAndView getLivreDetails(@RequestParam(value = "livreId") Long livreId,
-                                        @RequestParam("bibliothequeId") Long bibliothequeId) {
+                                        @RequestParam("bibliothequeId") Long bibliothequeId,
+                                        @RequestParam(value = "username", required = false) String username) {
         ModelAndView theModel = new ModelAndView("livre-detail");
+        boolean reservationPossible = false;
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         logger.info("LivreId = " + livreId);
         try {
-        if (livreId != null) {
-            ResponseEntity<?> response = livreService.getLivreById(livreId);
-            if (response.getStatusCodeValue() == 202) {
-                LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();
-                theModel.addObject("livre", livreResponseModelBean);
-                int nbExDispoInOne = ouvrageService.getOuvrageDispoInOneBibliotheque(livreId, bibliothequeId);
-                theModel.addObject("nbExDispoInOne", nbExDispoInOne);
-                if (nbExDispoInOne==0) {
-                    boolean reservationPossible = true;
-                    theModel.addObject("reservationPossible", reservationPossible);
+            if (livreId != null) {
+                ResponseEntity<?> response = livreService.getLivreById(livreId);
+                if (response.getStatusCodeValue() == 202) {
+                    LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();
+                    theModel.addObject("livre", livreResponseModelBean);
+                    int nbExDispoInOne = ouvrageService.getOuvrageDispoInOneBibliotheque(livreId, bibliothequeId);
+                    theModel.addObject("nbExDispoInOne", nbExDispoInOne);
+                    if ((nbExDispoInOne == 0)&&(username!=null)) {
+                        UtilisateurBean utilisateurBean = userService.getUtilisateurByUsername(username);
+                        List<EmpruntBean> emprunts = empruntService.getEmpruntByUtilisateurId(utilisateurBean.getId());
+                        reservationPossible = true;
+                    }
+                    List<Object> nbExDispoInOtherElements = ouvrageService.getOuvrageDispoInOtherBibliotheque(livreId, bibliothequeId);
+                    if (!nbExDispoInOtherElements.isEmpty()) {
+                        theModel.addObject("nbExDispoInOtherElements", nbExDispoInOtherElements);
+                    }
+                } else {
+                    String errorMessage = (String) response.getBody();
+                    theModel.addObject("errorMessage", errorMessage);
                 }
-                List<Object> nbExDispoInOtherElements = ouvrageService.getOuvrageDispoInOtherBibliotheque(livreId, bibliothequeId);
-                if (!nbExDispoInOtherElements.isEmpty()) {
-                    theModel.addObject("nbExDispoInOtherElements", nbExDispoInOtherElements);
-//                    for (Object elements : nbExDispoInOtherElements) {
-//                        List<Object> elementsList = (List<Object>) elements;
-//                        Integer nbEx = (Integer) elementsList.get(0);
-//                        Integer bibliothequeIdForEx = (Integer) elementsList.get(1);
-//                        String bibliothequeNom = (String) elementsList.get(2);
-//                    }
-                }
-            } else {
-                String errorMessage = (String) response.getBody();
-                theModel.addObject("errorMessage", errorMessage);
             }
-        }
         } catch (TechnicalException e) {
             String errorMessage = e.getMessage();
             theModel.addObject("errorMessage", errorMessage);
         }
+        theModel.addObject("reservationPossible", reservationPossible);
         return theModel;
     }
 }

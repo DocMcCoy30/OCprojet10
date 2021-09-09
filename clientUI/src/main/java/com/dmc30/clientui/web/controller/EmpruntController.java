@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -166,7 +165,7 @@ public class EmpruntController {
         }
         else {
             try {
-                PretBean pretBean = empruntService.createEmprunt(createEmpruntBean);
+                EmpruntBean empruntBean = empruntService.createEmprunt(createEmpruntBean);
                 message = "L'emprunt du livre a bien été enregistré.";
             } catch (TechnicalException e) {
                 String errorMessage = e.getMessage();

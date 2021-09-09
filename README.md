@@ -81,15 +81,15 @@ $mvn install pour chaque service si nécessaire
 
 ### Demarrage des services ###
 
-1- eureka-server
+1- imageserver contient les images (couvertures des livres notamment) : les infos pour l'installation et la configuration sont dans le ReadMe du module.
 
-2- gateway-server
+2- eureka-server
 
-3- clientUI
+3- utilisateur-service / livre-service / emprunt-service / reservation-service / email-service
 
-4- utilisateur-service / livre-service / emprunt-service / reservation-service / email-service
+4- clientUI
 
-5- imageserver contient les images (couvertures des livres notamment) : les infos pour l'installation et la configuration sont dans le ReadMe du module.
+5- gateway-server
 
 Pour chaque service
 ```

@@ -75,7 +75,7 @@ public class UtilsMethodService {
      * @param abonne            le bean abonné
      * @param ouvrageService    le service ouvrage pour récupérer l'ouvrage emprunté
      */
-    public void setEmpruntModelBean(List<EmpruntModelBean> empruntModelBeans, PretBean pret, EmpruntModelBean empruntModelBean, UtilisateurBean abonne, OuvrageService ouvrageService) throws TechnicalException {
+    public void setEmpruntModelBean(List<EmpruntModelBean> empruntModelBeans, EmpruntBean pret, EmpruntModelBean empruntModelBean, UtilisateurBean abonne, OuvrageService ouvrageService) throws TechnicalException {
         Date dateRestitution;
         empruntModelBean.setAbonne(abonne.getPrenom() + " " + abonne.getNom());
         empruntModelBean.setAbonneId(abonne.getId());
@@ -140,7 +140,7 @@ public class UtilsMethodService {
     public void setEmpruntsEnCours(ModelAndView theModel, List<EmpruntModelBean> empruntModelBeans, @RequestParam("bibliothequeId") Long bibliothequeId) {
         String message;
         try {
-            List<PretBean> empruntsEnCours = empruntService.getEmpruntsEnCours(bibliothequeId);
+            List<EmpruntBean> empruntsEnCours = empruntService.getEmpruntsEnCours(bibliothequeId);
             if (empruntsEnCours.isEmpty()) {
                 ResponseEntity<?> response = bibliothequeService.getBibliothequeById(bibliothequeId);
                 ObjectMapper mapper = new ObjectMapper();
@@ -148,7 +148,7 @@ public class UtilsMethodService {
                 message = "Aucun emprunt en cours pour " + bibliotheque.getNom();
                 theModel.addObject("message", message);
             } else {
-                for (PretBean pret : empruntsEnCours) {
+                for (EmpruntBean pret : empruntsEnCours) {
                     EmpruntModelBean empruntModelBean = new EmpruntModelBean();
                     UtilisateurBean abonne = userService.getUtilisateurById(pret.getUtilisateurId());
                     setEmpruntModelBean(empruntModelBeans, pret, empruntModelBean, abonne, ouvrageService);
@@ -177,12 +177,12 @@ public class UtilsMethodService {
         List<EmpruntModelBean> empruntsRetournes = new ArrayList<>();
         Long utilisateurId = abonne.getId();
         try {
-            List<PretBean> empruntList = empruntService.getEmpruntByUtilisateurId(utilisateurId);
+            List<EmpruntBean> empruntList = empruntService.getEmpruntByUtilisateurId(utilisateurId);
             if (empruntList.isEmpty()) {
                 message = "Aucun emprunt en cours";
                 theModel.addObject("message", message);
             } else {
-                for (PretBean pret : empruntList) {
+                for (EmpruntBean pret : empruntList) {
                     EmpruntModelBean empruntModelBean = new EmpruntModelBean();
                     if (pret.isRestitution()) {
                         setEmpruntModelBean(empruntsRetournes, pret, empruntModelBean, abonne, ouvrageService);
