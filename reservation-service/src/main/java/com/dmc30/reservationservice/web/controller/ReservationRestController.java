@@ -34,8 +34,16 @@ public class ReservationRestController {
 
     @PostMapping("/")
     public ReservationDto createReservation(@RequestBody ReservationDto reservationDto) {
-        logger.debug("Into createReservation from " + getClass().getName());
-        logger.info("Into createReservation from " + getClass().getName());
         return reservationService.createReservation(reservationDto);
+    }
+
+    public List<ReservationDto> getReservationByUserId(Long userId) {
+
+        return null;
+    }
+
+    public List<ReservationDto> getReservationByLivreIdOrderByDate(Long livreId) {
+
+        return null;
     }
 }

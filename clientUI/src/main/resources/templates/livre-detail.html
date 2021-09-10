@@ -59,13 +59,14 @@
                             <span> / Langue :  <a th:text="${livre.langue.getLangue()}"></a></span>
                         </div>
                         <br>
-                        <span>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a>
+                        <div>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a></div>
+                        <span>Date de retour prévue : <a th:text="${dateRetour}"></a> - <a th:text="${nbReservation}"></a> personnes en attente</span>
                         <div th:if="${reservationPossible and #authorization.expression('isAuthenticated()')} ">
                             <form method="POST" th:action="@{createReservation(bibliothequeId=${bibliotheque.id}, livreId=${livre.id}, username=${#authentication.getPrincipal()})}">
+                                <br>
                                 <button type="submit" class="btn btn-primary btn-md btn-block">reserver</button>
                             </form>
                         </div>
-                        </span>
                         <br>
                         <hr>
                         <div th:if="${nbExDispoInOtherElements}">

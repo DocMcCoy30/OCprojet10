@@ -1,12 +1,11 @@
 package com.dmc30.clientui.web.controller;
 
 import com.dmc30.clientui.security.PasswordEncoderHelper;
-import com.dmc30.clientui.service.contract.BibliothequeService;
-import com.dmc30.clientui.service.contract.EmpruntService;
-import com.dmc30.clientui.service.contract.OuvrageService;
-import com.dmc30.clientui.service.contract.UserService;
+import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
 import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
+import com.dmc30.clientui.shared.bean.livre.LivreBean;
+import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.shared.bean.utilisateur.CreateAbonneBean;
 import com.dmc30.clientui.shared.bean.utilisateur.LoginRequestBean;
 import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
@@ -42,6 +41,7 @@ public class UserController {
     BibliothequeService bibliothequeService;
     OuvrageService ouvrageService;
     EmpruntService empruntService;
+    LivreService livreService;
     PasswordEncoderHelper passwordEncoderHelper;
 
     @Autowired
@@ -50,12 +50,14 @@ public class UserController {
                           BibliothequeService bibliothequeService,
                           EmpruntService empruntService,
                           OuvrageService ouvrageService,
+                          LivreService livreService,
                           PasswordEncoderHelper passwordEncoderHelper) {
         this.utilsMethodService = utilsMethodService;
         this.userService = userService;
         this.bibliothequeService = bibliothequeService;
         this.empruntService = empruntService;
         this.ouvrageService = ouvrageService;
+        this.livreService = livreService;
         this.passwordEncoderHelper = passwordEncoderHelper;
     }
 
@@ -121,6 +123,8 @@ public class UserController {
                 case "OK":
                     abonneDto = userService.getUtilisateurByPublicId(result[1]);
                     theModel.addObject("abonne", abonneDto);
+                    List<LivreResponseModelBean> lastLivres = livreService.get12LastLivres();
+                    theModel.addObject("lastLivres", lastLivres);
                     viewName = "accueil";
                     break;
                 case "KO":
@@ -232,9 +236,6 @@ public class UserController {
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         userService.updateAbonne(userDetails);
         utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
-
-//        UtilisateurBean abonne = userService.getUtilisateurByPublicId(userDetails.getPublicId());
-//        theModel.addObject("abonne", abonne);
         return theModel;
     }
 }

@@ -50,15 +50,9 @@ public class ReservationController {
         return theModel;
     }
 
-    public ModelAndView showReservationPage() {
-        ModelAndView theModel = new ModelAndView("reservation-page");
-        //TODO : renvoyer la liste des réservation en cours à la vue.
-        return theModel;
-    }
-
     public ModelAndView annulerReservation() {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");
-        //TODO : implémenter méthode annulerReservation dans ReservationService => AJAX (cf P6)
+        //TODO : implémenter méthode annulerReservation dans ReservationService
         return theModel;
     }
 }

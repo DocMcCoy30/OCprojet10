@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ public class LivreController {
     OuvrageService ouvrageService;
     UserService userService;
     EmpruntService empruntService;
+    ReservationService reservationService;
 
     @Autowired
     public LivreController(UtilsMethodService utilsMethodService,
@@ -44,7 +46,8 @@ public class LivreController {
                            BibliothequeService bibliothequeService,
                            OuvrageService ouvrageService,
                            UserService userService,
-                           EmpruntService empruntService) {
+                           EmpruntService empruntService,
+                           ReservationService reservationService) {
         this.utilsMethodService = utilsMethodService;
         this.livreService = livreService;
         this.auteurService = auteurService;
@@ -52,6 +55,7 @@ public class LivreController {
         this.ouvrageService = ouvrageService;
         this.userService = userService;
         this.empruntService = empruntService;
+        this.reservationService = reservationService;
     }
 
     /**
@@ -208,16 +212,20 @@ public class LivreController {
                     theModel.addObject("nbExDispoInOne", nbExDispoInOne);
                     if ((nbExDispoInOne == 0)&&(!Objects.equals(username, "anonymousUser"))) {
                         //TODO : checkReservationPossible dans ReservationService :
-                        // -> Check1 : pas d'emprunt en cours pour ce livre
-                        // -> Check2 : pas de réservation déjà en cours pour ce livre
+                        // -> Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
+                        // -> Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
                         // -> Check3 : le liste d'attente n'est pas complète
                         // reservationPossible = reservationService.checkReservationPossible
-                        UtilisateurBean utilisateurBean = userService.getUtilisateurByUsername(username);
-                        List<EmpruntBean> emprunts = empruntService.getEmpruntByUtilisateurId(utilisateurBean.getId());
-                        reservationPossible = true;
+                        Long userId = (userService.getUtilisateurByUsername(username)).getId();
+                        reservationPossible = reservationService.check1(livreId, userId);
                     }
                     if (nbExDispoInOne == 0) {
-                        //TODO : afficher dateDeRetour et listeReservations.size
+                        //TODO : afficher la date de retour prévue
+                        Date dateRetour = new Date();
+                        theModel.addObject("dateRetour", dateRetour);
+                        //TODO : afficher le nombre de réservation en cours
+                        int nbReservation = 5;
+                        theModel.addObject("nbReservation", nbReservation);
                     }
                     List<Object> nbExDispoInOtherElements = ouvrageService.getOuvrageDispoInOtherBibliotheque(livreId, bibliothequeId);
                     if (!nbExDispoInOtherElements.isEmpty()) {
