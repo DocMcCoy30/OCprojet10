@@ -13,6 +13,8 @@ import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import feign.FeignException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.Objects;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
+
+    Logger logger = LogManager.getLogger(ReservationServiceImpl.class);
 
     ReservationServiceProxy reservationServiceProxy;
     LivreServiceProxy livreServiceProxy;
@@ -43,7 +47,14 @@ public class ReservationServiceImpl implements ReservationService {
         this.userService = userService;
     }
 
-
+    /**
+     * Enregistre une réservation dans la BdD.
+     * @param bibliothequeId l'identifiant de la bibliothèque.
+     * @param livreId l'identifiant du livre.
+     * @param username le username de l'utilisateur.
+     * @return la reservation créée
+     * @throws TechnicalException
+     */
     @Override
     public ReservationBean createReservation(Long bibliothequeId, Long livreId, String username) throws TechnicalException {
         ReservationBean savedReservation;
@@ -63,8 +74,17 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    //TODO : checkReservationPossible :
-    public boolean globalReservationPossibleCheck(Long livreId, String username) throws TechnicalException {
+    //TODO : checkReservationPossible
+    /**
+     * Vérifie qu'une réservation peut être effectuée
+     * (RG : pas d'emprunt ni de réservation en cours, liste d'attente incomplète)
+     * @param livreId l'identifiant du livre à réserver.
+     * @param username le username de l'utilisateur.
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return true si la réservation est possible, false si une des RG n'est pas respectée.
+     * @throws TechnicalException
+     */
+    public boolean globalReservationPossibleCheck(Long livreId, String username, Long bibliothequeId) throws TechnicalException {
         boolean reservationPossible = true;
         if (!reservationPossibleCheck1(livreId, username)) {
             reservationPossible = false;
@@ -72,7 +92,7 @@ public class ReservationServiceImpl implements ReservationService {
         } else if (!reservationPossibleCheck2(livreId, username)) {
             reservationPossible = false;
             throw new TechnicalException("Une réservation est déjà enregistré pour ce livre.");
-        } else if (!reservationPossibleCheck3(livreId)) {
+        } else if (!reservationPossibleCheck3(livreId, bibliothequeId)) {
             reservationPossible =false;
             throw new TechnicalException("Réservation impossible : la liste d'attente est pleine.");
         }
@@ -81,6 +101,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     //DONE : Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
+    /**
+     * Vérifie que la RG "pas d'emprunt en cours pour ce livre et cet utilisateur" est respectée.
+     * @param livreId l'identifiant du livre.
+     * @param username le username de l'utilisateur.
+     * @return true si la réservation est possible, false si une des RG n'est pas respectée.
+     * @throws TechnicalException
+     */
     public boolean reservationPossibleCheck1(Long livreId, String username) throws TechnicalException {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
@@ -99,7 +126,13 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
-    //TODO : Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+    /**
+     * Vérifie que la RG "pas de réservation en cours pour ce livre et cet utilisateur" est respectée.
+     * @param livreId l'identifiant du livre.
+     * @param username le username de l'utilisateur.
+     * @return true si la réservation est possible, false si une des RG n'est pas respectée.
+     */
+    //DONE : Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
     public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
@@ -113,11 +146,38 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
-    //TODO : Check2 :  la liste d'attente n'est pas complète
-    public boolean reservationPossibleCheck3(Long livreId) {
+    /**
+     * Vérifie que la RG "la liste d'attente n'est pas complète" est respectée.
+     * @param livreId l'identifiant du livre.
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return true si la réservation est possible, false si une des RG n'est pas respectée.
+     */
+    //DONE : Check3 :  la liste d'attente n'est pas complète
+    public boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
         boolean reservation = true;
-
+        // récupérer le nombre de réservation (nbReservation) pour ce livre et cette bibliotheque
+        Integer nbReservation = reservationServiceProxy.getNombreDeReservation(livreId, bibliothequeId);
+        logger.info("nbReservation =" +nbReservation);
+        // récupérer le nombre d'ouvrage X2 (nbOuvrage) correspondant à ce livre dans cette bibliotheque
+        Integer nbOuvrage = ouvrageService.getNombreDOuvrage(livreId, bibliothequeId);
+        logger.info("nbOuvrage = " + nbOuvrage);
+        // vérifier que nbReservation est < à nbOuvrage
+        if (nbReservation>=nbOuvrage*2) {
+            reservation = false;
+        }
         return reservation;
+    }
+
+    /**
+     * Récupère le nombre de réservation en cours pour un livre
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return le nombre de réservation en cours
+     */
+    @Override
+    public Integer getNombreDeReservation(Long livreId, Long bibliothequeId) {
+        Integer nbReservation = reservationServiceProxy.getNombreDeReservation(livreId, bibliothequeId);
+        return nbReservation;
     }
 
 }

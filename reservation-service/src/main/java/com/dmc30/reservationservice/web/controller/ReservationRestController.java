@@ -22,6 +22,8 @@ public class ReservationRestController {
         this.reservationService = reservationService;
     }
 
+    //TODO : javadoc
+
     @GetMapping("/")
     public List<ReservationDto> getAllReservations() {
         return reservationService.getAllReservations();
@@ -42,8 +44,10 @@ public class ReservationRestController {
         return reservationService.getReservationsByUserId(userId);
     }
 
-    public List<ReservationDto> getReservationByLivreIdOrderByDate(Long livreId) {
-
-        return null;
+    @GetMapping("/nbResa/{livreId}&{bibliothequeId}")
+    Integer getNombreDeReservation(@PathVariable(name = "livreId")Long livreId,
+                                   @PathVariable(name = "bibliothequeId") Long bibliothequeId) {
+        Integer nbReservation = reservationService.getNombreDeReservation(livreId, bibliothequeId);
+        return nbReservation;
     }
 }

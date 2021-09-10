@@ -3,8 +3,6 @@ package com.dmc30.clientui.web.controller;
 import com.dmc30.clientui.security.PasswordEncoderHelper;
 import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
-import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
-import com.dmc30.clientui.shared.bean.livre.LivreBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.shared.bean.utilisateur.CreateAbonneBean;
 import com.dmc30.clientui.shared.bean.utilisateur.LoginRequestBean;

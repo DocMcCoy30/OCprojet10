@@ -11,4 +11,6 @@ public interface ReservationService {
     ReservationDto getReservationById(Long reservationId);
 
     List<ReservationDto> getReservationsByUserId(Long userId);
+
+    Integer getNombreDeReservation(Long livreId, Long bibliothequeId);
 }

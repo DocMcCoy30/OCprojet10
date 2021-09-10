@@ -2,10 +2,8 @@ package com.dmc30.clientui.web.controller;
 
 import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
-import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
-import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,10 +210,9 @@ public class LivreController {
                     int nbExDispoInOne = ouvrageService.getOuvrageDispoInOneBibliotheque(livreId, bibliothequeId);
                     theModel.addObject("nbExDispoInOne", nbExDispoInOne);
                     if ((nbExDispoInOne == 0)&&(!Objects.equals(username, "anonymousUser"))) {
-                        //TODO : checkReservationPossible dans ReservationService :
-                        // reservationPossible = reservationService.checkReservationPossible
+                        //DONE : checkReservationPossible dans ReservationService :
                         try {
-                            reservationPossible = reservationService.globalReservationPossibleCheck(livreId, username);
+                            reservationPossible = reservationService.globalReservationPossibleCheck(livreId, username, bibliothequeId);
                         } catch (TechnicalException e) {
                             reservationMessage = e.getMessage();
                             theModel.addObject("reservationMessage", reservationMessage);
@@ -226,8 +223,8 @@ public class LivreController {
                         //TODO : afficher la date de retour prévue
                         Date dateRetour = new Date();
                         theModel.addObject("dateRetour", dateRetour);
-                        //TODO : afficher le nombre de réservation en cours
-                        int nbReservation = 5;
+                        //DONE : afficher le nombre de réservation en cours
+                        int nbReservation = reservationService.getNombreDeReservation(livreId, bibliothequeId);
                         theModel.addObject("nbReservation", nbReservation);
                     }
                     List<Object> nbExDispoInOtherElements = ouvrageService.getOuvrageDispoInOtherBibliotheque(livreId, bibliothequeId);

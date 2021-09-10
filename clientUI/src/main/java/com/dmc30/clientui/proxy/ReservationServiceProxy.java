@@ -17,4 +17,8 @@ public interface ReservationServiceProxy {
 
     @GetMapping("/reservations/user/{userId}")
     List<ReservationBean> getReservationsByUserId(@PathVariable(name = "userId") Long userId);
+
+    @GetMapping("/reservations/nbResa/{livreId}&{bibliothequeId}")
+    Integer getNombreDeReservation(@PathVariable(name = "livreId")Long livreId,
+                               @PathVariable(name = "bibliothequeId") Long bibliothequeId);
 }

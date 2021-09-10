@@ -32,6 +32,8 @@ public class ReservationController {
         this.livreService = livreService;
     }
 
+    //TODO : javadoc
+
     @PostMapping("/createReservation")
     public ModelAndView createReservation(@RequestParam("bibliothequeId") Long bibliothequeId,
                                           @RequestParam(value = "livreId") Long livreId,

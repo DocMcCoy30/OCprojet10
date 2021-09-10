@@ -155,4 +155,16 @@ public class OuvrageServiceImpl implements OuvrageService {
             }
             return ouvrageResponseModelBean;
         }
+
+    /**
+     * Récupère le nombre d'ouvrages correspondant à un livre dans une bibliothèque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliothèque.
+     * @return le nombre d'ouvrages.
+     */
+    @Override
+    public Integer getNombreDOuvrage(Long livreId, Long bibliothequeId) {
+        Integer nbOuvrage = livreServiceProxy.getNombreDOuvrage(livreId, bibliothequeId);
+        return nbOuvrage;
     }
+}

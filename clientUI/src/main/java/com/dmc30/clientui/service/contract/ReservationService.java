@@ -7,5 +7,6 @@ public interface ReservationService {
 
     ReservationBean createReservation (Long bibliothequeId, Long livreId, String Username) throws TechnicalException;
 
-    boolean globalReservationPossibleCheck(Long livreId, String username) throws TechnicalException;
+    boolean globalReservationPossibleCheck(Long livreId, String username, Long bibliothequeId) throws TechnicalException;
+    Integer getNombreDeReservation(Long livreId, Long bibliothequeId);
 }

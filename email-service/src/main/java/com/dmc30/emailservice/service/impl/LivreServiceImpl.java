@@ -20,6 +20,7 @@ public class LivreServiceImpl implements LivreService {
         this.livreServiceProxy = livreServiceProxy;
     }
 
+    //TODO : javadoc
 
     @Override
     public LivreForMailBean getTitreDuLivre(Long ouvrageId) {

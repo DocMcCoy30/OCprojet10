@@ -5,6 +5,8 @@ import com.dmc30.reservationservice.data.repository.ReservationRepository;
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 import com.dmc30.reservationservice.model.mappers.ReservationMapper;
 import com.dmc30.reservationservice.service.contract.ReservationService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class ReservationServiceImpl implements ReservationService {
 
+    Logger logger = LogManager.getLogger(ReservationServiceImpl.class);
+
     private ReservationRepository reservationRepository;
     private ReservationMapper reservationMapper;
 
@@ -24,6 +28,8 @@ public class ReservationServiceImpl implements ReservationService {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
     }
+
+    //TODO javadoc
 
     @Override
     public ReservationDto createReservation(ReservationDto reservationDto) {
@@ -58,5 +64,12 @@ public class ReservationServiceImpl implements ReservationService {
                 .map(reservation -> reservationMapper.reservationToReservationDto(reservation))
                 .collect(Collectors.toList());
         return reservationDtos;
+    }
+
+    @Override
+    public Integer getNombreDeReservation(Long livreId, Long bibliothequeId) {
+        Integer nbReservation = reservationRepository.getNombreDeReservationByLivreIdAndBibliothequeId(livreId,bibliothequeId);
+        logger.info("Nombre de reservation = " + nbReservation);
+        return nbReservation;
     }
 }

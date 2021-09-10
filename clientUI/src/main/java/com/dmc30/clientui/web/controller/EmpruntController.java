@@ -41,6 +41,8 @@ public class EmpruntController {
         this.empruntService = empruntService;
     }
 
+    //TODO : javadoc
+
     @GetMapping("/showEmpruntPage")
     public ModelAndView showEmpruntPage(@RequestParam("bibliothequeId") Long bibliothequeId,
                                         @ModelAttribute CreateEmpruntBean createEmpruntBean,

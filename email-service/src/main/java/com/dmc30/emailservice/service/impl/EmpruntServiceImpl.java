@@ -21,6 +21,8 @@ public class EmpruntServiceImpl implements EmpruntService {
         this.empruntServiceProxy = empruntServiceProxy;
     }
 
+    //TODO : javadoc
+
     @Override
     public List<PretBean> findExpiredPrets() {
         List<PretBean> pretBeans = empruntServiceProxy.findExpiredPrets();

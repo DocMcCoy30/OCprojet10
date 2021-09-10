@@ -14,4 +14,6 @@ public interface OuvrageService {
     OuvrageResponseModelBean getOuvrageById(Long ouvrageId) throws TechnicalException;
     List<OuvrageResponseModelBean> getOuvragesByIdInterne(String idInterne) throws TechnicalException;
     OuvrageResponseModelBean getOuvrageByIdInterne(String idInterne) throws TechnicalException;
+
+    Integer getNombreDOuvrage(Long livreId, Long bibliothequeId);
 }

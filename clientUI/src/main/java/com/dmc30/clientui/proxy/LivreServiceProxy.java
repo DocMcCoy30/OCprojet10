@@ -6,6 +6,7 @@ import com.dmc30.clientui.shared.bean.livre.LivreBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -60,4 +61,8 @@ public interface LivreServiceProxy {
 
     @GetMapping("ouvrages/livres")
     Long getLivreIdByOuvrageId(@RequestParam("ouvrageId") Long ouvrageId);
+
+    @GetMapping("ouvrages/nbOuvrages/{livreId}&{bibliothequeId}")
+    Integer getNombreDOuvrage(@PathVariable (name = "livreId")Long livreId,
+                              @PathVariable (name = "bibliothequeId")Long bibliothequeId);
 }

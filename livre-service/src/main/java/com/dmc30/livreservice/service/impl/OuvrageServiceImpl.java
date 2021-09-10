@@ -118,4 +118,15 @@ public class OuvrageServiceImpl implements OuvrageService {
         Long livreId = ouvrageRepository.findLivreByOuvrageId(ouvrageId);
         return livreId;
     }
+
+    /**
+     * Récupère le nombre d'ouvrage correspondant à un livre dans une bibliothèque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @return le nombre d'ouvrage
+     */
+    @Override
+    public Integer getNombreDOuvrageByLivreAndBibliotheque(Long livreId, Long bibliothequeId) {
+        return ouvrageRepository.getNombreDOuvrageByLivreAndBibliotheque(livreId, bibliothequeId);
+    }
 }

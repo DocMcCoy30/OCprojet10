@@ -14,4 +14,5 @@ public interface OuvrageService {
     OuvrageDto findOuvrageById(Long ouvrageId);
     Long findLivreIdByOuvrageId(Long ouvrageId);
 
+    Integer getNombreDOuvrageByLivreAndBibliotheque(Long livreId, Long bibliothequeId);
 }

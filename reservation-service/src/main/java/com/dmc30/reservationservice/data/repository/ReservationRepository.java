@@ -2,9 +2,13 @@ package com.dmc30.reservationservice.data.repository;
 
 import com.dmc30.reservationservice.data.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> getReservationsByUtilisateurIdOrderByDateReservation(Long userId);
+
+    @Query(value = "SELECT COUNT(id) FROM reservation WHERE id_livre=?1 AND id_bibliotheque=?2 AND expiree=false", nativeQuery = true)
+    Integer getNombreDeReservationByLivreIdAndBibliothequeId(Long livreId, Long bibliothequeId);
 }
