@@ -37,9 +37,9 @@ public class ReservationRestController {
         return reservationService.createReservation(reservationDto);
     }
 
-    public List<ReservationDto> getReservationByUserId(Long userId) {
-
-        return null;
+    @GetMapping("/user/{userId}")
+    public List<ReservationDto> getReservationsByUserId(@PathVariable(name = "userId")Long userId) {
+        return reservationService.getReservationsByUserId(userId);
     }
 
     public List<ReservationDto> getReservationByLivreIdOrderByDate(Long livreId) {

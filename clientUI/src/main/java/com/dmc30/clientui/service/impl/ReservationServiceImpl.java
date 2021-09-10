@@ -102,7 +102,14 @@ public class ReservationServiceImpl implements ReservationService {
     //TODO : Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
     public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
-
+        Long userId = (userService.getUtilisateurByUsername(username)).getId();
+        List<ReservationBean> reservationBeans = reservationServiceProxy.getReservationsByUserId(userId);
+        for (ReservationBean reservationBean : reservationBeans) {
+            if ((reservationBean.getLivreId().equals(livreId)) && (!reservationBean.isExpiree())) {
+                reservation = false;
+                break;
+            }
+        }
         return reservation;
     }
 

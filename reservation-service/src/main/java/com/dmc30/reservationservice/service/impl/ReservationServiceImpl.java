@@ -49,4 +49,14 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationDto reservationDto = reservationMapper.reservationToReservationDto(reservation);
         return reservationDto;
     }
+
+    @Override
+    public List<ReservationDto> getReservationsByUserId(Long userId) {
+        List<Reservation> reservations = reservationRepository
+                .getReservationsByUtilisateurIdOrderByDateReservation(userId);
+        List<ReservationDto> reservationDtos = reservations.stream()
+                .map(reservation -> reservationMapper.reservationToReservationDto(reservation))
+                .collect(Collectors.toList());
+        return reservationDtos;
+    }
 }

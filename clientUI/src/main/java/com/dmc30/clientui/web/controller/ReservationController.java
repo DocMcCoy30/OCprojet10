@@ -43,6 +43,8 @@ public class ReservationController {
             theModel.addObject("reservation", newReservation);
             List<LivreResponseModelBean> livres = livreService.get12LastLivres();
             theModel.addObject("lastLivres", livres);
+            String message = "Votre réservation a bien été enregistrée";
+            theModel.addObject("message", message);
         } catch (TechnicalException e) {
             String errorMessage = e.getMessage();
             theModel.addObject("errorMessage", errorMessage);
