@@ -7,7 +7,5 @@ public interface ReservationService {
 
     ReservationBean createReservation (Long bibliothequeId, Long livreId, String Username) throws TechnicalException;
 
-    //TODO : Méthode pour Postman à supprimer
-
-    boolean check1(Long livreId, Long userId) throws TechnicalException;
+    boolean globalReservationPossibleCheck(Long livreId, String username) throws TechnicalException;
 }

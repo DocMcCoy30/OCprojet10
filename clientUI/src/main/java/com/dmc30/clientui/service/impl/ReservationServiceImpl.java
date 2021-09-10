@@ -64,9 +64,26 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     //TODO : checkReservationPossible :
-    // -> Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
-    public boolean check1(Long livreId, Long userId) throws TechnicalException {
+    public boolean globalReservationPossibleCheck(Long livreId, String username) throws TechnicalException {
+        boolean reservationPossible = true;
+        if (!reservationPossibleCheck1(livreId, username)) {
+            reservationPossible = false;
+            throw new TechnicalException("Réservation impossible : vous avez un emprunt en cours pour ce livre.");
+        } else if (!reservationPossibleCheck2(livreId, username)) {
+            reservationPossible = false;
+            throw new TechnicalException("Une réservation est déjà enregistré pour ce livre.");
+        } else if (!reservationPossibleCheck3(livreId)) {
+            reservationPossible =false;
+            throw new TechnicalException("Réservation impossible : la liste d'attente est pleine.");
+        }
+
+        return reservationPossible;
+    }
+
+    //DONE : Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
+    public boolean reservationPossibleCheck1(Long livreId, String username) throws TechnicalException {
         boolean reservation = true;
+        Long userId = (userService.getUtilisateurByUsername(username)).getId();
         List<EmpruntBean> emprunts = empruntService.getEmpruntByUtilisateurId(userId);
         if (emprunts.isEmpty()) {
             reservation = true;
@@ -82,16 +99,18 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
-    //TODO : checkReservationPossible dans ReservationService :
-    // -> Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
-    public boolean check2(Long livreId, Long userId) {
-        boolean reservation = false;
+    //TODO : Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+    public boolean reservationPossibleCheck2(Long livreId, String username) {
+        boolean reservation = true;
 
         return reservation;
     }
 
+    //TODO : Check2 :  la liste d'attente n'est pas complète
+    public boolean reservationPossibleCheck3(Long livreId) {
+        boolean reservation = true;
 
-
-
+        return reservation;
+    }
 
 }

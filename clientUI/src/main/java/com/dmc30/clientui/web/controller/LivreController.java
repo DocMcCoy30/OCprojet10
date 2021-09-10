@@ -200,6 +200,7 @@ public class LivreController {
                                         @RequestParam(value = "username", required = false) String username) {
         ModelAndView theModel = new ModelAndView("livre-detail");
         boolean reservationPossible = false;
+        String reservationMessage;
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         logger.info("LivreId = " + livreId);
         try {
@@ -212,12 +213,14 @@ public class LivreController {
                     theModel.addObject("nbExDispoInOne", nbExDispoInOne);
                     if ((nbExDispoInOne == 0)&&(!Objects.equals(username, "anonymousUser"))) {
                         //TODO : checkReservationPossible dans ReservationService :
-                        // -> Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
-                        // -> Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
-                        // -> Check3 : le liste d'attente n'est pas complète
                         // reservationPossible = reservationService.checkReservationPossible
-                        Long userId = (userService.getUtilisateurByUsername(username)).getId();
-                        reservationPossible = reservationService.check1(livreId, userId);
+                        try {
+                            reservationPossible = reservationService.globalReservationPossibleCheck(livreId, username);
+                        } catch (TechnicalException e) {
+                            reservationMessage = e.getMessage();
+                            theModel.addObject("reservationMessage", reservationMessage);
+                        }
+
                     }
                     if (nbExDispoInOne == 0) {
                         //TODO : afficher la date de retour prévue

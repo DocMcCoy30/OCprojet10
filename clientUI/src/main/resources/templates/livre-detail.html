@@ -61,6 +61,9 @@
                         <br>
                         <div>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a></div>
                         <span>Date de retour prévue : <a th:text="${dateRetour}"></a> - <a th:text="${nbReservation}"></a> personnes en attente</span>
+                        <div th:if="${reservationMessage}" th:utext="${reservationMessage}"
+                             style="color:red;font-style:italic;">
+                        </div>
                         <div th:if="${reservationPossible and #authorization.expression('isAuthenticated()')} ">
                             <form method="POST" th:action="@{createReservation(bibliothequeId=${bibliotheque.id}, livreId=${livre.id}, username=${#authentication.getPrincipal()})}">
                                 <br>
