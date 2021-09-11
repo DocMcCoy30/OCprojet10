@@ -103,14 +103,28 @@ public class OuvrageController {
 
     /**
      * Récupère le nombre d'ouvrage correspondant à un livre dans une bibliothèque
-     * @param livreId l'identifiant du livre
+     *
+     * @param livreId        l'identifiant du livre
      * @param bibliothequeId l'identifiant de la bibliothèque
      * @return le nombre d'ouvrage
      */
     @GetMapping("/nbOuvrages/{livreId}&{bibliothequeId}")
-    Integer getNombreDOuvrage(@PathVariable(name = "livreId") Long livreId,
+    public Integer getNombreDOuvrage(@PathVariable(name = "livreId") Long livreId,
                               @PathVariable(name = "bibliothequeId") Long bibliothequeId) {
         Integer nbOuvrages = ouvrageService.getNombreDOuvrageByLivreAndBibliotheque(livreId, bibliothequeId);
         return nbOuvrages;
+    }
+
+    /**
+     * Récupère et renvoie une liste d'ouvrages correspondants à un livre pour une bibliotheque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return la liste
+     */
+    public @GetMapping("/{livreId}&{bibliothequeId}")
+    List<OuvrageDto> getOuvrageByLivreAndBibliothequeId(@PathVariable(name = "livreId") Long livreId,
+                                                        @PathVariable(name = "bibliothequeId") Long bibliothequeId) {
+        List<OuvrageDto> ouvrageDtos = ouvrageService.getOuvrageByLivreIdAndBibliothequeId(livreId, bibliothequeId);
+        return ouvrageDtos;
     }
 }

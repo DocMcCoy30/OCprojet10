@@ -29,5 +29,8 @@ public interface OuvrageRepository extends JpaRepository<Ouvrage, Long> {
 
     @Query(value = "SELECT COUNT(id) FROM ouvrage WHERE id_livre=?1 AND id_bibliotheque=?2", nativeQuery = true)
     Integer getNombreDOuvrageByLivreAndBibliotheque(Long livreId, Long bibliothequeId);
+
+    @Query(value = "SELECT * FROM ouvrage WHERE id_livre=?1 AND id_bibliotheque=?2", nativeQuery = true)
+    List<Ouvrage> getOuvragesByLivreIdAndBibliothequeId(Long livreId, Long bibliothequeId);
 }
 

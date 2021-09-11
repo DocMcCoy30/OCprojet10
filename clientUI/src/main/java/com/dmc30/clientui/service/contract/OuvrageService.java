@@ -1,6 +1,7 @@
 package com.dmc30.clientui.service.contract;
 
 import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
+import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
 import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
@@ -16,4 +17,6 @@ public interface OuvrageService {
     OuvrageResponseModelBean getOuvrageByIdInterne(String idInterne) throws TechnicalException;
 
     Integer getNombreDOuvrage(Long livreId, Long bibliothequeId);
+
+    List<OuvrageBean> getOuvrageByLivreIdAndBibliothequeId(Long livreId, Long bibliothequeId);
 }

@@ -41,8 +41,16 @@ public class EmpruntController {
         this.empruntService = empruntService;
     }
 
-    //TODO : javadoc
+    //DONE : javadoc
 
+    /**
+     * Récupère les données at affiche la page d'enregistrement d'un emprunt (employé)
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @param createEmpruntBean le formulaire de création d'un emprunt
+     * @param numAbonne le numéro de l'abonné
+     * @param idInterne l'identifiant interne de l'ouvrage
+     * @return le model + vue
+     */
     @GetMapping("/showEmpruntPage")
     public ModelAndView showEmpruntPage(@RequestParam("bibliothequeId") Long bibliothequeId,
                                         @ModelAttribute CreateEmpruntBean createEmpruntBean,
@@ -98,7 +106,14 @@ public class EmpruntController {
         return theModel;
     }
 
-
+    /**
+     * Outil de création du formulaire d'enregistrement d'un emprunt
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @param createEmpruntBean le formulaire de création d'un emprunt
+     * @param numAbonne le numero de l'abonné
+     * @param idInterne l'identifiant interne de l'ouvrage
+     * @return le model + vue
+     */
     @PostMapping("/createEmpruntSearchForm")
     public ModelAndView populateTheCreateEmpruntForm(@RequestParam("bibliothequeId") Long bibliothequeId,
                                                      @ModelAttribute CreateEmpruntBean createEmpruntBean,
@@ -149,6 +164,12 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Enregitre un emprunt dans la base de données
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @param createEmpruntBean le formulaire de création d'un emprunt
+     * @return le model + vue
+     */
     @PostMapping("/createEmprunt")
     public ModelAndView createEmprunt(@RequestParam("bibliothequeId") Long bibliothequeId,
                                       @ModelAttribute CreateEmpruntBean createEmpruntBean) {
@@ -180,6 +201,11 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Recherche et retourne la liste des emprunts en cours pour une bibliotheque
+     * @param bibliothequeId l'identifiant de le bibliotheque
+     * @return le model + vue
+     */
     @GetMapping("/searchEmpruntsEnCours")
     public ModelAndView getEmpruntEnCours(@RequestParam("bibliothequeId") Long bibliothequeId) {
         ModelAndView theModel = new ModelAndView("emprunt-en-cours-page");
@@ -190,6 +216,13 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Permet d'enregistrer le retour d'un emprunt
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @param ouvrageId l'identifiant de l'ouvrage
+     * @param empruntId l'identifiant de l'ouvrage emprunté
+     * @return le model + vue
+     */
     @GetMapping("/retournerEmprunt")
     public ModelAndView retournerEmprunt(@RequestParam("bibliothequeId") Long bibliothequeId,
                                          @RequestParam("ouvrageId") String ouvrageId,
@@ -210,6 +243,13 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Permet d'enregistrer la prolongation d'un emprunt
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @param empruntId l'identifiant de l'emprunt
+     * @param username le username de l'abonné
+     * @return le model + vue
+     */
     @GetMapping("/prolongerEmprunt")
     public ModelAndView prolongerEmprunt(@RequestParam("bibliothequeId") Long bibliothequeId,
                                          @RequestParam("empruntId") Long empruntId,

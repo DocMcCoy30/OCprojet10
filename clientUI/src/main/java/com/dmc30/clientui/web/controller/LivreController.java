@@ -220,8 +220,8 @@ public class LivreController {
 
                     }
                     if (nbExDispoInOne == 0) {
-                        //TODO : afficher la date de retour prévue
-                        Date dateRetour = new Date();
+                        //DONE : afficher la date de retour prévue
+                        String dateRetour = empruntService.getDateDeRetourPrevue(livreId, bibliothequeId);
                         theModel.addObject("dateRetour", dateRetour);
                         //DONE : afficher le nombre de réservation en cours
                         int nbReservation = reservationService.getNombreDeReservation(livreId, bibliothequeId);

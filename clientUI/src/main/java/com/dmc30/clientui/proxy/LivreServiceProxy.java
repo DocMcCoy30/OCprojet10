@@ -65,4 +65,8 @@ public interface LivreServiceProxy {
     @GetMapping("ouvrages/nbOuvrages/{livreId}&{bibliothequeId}")
     Integer getNombreDOuvrage(@PathVariable (name = "livreId")Long livreId,
                               @PathVariable (name = "bibliothequeId")Long bibliothequeId);
+
+    @GetMapping("ouvrages/{livreId}&{bibliothequeId}")
+    List<OuvrageBean> getOuvrageByLivreAndBibliothequeId(@PathVariable (name = "livreId")Long livreId,
+                                                         @PathVariable (name = "bibliothequeId")Long bibliothequeId);
 }

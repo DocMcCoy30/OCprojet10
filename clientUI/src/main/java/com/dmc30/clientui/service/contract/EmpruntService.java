@@ -17,4 +17,6 @@ public interface EmpruntService {
     void retournerEmprunt(Long empruntId, String ouvrageId) throws TechnicalException;
 
     void prolongerEmprunt(Long empruntId) throws TechnicalException;
+
+    String getDateDeRetourPrevue(Long livreId, Long bibliothequeId) throws TechnicalException;
 }

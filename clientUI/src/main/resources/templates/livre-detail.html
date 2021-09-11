@@ -60,7 +60,8 @@
                         </div>
                         <br>
                         <div>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a></div>
-                        <span>Date de retour prévue : <a th:text="${dateRetour}"></a> - <a th:text="${nbReservation}"></a> personnes sur la liste d'attente</span>
+                        <div>Date de retour prévue : <a th:text="${dateRetour}"></a></div>
+                        <div><a th:text="${nbReservation}"></a> personnes sur la liste d'attente</div>
                         <div th:if="${reservationMessage}" th:utext="${reservationMessage}"
                              style="color:red;font-style:italic;">
                         </div>

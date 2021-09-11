@@ -46,7 +46,6 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      */
     @Override
     public ResponseEntity<?> getBibliothequeById(Long bibliothequeId) {
-        System.out.println("into getBibliothequeById");
         try {
             ResponseEntity<?> response = livreServiceProxy.getBibliothequeById(bibliothequeId);
             return response;

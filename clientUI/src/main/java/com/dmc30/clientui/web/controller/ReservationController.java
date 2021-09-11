@@ -34,6 +34,14 @@ public class ReservationController {
 
     //TODO : javadoc
 
+    /**
+     * Enregistre une réservation d'un livre dans la base de données
+     * @param bibliothequeId l'identifiant de la bibliotheque concernée
+     * @param livreId l'identifiant du livre
+     * @param username le username de l'abonné
+     * @return le model + vue
+     * @throws TechnicalException
+     */
     @PostMapping("/createReservation")
     public ModelAndView createReservation(@RequestParam("bibliothequeId") Long bibliothequeId,
                                           @RequestParam(value = "livreId") Long livreId,
@@ -53,6 +61,7 @@ public class ReservationController {
         }
         return theModel;
     }
+
 
     public ModelAndView annulerReservation() {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");

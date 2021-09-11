@@ -22,4 +22,6 @@ public interface EmpruntService {
     List<PretDto> findExpiredPretsByUtilisateurId(Long utilisateurId);
 
     List<Long> findUtilisateurEnRetard();
+
+    PretDto getEmpruntEnCoursByOuvrageId(Long ouvrageId);
 }

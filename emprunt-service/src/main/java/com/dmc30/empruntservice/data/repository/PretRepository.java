@@ -34,4 +34,7 @@ public interface PretRepository extends JpaRepository<Pret, Long> {
             "and id_utilisateur=?1)",
             nativeQuery = true)
     List<Pret> findExpiredPretsByUtilisateurId(Long utilisateurId);
+
+    @Query(value = "SELECT * FROM pret WHERE id_ouvrage=?1 AND restitution=false", nativeQuery = true)
+    Pret getEmpruntEnCoursByOuvrageId(Long ouvrageId);
 }

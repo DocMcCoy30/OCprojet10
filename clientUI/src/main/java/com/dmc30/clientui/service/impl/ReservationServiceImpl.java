@@ -74,7 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    //TODO : checkReservationPossible
+    //DONE : checkReservationPossible
     /**
      * Vérifie qu'une réservation peut être effectuée
      * (RG : pas d'emprunt ni de réservation en cours, liste d'attente incomplète)

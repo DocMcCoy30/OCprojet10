@@ -29,8 +29,13 @@ public class ReservationServiceImpl implements ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
-    //TODO javadoc
+    //DONE javadoc
 
+    /**
+     * Permet d'enregister une réservation dans la BdD. Interface entre le controller et le repository
+     * @param reservationDto le DTO réservation
+     * @return la réservation enregistrée
+     */
     @Override
     public ReservationDto createReservation(ReservationDto reservationDto) {
         Reservation newReservation = reservationMapper.reservationDtoToReservation(reservationDto);
@@ -39,6 +44,10 @@ public class ReservationServiceImpl implements ReservationService {
         return savedReservationDto;
     }
 
+    /**
+     * Récupère la liste de toutes les réservations enregistrées
+     * @return la liste
+     */
     @Override
     public List<ReservationDto> getAllReservations() {
         List<Reservation> reservations = reservationRepository.findAll();
@@ -49,6 +58,11 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationDtos;
     }
 
+    /**
+     * Recherche une réservation par son identifiant
+     * @param reservationId l'identifiant de la réservation
+     * @return la réservation concernée
+     */
     @Override
     public ReservationDto getReservationById(Long reservationId) {
         Reservation reservation = reservationRepository.getById(reservationId);
@@ -56,6 +70,11 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationDto;
     }
 
+    /**
+     * Récupère la liste des réservations non expirées d'un utilisateur
+     * @param userId l'identifiant de l'utilisateur
+     * @return la liste
+     */
     @Override
     public List<ReservationDto> getReservationsByUserId(Long userId) {
         List<Reservation> reservations = reservationRepository
@@ -66,6 +85,12 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationDtos;
     }
 
+    /**
+     * Renvoie le nombre de réservations non expirées pour un livre et un bibliotheque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return le nombre de reservation en cours
+     */
     @Override
     public Integer getNombreDeReservation(Long livreId, Long bibliothequeId) {
         Integer nbReservation = reservationRepository.getNombreDeReservationByLivreIdAndBibliothequeId(livreId,bibliothequeId);

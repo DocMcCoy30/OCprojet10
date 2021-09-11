@@ -58,8 +58,13 @@ public class EmpruntServiceImpl implements EmpruntService {
         return pretDto;
     }
 
-    //TODO : javadoc
+    //DONE : javadoc
 
+    /**
+     * Récupère les emprunts en cours pour une bibliotheque
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return la liste des emprunts en cours
+     */
     @Override
     public List<PretDto> findEmpruntEnCours(Long bibliothequeId) {
         ModelMapper modelMapper = new ModelMapper();
@@ -88,6 +93,11 @@ public class EmpruntServiceImpl implements EmpruntService {
         return pretDtoEnCoursList;
     }
 
+    /**
+     * Récupère la liste des emprunts pour un utilisateur
+     * @param utilisateurId l'identifiant d'un utilisateur
+     * @return la liste
+     */
     @Override
     public List<PretDto> findEmpruntByUtilisateurId(Long utilisateurId) {
         ModelMapper modelMapper = new ModelMapper();
@@ -101,6 +111,11 @@ public class EmpruntServiceImpl implements EmpruntService {
         return empruntsByUtilisateur;
     }
 
+    /**
+     * Enregistre le retour d'un emprunt par un abonné
+     * @param empruntId l'identfiant de l'emprunt
+     * @param ouvrageId l'identifiant de l'ouvrage
+     */
     @Override
     public void retournerEmprunt(Long empruntId, String ouvrageId) {
         ModelMapper modelMapper = new ModelMapper();
@@ -122,6 +137,10 @@ public class EmpruntServiceImpl implements EmpruntService {
         ouvrageRepository.save(ouvrage);
     }
 
+    /**
+     * Prolonge la durée d'un emprunt
+     * @param empruntId l'identifiant de l'emprunt concerné
+     */
     @Override
     public void prolongerEmprunt(Long empruntId) {
         ModelMapper modelMapper = new ModelMapper();
@@ -141,6 +160,10 @@ public class EmpruntServiceImpl implements EmpruntService {
         pretRepository.save(pret);
     }
 
+    /**
+     * Retourne la liste des emprunts expirés
+     * @return la liste
+     */
     @Override
     public List<PretDto> findExpiredPrets() {
         ModelMapper modelMapper = new ModelMapper();
@@ -154,6 +177,11 @@ public class EmpruntServiceImpl implements EmpruntService {
         return expiredPretsDto;
     }
 
+    /**
+     * Retourne la liste des emprunts expirés pour un utilisateur
+     * @param utilisateurId l'identifiant de l'utilisateur
+     * @return la liste
+     */
     @Override
     public List<PretDto> findExpiredPretsByUtilisateurId(Long utilisateurId) {
         ModelMapper modelMapper = new ModelMapper();
@@ -167,8 +195,26 @@ public class EmpruntServiceImpl implements EmpruntService {
         return expiredPretsDto;
     }
 
+    /**
+     * Retourne la liste des utilisateurs en retard pour le retour d'un emprunt
+     * @return la liste
+     */
     @Override
     public List<Long> findUtilisateurEnRetard() {
         return pretRepository.findUtilisateurEnRetard();
+    }
+
+    /**
+     * Récupère un emprunt en cours par l'identifiant de l'ouvrage
+     * @param ouvrageId l'identifiant de l'ouvrage emprunté
+     * @return l'ouvrage en cours d'emprunt
+     */
+    @Override
+    public PretDto getEmpruntEnCoursByOuvrageId(Long ouvrageId) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        Pret pret = pretRepository.getEmpruntEnCoursByOuvrageId(ouvrageId);
+        PretDto pretDto = modelMapper.map(pret, PretDto.class);
+        return pretDto;
     }
 }

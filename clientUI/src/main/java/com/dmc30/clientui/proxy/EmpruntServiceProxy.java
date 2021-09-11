@@ -3,10 +3,7 @@ package com.dmc30.clientui.proxy;
 import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +24,7 @@ public interface EmpruntServiceProxy {
 
     @GetMapping("/emprunts/prolongation")
     void prolongerEmprunt(@RequestParam Long empruntId);
+
+    @GetMapping("/emprunts/ouvrage/{ouvrageId}")
+    EmpruntBean getEmpruntEnCoursByOuvrageId(@PathVariable(name = "ouvrageId") Long id);
 }
