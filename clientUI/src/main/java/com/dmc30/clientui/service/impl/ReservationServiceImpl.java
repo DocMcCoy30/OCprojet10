@@ -91,7 +91,7 @@ public class ReservationServiceImpl implements ReservationService {
             throw new TechnicalException("Réservation impossible : vous avez un emprunt en cours pour ce livre.");
         } else if (!reservationPossibleCheck2(livreId, username)) {
             reservationPossible = false;
-            throw new TechnicalException("Une réservation est déjà enregistré pour ce livre.");
+            throw new TechnicalException("Une réservation est déjà enregistrée pour ce livre.");
         } else if (!reservationPossibleCheck3(livreId, bibliothequeId)) {
             reservationPossible =false;
             throw new TechnicalException("Réservation impossible : la liste d'attente est pleine.");

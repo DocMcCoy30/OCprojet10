@@ -22,8 +22,8 @@
 La documentation du projet pour les différents tickets se trouve dans le dossier "-docs" : 
 + ticket1 :
   + sql : scripts de création (structure et datas) de la base de données PostgreSQL (projet 7)
-  et script de migration (cf modèle physique de données dans dossier infos)
-  + documentation : Document de conception
+  et script de migration (cf modèle physique de données dans dossier -docs/docs_ticket1/sql)
+  + documentation : Document_de_Conception_P10_Ticket1.pdf (-docs/docs_ticket1/documentation)
     + enjeux et objectifs du ticket 1 
     + comparaison entre l'existant (Projet 7)
     et l'implémentation à réaliser

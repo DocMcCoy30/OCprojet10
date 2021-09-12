@@ -381,10 +381,10 @@ ALTER TABLE public.pret_id_seq1 OWNER TO postgres;
 
 --
 -- TOC entry 226 (class 1259 OID 16496)
--- Name: pret; Type: TABLE; Schema: public; Owner: postgres
+-- Name: emprunt; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.pret (
+CREATE TABLE public.emprunt (
     id integer DEFAULT nextval('public.pret_id_seq1'::regclass) NOT NULL,
     date_emprunt date NOT NULL,
     date_restitution date,
@@ -396,7 +396,7 @@ CREATE TABLE public.pret (
 );
 
 
-ALTER TABLE public.pret OWNER TO postgres;
+ALTER TABLE public.emprunt OWNER TO postgres;
 
 --
 -- TOC entry 227 (class 1259 OID 16500)
@@ -604,11 +604,11 @@ ALTER TABLE ONLY public.pays
 
 --
 -- TOC entry 2990 (class 2606 OID 16549)
--- Name: pret pret_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: emprunt emprunt_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.pret
-    ADD CONSTRAINT pret_pk PRIMARY KEY (id);
+ALTER TABLE ONLY public.emprunt
+    ADD CONSTRAINT emprunt_pk PRIMARY KEY (id);
 
 
 --
@@ -748,10 +748,10 @@ ALTER TABLE ONLY public.many_livre_has_many_auteur
 
 --
 -- TOC entry 3014 (class 2606 OID 16613)
--- Name: pret ouvrage_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: emprunt ouvrage_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.pret
+ALTER TABLE ONLY public.emprunt
     ADD CONSTRAINT ouvrage_fk FOREIGN KEY (id_ouvrage) REFERENCES public.ouvrage(id) MATCH FULL ON UPDATE CASCADE ON DELETE SET NULL;
 
 
@@ -784,10 +784,10 @@ ALTER TABLE ONLY public.many_utilisateur_has_many_role
 
 --
 -- TOC entry 3015 (class 2606 OID 16633)
--- Name: pret utilisateur_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: emprunt utilisateur_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.pret
+ALTER TABLE ONLY public.emprunt
     ADD CONSTRAINT utilisateur_fk FOREIGN KEY (id_utilisateur) REFERENCES public.utilisateur(id) MATCH FULL ON UPDATE CASCADE ON DELETE SET NULL;
 
 

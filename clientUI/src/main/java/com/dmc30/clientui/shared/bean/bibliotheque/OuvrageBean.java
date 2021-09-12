@@ -14,6 +14,6 @@ public class OuvrageBean {
     private boolean emprunte;
     private Long bibliothequeId;
     private Long livreId;
-    private Set<EmpruntBean> prets;
+    private Set<EmpruntBean> empruntss;
 
 }

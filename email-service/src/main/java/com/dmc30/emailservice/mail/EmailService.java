@@ -18,7 +18,7 @@ public interface EmailService {
 
     List<CreateMailBean> createMailList();
 
-    CreateMailBean expiredPretEmailMaker(
+    CreateMailBean expiredempruntEmailMaker(
             UtilisateurBean utilisateur,
             List<LivreForMailBean> livres);
 }

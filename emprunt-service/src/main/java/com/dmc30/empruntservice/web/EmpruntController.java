@@ -1,6 +1,6 @@
 package com.dmc30.empruntservice.web;
 
-import com.dmc30.empruntservice.service.dto.PretDto;
+import com.dmc30.empruntservice.service.dto.EmpruntDto;
 import com.dmc30.empruntservice.service.contract.EmpruntService;
 import com.dmc30.empruntservice.service.dto.CreateEmpruntDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,9 @@ public class EmpruntController {
      * @return l'enmprunt enregistré
      */
     @PostMapping("/create")
-    public PretDto createEmprunt(@RequestBody CreateEmpruntDto createEmpruntDto) {
-        PretDto pretDto = empruntService.createEmprunt(createEmpruntDto);
-        return pretDto;
+    public EmpruntDto createEmprunt(@RequestBody CreateEmpruntDto createEmpruntDto) {
+        EmpruntDto empruntDto = empruntService.createEmprunt(createEmpruntDto);
+        return empruntDto;
     }
 
     /**
@@ -38,9 +38,9 @@ public class EmpruntController {
      * @return la liste des emprunts en cours
      */
     @GetMapping("/encours")
-    public List<PretDto> findEmpruntEnCours(@RequestParam Long bibliothequeId) {
-        List<PretDto> pretDtoList = empruntService.findEmpruntEnCours(bibliothequeId);
-        return pretDtoList;
+    public List<EmpruntDto> findEmpruntEnCours(@RequestParam Long bibliothequeId) {
+        List<EmpruntDto> empruntDtoList = empruntService.findEmpruntEnCours(bibliothequeId);
+        return empruntDtoList;
     }
 
     /**
@@ -49,9 +49,9 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/utilisateur")
-    public List<PretDto> findEmpruntByUtilisateurId (@RequestParam Long utilisateurId) {
-        List<PretDto> pretDtoList = empruntService.findEmpruntByUtilisateurId(utilisateurId);
-        return pretDtoList;
+    public List<EmpruntDto> findEmpruntByUtilisateurId (@RequestParam Long utilisateurId) {
+        List<EmpruntDto> empruntDtoList = empruntService.findEmpruntByUtilisateurId(utilisateurId);
+        return empruntDtoList;
     }
 
     /**
@@ -78,8 +78,8 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/expired")
-    List<PretDto> findExpiredPrets() {
-        return empruntService.findExpiredPrets();
+    List<EmpruntDto> findExpiredemprunts() {
+        return empruntService.findExpiredemprunts();
     }
 
     /**
@@ -88,9 +88,9 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/expiredByUtilisateur")
-    List<PretDto> findExpiredPretsByUtilisateurId(@RequestParam Long utilisateurId) {
-        List<PretDto> pretDtos = empruntService.findExpiredPretsByUtilisateurId(utilisateurId);
-         return pretDtos;
+    List<EmpruntDto> findExpiredempruntsByUtilisateurId(@RequestParam Long utilisateurId) {
+        List<EmpruntDto> empruntDtos = empruntService.findExpiredempruntsByUtilisateurId(utilisateurId);
+         return empruntDtos;
     }
 
     /**
@@ -108,8 +108,8 @@ public class EmpruntController {
      * @return l'ouvrage en cours d'emprunt
      */
     @GetMapping("/ouvrage/{ouvrageId}")
-    public PretDto getEmpruntEnCoursByOuvrageId(@PathVariable(name = "ouvrageId") Long ouvrageId) {
-        PretDto emprunt = empruntService.getEmpruntEnCoursByOuvrageId(ouvrageId);
+    public EmpruntDto getEmpruntEnCoursByOuvrageId(@PathVariable(name = "ouvrageId") Long ouvrageId) {
+        EmpruntDto emprunt = empruntService.getEmpruntEnCoursByOuvrageId(ouvrageId);
         return emprunt;
     }
 }

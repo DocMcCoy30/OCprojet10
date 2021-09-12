@@ -2,7 +2,7 @@ package com.dmc30.emailservice.mail;
 
 import com.dmc30.emailservice.service.bean.CreateMailBean;
 import com.dmc30.emailservice.service.bean.LivreForMailBean;
-import com.dmc30.emailservice.service.bean.PretBean;
+import com.dmc30.emailservice.service.bean.EmpruntBean;
 import com.dmc30.emailservice.service.bean.UtilisateurBean;
 import com.dmc30.emailservice.service.contract.EmpruntService;
 import com.dmc30.emailservice.service.contract.LivreService;
@@ -81,16 +81,16 @@ public class EmailServiceImpl implements EmailService {
     public List<CreateMailBean> createMailList() {
         List<CreateMailBean> mailToCreateList = new ArrayList<>();
         List<LivreForMailBean> livres = new ArrayList<>();
-        List<PretBean> expiredPretsList = new ArrayList<>();
+        List<EmpruntBean> expiredempruntsList = new ArrayList<>();
         List<Long> utilisateursEnRetardId = empruntService.findUtilisateurEnRetard();
         for (Long utisateurEnRetardId : utilisateursEnRetardId) {
             UtilisateurBean utilisateurBean = utilisateurService.findUtilisateurById(utisateurEnRetardId);
-            expiredPretsList = empruntService.findExpiredPretsByUtilisateurId(utisateurEnRetardId);
-            for (int i = 0; i < expiredPretsList.size(); i++) {
-                LivreForMailBean livre = livreService.getTitreDuLivre(expiredPretsList.get(i).getOuvrageId());
+            expiredempruntsList = empruntService.findExpiredempruntsByUtilisateurId(utisateurEnRetardId);
+            for (int i = 0; i < expiredempruntsList.size(); i++) {
+                LivreForMailBean livre = livreService.getTitreDuLivre(expiredempruntsList.get(i).getOuvrageId());
                 livres.add(livre);
             }
-            CreateMailBean newMail = expiredPretEmailMaker(utilisateurBean, livres);
+            CreateMailBean newMail = expiredempruntEmailMaker(utilisateurBean, livres);
             mailToCreateList.add(newMail);
             livres = new ArrayList<>();
         }
@@ -114,7 +114,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public CreateMailBean expiredPretEmailMaker(
+    public CreateMailBean expiredempruntEmailMaker(
                                                UtilisateurBean utilisateur,
                                                List<LivreForMailBean> livres) {
         CreateMailBean createMailBean = new CreateMailBean();

@@ -19,18 +19,13 @@ public class UtilisateurDto implements Serializable {
     private String prenom;
     private String nom;
     private String email;
-//    private String password;
     private String encryptedPassword;
     private String publicId;
     private Set<RoleDto> roles;
     private String numTelephone;
     private AdresseDto adresse;
-    //    //Abonne
     private String numAbonne;
     private Date dateCreationCompte;
-//    private Set<Pret> prets
-
-//    //Employe
     private String matricule;
     private Date dateEntree;
     private Date dateSortie;

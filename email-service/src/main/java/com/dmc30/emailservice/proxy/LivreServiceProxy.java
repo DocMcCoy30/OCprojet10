@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "livre-service", url = "localhost:9002")
 public interface LivreServiceProxy {
 
-    @GetMapping("/livres/id") //
+    @GetMapping("/livres/livreId") //
     ResponseEntity<?> getLivreById(@RequestParam("livreId") Long livreId);
 
     @GetMapping("/ouvrages/ouvrage/id")

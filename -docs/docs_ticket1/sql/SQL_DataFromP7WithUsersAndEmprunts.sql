@@ -565,14 +565,14 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 
 
 --
--- TOC entry 3169 (class 0 OID 17859)
--- Dependencies: 224
--- Data for Name: pret; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 3187 (class 0 OID 18811)
+-- Dependencies: 230
+-- Data for Name: emprunt; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.pret (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (4, '2021-09-04', '2021-10-05', NULL, false, false, 133, 4);
-INSERT INTO public.pret (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (5, '2021-09-04', '2021-10-05', NULL, false, false, 134, 5);
-INSERT INTO public.pret (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (6, '2021-09-04', '2021-10-05', NULL, false, false, 135, 6);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (4, '2021-09-04', '2021-10-05', NULL, false, false, 133, 4);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (5, '2021-09-04', '2021-10-05', NULL, false, false, 134, 5);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (6, '2021-09-04', '2021-10-05', NULL, false, false, 135, 6);
 
 
 --
