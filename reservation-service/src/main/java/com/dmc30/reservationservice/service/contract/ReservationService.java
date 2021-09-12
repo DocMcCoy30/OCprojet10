@@ -1,5 +1,6 @@
 package com.dmc30.reservationservice.service.contract;
 
+import com.dmc30.reservationservice.model.bean.ReservationModelBean;
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface ReservationService {
     List<ReservationDto> getReservationsByUserId(Long userId);
 
     Integer getNombreDeReservation(Long livreId, Long bibliothequeId);
+
+    List<ReservationDto> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId);
+
+    void deleteReservation(ReservationModelBean reservationModelBean);
 }

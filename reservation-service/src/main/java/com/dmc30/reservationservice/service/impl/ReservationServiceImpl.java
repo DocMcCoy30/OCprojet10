@@ -2,6 +2,7 @@ package com.dmc30.reservationservice.service.impl;
 
 import com.dmc30.reservationservice.data.entity.Reservation;
 import com.dmc30.reservationservice.data.repository.ReservationRepository;
+import com.dmc30.reservationservice.model.bean.ReservationModelBean;
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 import com.dmc30.reservationservice.model.mappers.ReservationMapper;
 import com.dmc30.reservationservice.service.contract.ReservationService;
@@ -80,7 +81,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<Reservation> reservations = reservationRepository
                 .getReservationsByUtilisateurIdOrderByDateReservation(userId);
         List<ReservationDto> reservationDtos = reservations.stream()
-                .map(reservation -> reservationMapper.reservationToReservationDto(reservation))
+                .map(reservation -> reservationMapper.reservationToReservationDto(reservation) )
                 .collect(Collectors.toList());
         return reservationDtos;
     }
@@ -96,5 +97,30 @@ public class ReservationServiceImpl implements ReservationService {
         Integer nbReservation = reservationRepository.getNombreDeReservationByLivreIdAndBibliothequeId(livreId,bibliothequeId);
         logger.info("Nombre de reservation = " + nbReservation);
         return nbReservation;
+    }
+
+    /**
+     * Récupère une liste de réservation pour un livre dans une bibliothèque ordonnée par date
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @return la liste ordonnée
+     */
+    @Override
+    public List<ReservationDto> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId) {
+        List<Reservation> reservations = reservationRepository.getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(livreId, bibliothequeId);
+        List<ReservationDto> reservationDtos = reservations.stream()
+                .map(reservation -> reservationMapper.reservationToReservationDto(reservation) )
+                .collect(Collectors.toList());
+        return reservationDtos;
+    }
+
+    /**
+     * Supprime une réservation
+     * @param reservationId l'identifiant de la réservation à supprimer
+     */
+    @Override
+    public void deleteReservation(ReservationModelBean reservationModelBean) {
+        Long reservationId = reservationModelBean.getId();
+        reservationRepository.deleteById(reservationId);
     }
 }

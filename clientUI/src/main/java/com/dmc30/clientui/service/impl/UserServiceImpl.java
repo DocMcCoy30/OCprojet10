@@ -1,11 +1,13 @@
 package com.dmc30.clientui.service.impl;
 
+import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import com.dmc30.clientui.proxy.UserServiceProxy;
 import com.dmc30.clientui.security.TokenValidationHelper;
 import com.dmc30.clientui.service.contract.UserService;
 import com.dmc30.clientui.shared.bean.utilisateur.LoginRequestBean;
 import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +72,14 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UtilisateurBean createAbonne(UtilisateurBean abonne, Long paysId) {
-        return userServiceProxy.signin(abonne, paysId);
+    public UtilisateurBean createAbonne(UtilisateurBean abonne, Long paysId) throws TechnicalException {
+        UtilisateurBean utilisateurBean;
+        try {
+            utilisateurBean = userServiceProxy.signin(abonne, paysId);
+        } catch (FeignException e) {
+            throw new TechnicalException(ErrorMessage.DUPLICATE_KEY_ERROR.getErrorMessage());
+        }
+        return utilisateurBean;
     }
 
     /**

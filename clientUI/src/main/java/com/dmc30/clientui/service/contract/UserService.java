@@ -14,7 +14,7 @@ public interface UserService {
 
     String[] secureLogin(LoginRequestBean loginRequestBean) throws TechnicalException;
 
-    UtilisateurBean createAbonne(UtilisateurBean abonne, Long paysId);
+    UtilisateurBean createAbonne(UtilisateurBean abonne, Long paysId) throws TechnicalException;
 
     UtilisateurBean getUtilisateurById(Long utilisateurId);
 

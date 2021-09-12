@@ -1,11 +1,9 @@
 package com.dmc30.clientui.proxy;
 
 import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
+import com.dmc30.clientui.shared.bean.reservation.ReservationModelBean;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +19,12 @@ public interface ReservationServiceProxy {
     @GetMapping("/reservations/nbResa/{livreId}&{bibliothequeId}")
     Integer getNombreDeReservation(@PathVariable(name = "livreId")Long livreId,
                                @PathVariable(name = "bibliothequeId") Long bibliothequeId);
+
+    @GetMapping("/reservations/listeAttente/{livreId}&{bibliothequeId}")
+    List<ReservationBean> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(@PathVariable(name = "livreId") Long livreId,
+                                                                      @PathVariable(name = "bibliothequeId")Long bibliothequeId);
+
+    @DeleteMapping("/reservations")
+    void deleteReservation(@RequestBody ReservationModelBean reservationModelBean);
+
 }

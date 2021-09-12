@@ -15,5 +15,4 @@ public class ReservationBean {
     private Long utilisateurId;
     private Long livreId;
     private Long bibliothequeId;
-
 }

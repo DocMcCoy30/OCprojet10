@@ -142,6 +142,36 @@
                 </tbody>
             </table>
         </div>
+        <div th:if="${!#lists.isEmpty(reservationList)}">
+            <h4>Reservation en cours : <a th:text="${abonne.prenom}"></a><a> </a><a th:text="${abonne.nom}"></a></h4>
+            <table class="table table-striped  table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Titre du livre</th>
+                    <th>Date de réservation</th>
+                    <th>Date de retour prévue</th>
+                    <th>Numéro dans file d'attente</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reservationModelBean : ${reservationList}">
+                    <td th:text="${reservationModelBean.titreDuLivre}"></td>
+                    <td th:text="${reservationModelBean.dateReservation}"></td>
+                    <td th:text="${reservationModelBean.dateRetourPrevu}"></td>
+                    <td th:text="${reservationModelBean.numeroAttente}"></td>
+                    <td>
+                        <form th:action="@{annulerReservation(reservationId=${reservationModelBean.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"
+                              th:object="${reservationModelBean}" method="delete">
+                            <button class="btn btn-primary btn-md btn-block" type="submit">Annuler</button>
+                        </form>
+<!--                        <a th:href="@{annulerReservation(reservationId=${tempReservation.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"-->
+<!--                           class="card-link">Annuler</a>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div th:if="${!#lists.isEmpty(empruntsRetournes)}">
             <h4>Historique des emprunts : <a th:text="${abonne.prenom}"></a><a> </a><a th:text="${abonne.nom}"></a></h4>
             <table class="table table-striped  table-bordered">
@@ -167,6 +197,9 @@
                 </tbody>
             </table>
         </div>
+
+
+
     </div>
 </div>
 <footer th:insert="fragments/footer.html"></footer>

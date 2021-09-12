@@ -1,15 +1,17 @@
 package com.dmc30.reservationservice.data.entity;
 
-import com.dmc30.reservationservice.model.bean.OuvrageBean;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "reservation")
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reservation {
 
     @Id
@@ -31,5 +33,4 @@ public class Reservation {
 
     @Column(name = "id_bibliotheque")
     private Long bibliothequeId;
-
 }

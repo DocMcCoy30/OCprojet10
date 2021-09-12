@@ -5,15 +5,16 @@ import com.dmc30.clientui.service.contract.ReservationService;
 import com.dmc30.clientui.shared.UtilsMethodService;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
+import com.dmc30.clientui.shared.bean.reservation.ReservationModelBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,9 +37,10 @@ public class ReservationController {
 
     /**
      * Enregistre une réservation d'un livre dans la base de données
+     *
      * @param bibliothequeId l'identifiant de la bibliotheque concernée
-     * @param livreId l'identifiant du livre
-     * @param username le username de l'abonné
+     * @param livreId        l'identifiant du livre
+     * @param username       le username de l'abonné
      * @return le model + vue
      * @throws TechnicalException
      */
@@ -62,10 +64,24 @@ public class ReservationController {
         return theModel;
     }
 
-
-    public ModelAndView annulerReservation() {
+    @DeleteMapping("/annulerReservation")
+    public ModelAndView annulerReservation(@RequestBody ReservationModelBean reservationModelBean,
+                                           @RequestParam("bibliothequeId") Long bibliothequeId,
+                                           @RequestParam("username") String username,
+                                           @RequestParam(value = "modification", required = false) boolean modification) {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");
-        //TODO : implémenter méthode annulerReservation dans ReservationService
+        utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
+        String message;
+        List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
+        try {
+            utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
+            reservationService.deleteReservation(reservationModelBean);
+            reservationsToReturn = reservationService.getListeReservationsEnCours(username, bibliothequeId);
+            //TODO : implémenter méthode annulerReservation dans ReservationService
+        } catch (TechnicalException e) {
+            theModel.addObject("errorMessage", e.getMessage());
+        }
+        theModel.addObject("reservationList", reservationsToReturn);
         return theModel;
     }
 }
