@@ -29,8 +29,8 @@ public class ScheduledTasks {
     }
 
 //    @Scheduled(cron = "0 0 0 * * ?") // tous les jours à minuit
-//    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
-    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
+    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
+//    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
     public void scheduledTaskServiceTest() throws MessagingException {
         System.out.println("scheduledTaskTest is running.");
         Locale locale = new Locale("FRANCE");

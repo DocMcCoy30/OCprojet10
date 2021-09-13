@@ -1,13 +1,18 @@
-# OpenClassrooms Projet 10 - Developpeur d'Application Java
+# OpenClassrooms Projet 10 - Developpeur d'Application Java #
 
-##Améliorez le système d’information de la bibliothèque
+## Améliorez le système d’information de la bibliothèque ##
 
 
-##Langages et Technologies utilisées :
+### Documentation ###
+#### *La documentation relative aux différents tickets (README.md, SQL, UML) se trouve dans le répertoire -docs* ####
++ sql : structure et data de la base de données PostgreSQL
++ uml : diagrammes UML (classes, MPD, arborescence, usecase, ...)
+
+### Langages et Technologies utilisées : ###
 
 + Java / Html / Css
 
-+ SpringBoot / Web / Jpa / Actuator / Lombok / DevTools
++ SpringBoot / Web / Jpa
 
 + PostgreSQL
 
@@ -21,42 +26,27 @@
 
 + Feign
 
++ Actuator / Lombok / DevTools / ModelMapper-MapStruct
+
 + Thymeleaf / Bootstrap
 
-##Documentation 
+### Base de données : *Installation Version finale* ###
 
-La documentation se trouve dans le dossier "1-Documents" : 
-+ sql : structure et data de la base de données PostgreSQL
-+ uml : diagrammes UML (classes, MPD, arborescence, usecase, activité)
+Note : Des instructions pour initialiser les bases de données pour chaque étape de l'implémentation sont indiquées dans les fichiers README-Ticket#.md
+dans les répertoires -docs/docs-ticket#/sql
 
-##application.properties => modification de la configuration
+#### Configuration de la base de données Postgres dans application.properties ####
 
+#### Création de la base de données dans pgAdmin ####
 
-+ configuration de la base de données (livre-service, utilisateur-service- emprunt-service) :
+[//]: # (TODO : inclure les images installation base de données P10 version finale)
+ 
 
-![](.README_images/5be63c66.png)
-
-## Base de données
-
-- les backup pour la base de données sont dans le répertoire 1-Documents/sql
-
-- Créer une nouvelle base de données DB_P7_Bibliotheque dans pgAdmin : owner => POSTGRES
-
-![](.README_images/c796e4f5.png)
-
-- Copier/Coller le contenu du fichier structure.sql dans le QueryEditor et executer le script
-
-![](.README_images/42d92377.png)
-
-- Copier/Coller le contenu du fichier data.sql dans le QueryEditor et executer le script
-
-![](.README_images/9f6c00c6.png)
-
-## Installation
+### Installation ###
 
 IntelliJ = File -> New ->Project from Version Control
 
-url : https://github.com/DocMcCoy30/OCprojet7.git
+url : https://github.com/DocMcCoy30/OCprojet10.git
 
 file : dossier de destination
 
@@ -69,17 +59,17 @@ $ git clone https://github.com/DocMcCoy30/OCprojet7.git
 $mvn install pour chaque service si nécessaire
 ```
 
-## Demarrage des services
+### Demarrage des services ###
 
-1- eureka-server
+1- imageserver contient les images (couvertures des livres notamment) : les infos pour l'installation et la configuration sont dans le ReadMe du module.
 
-2- gateway-server
+2- eureka-server
 
-3- clientUI
+3- utilisateur-service / livre-service / emprunt-service / reservation-service
 
-4- utilisateur-service / livre-service / emprunt-service / email-service
+4- clientUI / email-service
 
-5- imageserver contient les images (couvertures des livres notamment) : les infos pour l'installation et la configuration sont dans le ReadMe du module.
+5- gateway-server
 
 Pour chaque service
 ```
@@ -87,25 +77,11 @@ $ cd ../path/to/the/file/target
 $ java -jar nom-du-service.jar
 ```
 
-## Utilisation et fonctionnalités
+### Utilisation et fonctionnalités : *Version Finale ###
 
 Page d'accueil accessible à : https://localhost:8999/ (gateway)
 
-2 utilisateurs sont créés dans la base de données :
-+ abonné : login : abonne@test.com / password : abonnetest
-+ employé : login : employe@test.com/ password : employetest
+Note : Les informations sur les différentes fonctionnalités implémentées sont dans les fichiers README-Ticket# : 
+-docs/docs-ticket#/README-Ticket#.md
 
-Les nouveaux utilisateurs crées dans "s'inscrire" seront toujours des abonnés.
-
-*Fonctionnalités d'un USER non connecté :*
-+ s'inscrire / se connecter
-+ effectuer une recherche
-+ consulter le détail d'un livre
-
-*Fonctionnalités d'un ABONNE connecté :*
-+ consulter et modifier son profil
-+ prolonger un emprunt
-
-*Fonctionnalités d'un EMPLOYE connecté :*
-+ enregistrer un emprunt
-+ enregistrer un retour
+[//]: # (TODO : récupérer les fonctionnalités du dernier ticket)

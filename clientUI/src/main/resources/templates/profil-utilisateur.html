@@ -13,6 +13,9 @@
     <div th:if="${errorMessage}" th:utext="${errorMessage}"
          style="color:red;font-style:italic;">
     </div>
+    <div th:if="${!#strings.isEmpty(prolongationImpossibleMessage)}" th:utext="${prolongationImpossibleMessage}"
+         style="color:red;font-style:italic;">
+    </div>
     <h2>Profil Abonné</h2>
     <div class="row">
         <div class="col-md-2">
@@ -134,10 +137,12 @@
                     <td th:text="${tempEmpruntEnCours.identifiantOuvrage}"></td>
                     <td th:text="${tempEmpruntEnCours.dateEmpruntFormat}"></td>
                     <td th:text="${tempEmpruntEnCours.dateRetourFormat}"></td>
-                    <td>
-                        <a th:if="${!tempEmpruntEnCours.prolongation}" th:href="@{prolongerEmprunt(bibliothequeId=${bibliotheque.id},
-                     empruntId=${tempEmpruntEnCours.empruntId}, username=${abonne.username})}"
-                           class="card-link">Prolonger</a></td>
+                    <td th:if="${!tempEmpruntEnCours.prolongation}">
+                        <a th:if="${!tempEmpruntEnCours.retard}" th:href="@{prolongerEmprunt(bibliothequeId=
+                        ${bibliotheque.id}, empruntId=${tempEmpruntEnCours.empruntId}, username=${abonne.username})}"
+                           class="card-link">Prolonger</a>
+                        <a th:if="${tempEmpruntEnCours.retard}" style="color: red; font-weight: bold" >RETARD</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

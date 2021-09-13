@@ -208,6 +208,7 @@ public class UserController {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         String message = "";
+        //DONE T2 : retard pret => prolongation impossible + message
         utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
         return theModel;
     }
