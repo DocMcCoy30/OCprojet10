@@ -42,12 +42,11 @@ public class ReservationController {
      * @param livreId        l'identifiant du livre
      * @param username       le username de l'abonné
      * @return le model + vue
-     * @throws TechnicalException
      */
     @PostMapping("/createReservation")
     public ModelAndView createReservation(@RequestParam("bibliothequeId") Long bibliothequeId,
                                           @RequestParam(value = "livreId") Long livreId,
-                                          @RequestParam(value = "username") String username) throws TechnicalException {
+                                          @RequestParam(value = "username") String username) {
         ModelAndView theModel = new ModelAndView("accueil");
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         try {

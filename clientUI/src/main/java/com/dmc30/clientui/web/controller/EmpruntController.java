@@ -74,7 +74,6 @@ public class EmpruntController {
                     utilsMethodService.setAbonneForEmpruntBean(createEmpruntBean, abonnes.get(0));
                     theModel.addObject("createEmpruntBean", createEmpruntBean);
                 } else {
-                    message = "Il y a plusieurs abonnés correspondants à votre choix";
                     theModel.addObject("abonnes", abonnes);
                 }
                 ouvrages = ouvrageService.getOuvragesByIdInterne(idInterne);
@@ -87,7 +86,6 @@ public class EmpruntController {
                             ouvragesByBibliotheque.add(ouvrage);
                         }
                     }
-                    message = "Il y a plusieurs ouvrages correspondants à votre choix";
                     theModel.addObject("ouvrages", ouvragesByBibliotheque);
                 }
             } else if (!numAbonne.equals("")) {

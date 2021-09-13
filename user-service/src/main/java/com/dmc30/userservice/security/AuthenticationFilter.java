@@ -66,11 +66,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
      * @param response
      * @param chain
      * @param authResult
-     * @throws IOException
      * @throws ServletException
      */
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws ServletException {
         String email = ((User) authResult.getPrincipal()).getUsername();
         UtilisateurDto userDetails = usersService.getUserDetailsByEmail(email);
         String token = Jwts.builder()
@@ -93,11 +92,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
      * @param request
      * @param response
      * @param failed
-     * @throws IOException
      * @throws ServletException
      */
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws ServletException {
         String error = "Email ou Mot de Passe erroné";
         response.addHeader("error", error);
     }

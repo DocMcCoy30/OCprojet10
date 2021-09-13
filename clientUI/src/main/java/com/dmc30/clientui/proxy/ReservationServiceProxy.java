@@ -1,7 +1,6 @@
 package com.dmc30.clientui.proxy;
 
 import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
-import com.dmc30.clientui.shared.bean.reservation.ReservationModelBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

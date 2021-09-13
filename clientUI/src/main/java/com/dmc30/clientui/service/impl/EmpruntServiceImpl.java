@@ -3,13 +3,11 @@ package com.dmc30.clientui.service.impl;
 import com.dmc30.clientui.proxy.ReservationServiceProxy;
 import com.dmc30.clientui.service.contract.LivreService;
 import com.dmc30.clientui.service.contract.OuvrageService;
-import com.dmc30.clientui.service.contract.ReservationService;
 import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.proxy.EmpruntServiceProxy;
 import com.dmc30.clientui.service.contract.EmpruntService;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
 import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
@@ -53,6 +51,7 @@ public class EmpruntServiceImpl implements EmpruntService {
             empruntBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
             Long livreEmprunteId = livreService.getLivreIdByOuvrageId(empruntBean.getOuvrageId());
             List<ReservationBean> reservationsEnCours = reservationServiceProxy.getReservationsByUserId(empruntBean.getUtilisateurId());
+            //DONE T2 : réservation annuler lorsque livre emprunté
             for (ReservationBean reservation:reservationsEnCours) {
                 if (reservation.getLivreId().equals(livreEmprunteId)) {
                     reservationServiceProxy.deleteReservation(reservation.getId());
@@ -127,14 +126,11 @@ public class EmpruntServiceImpl implements EmpruntService {
             for (EmpruntBean empruntEnCours:empruntBeans) {
                 if(!empruntEnCours.isProlongation()) {
                     dateRetourEmprunt = empruntEnCours.getDateRestitution();
-                    if(dateRetourEmprunt.before(dateRetourPrevue)) {
-                        dateRetourPrevue = dateRetourEmprunt;
-                    }
                 }else {
                     dateRetourEmprunt = empruntEnCours.getDateProlongation();
-                    if(dateRetourEmprunt.before(dateRetourPrevue)) {
-                        dateRetourPrevue = dateRetourEmprunt;
-                    }
+                }
+                if(dateRetourEmprunt.before(dateRetourPrevue)) {
+                    dateRetourPrevue = dateRetourEmprunt;
                 }
             }
         } catch (FeignException e) {

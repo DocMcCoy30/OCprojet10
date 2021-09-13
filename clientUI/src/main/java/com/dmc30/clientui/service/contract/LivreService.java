@@ -2,7 +2,6 @@ package com.dmc30.clientui.service.contract;
 
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.GenreBean;
-import com.dmc30.clientui.shared.bean.livre.LivreBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import org.springframework.http.ResponseEntity;

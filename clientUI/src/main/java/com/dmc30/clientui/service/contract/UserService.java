@@ -12,7 +12,7 @@ public interface UserService {
 
 //    String login(LoginRequestDto userAuthentication);
 
-    String[] secureLogin(LoginRequestBean loginRequestBean) throws TechnicalException;
+    String[] secureLogin(LoginRequestBean loginRequestBean);
 
     UtilisateurBean createAbonne(UtilisateurBean abonne, Long paysId) throws TechnicalException;
 

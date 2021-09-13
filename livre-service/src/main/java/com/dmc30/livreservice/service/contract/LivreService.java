@@ -1,7 +1,6 @@
 package com.dmc30.livreservice.service.contract;
 
 import com.dmc30.livreservice.service.dto.livre.LivreDto;
-import com.dmc30.livreservice.web.exception.TechnicalException;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

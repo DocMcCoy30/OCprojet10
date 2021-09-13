@@ -106,12 +106,11 @@ public class UserController {
      * @param bibliothequeId   L'identifiant de la bibliothèque selectionnée.
      * @param theModel         Le Model renvoyé.
      * @return la vue accueil si l'identification est un succès, la page login avec un messge d'erreur si les identifiant/mot de passe renseignés sont erronés.
-     * @throws TechnicalException
      */
     @PostMapping(path = "/login")
     public ModelAndView secureLogin(@ModelAttribute LoginRequestBean userLoginDetails,
                                     @RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId,
-                                    ModelAndView theModel) throws TechnicalException {
+                                    ModelAndView theModel) {
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         UtilisateurBean abonneDto = new UtilisateurBean();
         String errorMessage = "";
@@ -169,7 +168,7 @@ public class UserController {
     public ModelAndView createAbonne(@ModelAttribute @Valid CreateAbonneBean userDetails,
                                      BindingResult bindingResult,
                                      @RequestParam("paysId") Long paysId,
-                                     @RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId) throws TechnicalException {
+                                     @RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId) {
         ModelAndView theModel = new ModelAndView();
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         ModelMapper modelMapper = new ModelMapper();

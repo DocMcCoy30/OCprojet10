@@ -6,7 +6,6 @@ import com.dmc30.livreservice.web.exception.ErrorMessage;
 import com.dmc30.livreservice.web.exception.IntrouvableException;
 import com.dmc30.livreservice.service.contract.LivreService;
 import com.dmc30.livreservice.service.dto.livre.LivreDto;
-import com.dmc30.livreservice.web.exception.TechnicalException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;

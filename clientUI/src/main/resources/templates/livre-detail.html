@@ -34,7 +34,7 @@
                     <h4 th:text="${livre.auteurs}"></h4>
                 </div>
             </div>
-            <div class="card-body row">
+            <div class="card-body row" style="background-color: #dfe4ea">
                 <div th:if="${!#lists.isEmpty(livre.illustrations)}" class="photo col-md-3 offset-1 text-center">
                     <div th:each="illustration : ${livre.illustrations}">
                         <img th:src="@{${illustration.url}}" class="img-fluid" alt="Couverture">

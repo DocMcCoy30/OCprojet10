@@ -2,7 +2,6 @@ package com.dmc30.clientui.service.impl;
 
 import com.dmc30.clientui.proxy.LivreServiceProxy;
 import com.dmc30.clientui.proxy.ReservationServiceProxy;
-import com.dmc30.clientui.proxy.UserServiceProxy;
 import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -153,6 +153,7 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
         Long livreId;
         ReservationModelBean reservationModelBean = new ReservationModelBean();
         List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
@@ -169,13 +170,14 @@ public class ReservationServiceImpl implements ReservationService {
                     // récupérer le numéro dans la file d'attente
                     if (reservationParLivre.getUtilisateurId().equals(userId)) {
                         reservationModelBean.setId(reservationParLivre.getId());
-                        reservationModelBean.setDateReservation(reservationParLivre.getDateReservation());
+                        String dateReservation = dateFormat.format(reservationParLivre.getDateReservation());
+                        reservationModelBean.setDateReservation(dateReservation);
                         ResponseEntity<?> response = livreService.getLivreById(livreId);
                         if (response.getStatusCodeValue() == 202) {
                             LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();
                             reservationModelBean.setTitreDuLivre(livreResponseModelBean.getTitre());
                         }
-                        Integer index = reservationsOrdonnees.indexOf(reservationParLivre);
+                        int index = reservationsOrdonnees.indexOf(reservationParLivre);
                         reservationModelBean.setNumeroAttente(index + 1);
                         //récupérer la date de retour prévu
                         reservationModelBean.setDateRetourPrevu(empruntService.getDateDeRetourPrevue(livreId, bibliothequeId));

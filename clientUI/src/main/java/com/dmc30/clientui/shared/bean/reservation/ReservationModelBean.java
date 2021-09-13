@@ -10,7 +10,7 @@ import java.util.Date;
 public class ReservationModelBean {
 
         private Long id;
-        private Date dateReservation;
+        private String dateReservation;
         private String titreDuLivre;
         private Integer numeroAttente;
         private String dateRetourPrevu;

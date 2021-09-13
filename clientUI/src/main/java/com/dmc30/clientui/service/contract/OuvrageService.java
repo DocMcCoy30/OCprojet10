@@ -1,9 +1,7 @@
 package com.dmc30.clientui.service.contract;
 
-import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
-import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
 
 import java.util.List;

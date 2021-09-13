@@ -3,8 +3,6 @@ package com.dmc30.clientui.shared.bean.bibliotheque;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 public class OuvrageBean {

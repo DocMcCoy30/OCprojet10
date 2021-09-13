@@ -98,8 +98,8 @@ public class EmailServiceImpl implements EmailService {
         for (Long utisateurEnRetardId : utilisateursEnRetardId) {
             UtilisateurBean utilisateurBean = utilisateurService.findUtilisateurById(utisateurEnRetardId);
             expiredempruntsList = empruntService.findExpiredempruntsByUtilisateurId(utisateurEnRetardId);
-            for (int i = 0; i < expiredempruntsList.size(); i++) {
-                LivreForMailBean livre = livreService.getTitreDuLivre(expiredempruntsList.get(i).getOuvrageId());
+            for (EmpruntBean empruntBean : expiredempruntsList) {
+                LivreForMailBean livre = livreService.getTitreDuLivre(empruntBean.getOuvrageId());
                 livres.add(livre);
             }
             MailForRetardEmpruntModelBean newMail = expiredEmpruntEmailMaker(utilisateurBean, livres);

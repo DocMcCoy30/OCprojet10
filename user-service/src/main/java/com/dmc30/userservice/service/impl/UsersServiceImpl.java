@@ -9,7 +9,6 @@ import com.dmc30.userservice.data.repository.RoleRepository;
 import com.dmc30.userservice.data.repository.UtilisateurRepository;
 import com.dmc30.userservice.service.contract.UsersService;
 import com.dmc30.userservice.service.dto.AdresseDto;
-import com.dmc30.userservice.service.dto.PaysDto;
 import com.dmc30.userservice.service.dto.UtilisateurDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -51,7 +50,6 @@ public class UsersServiceImpl implements UsersService {
      *
      * @param email l'email de l'utilisateur
      * @return l'utilisateur et ses roles
-     * @throws UsernameNotFoundException
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

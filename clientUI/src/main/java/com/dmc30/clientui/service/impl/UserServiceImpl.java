@@ -41,10 +41,9 @@ public class UserServiceImpl implements UserService {
      * Traitement des données de connexion (validation du token renvoyé par user-service)
      * @param loginRequestBean Les données de connexion de l'utilisateur
      * @return un message définissant le résultet du processus d'identification (succès ou échec)
-     * @throws TechnicalException
      */
     @Override
-    public String[] secureLogin(LoginRequestBean loginRequestBean) throws TechnicalException {
+    public String[] secureLogin(LoginRequestBean loginRequestBean) {
         ResponseEntity<String> responseEntity = userServiceProxy.secureLogin(loginRequestBean);
         String[] returnValue = new String[0];
         String publicId = "";

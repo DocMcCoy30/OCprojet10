@@ -108,7 +108,7 @@ public class ReservationRestController {
         }else {
             reservationService.deleteReservation(reservationId);
         }
-        return "Le reservation a bien été supprimée.";
+        return "La reservation a bien été supprimée.";
     }
 
     @GetMapping("/expiree/{userId}")

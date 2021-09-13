@@ -14,7 +14,7 @@ public interface EmailService {
     MailForRetardEmpruntModelBean expiredEmpruntEmailMaker(UtilisateurBean utilisateur, List<LivreForMailBean> livres);
     List<MailForRetardEmpruntModelBean> createMailListForRetardEmprunt();
     void sendMailForRetard(MailForRetardEmpruntModelBean mailForRetardEmpruntModelBean, final Locale locale) throws MessagingException;
-
+    void sendSimpleMessage(String to, String subject, String text);
 
 
 

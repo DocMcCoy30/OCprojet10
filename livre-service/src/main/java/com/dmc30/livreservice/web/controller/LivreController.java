@@ -4,7 +4,6 @@ import com.dmc30.livreservice.service.contract.AuteurService;
 import com.dmc30.livreservice.service.contract.LivreService;
 import com.dmc30.livreservice.service.dto.livre.AuteurDto;
 import com.dmc30.livreservice.service.dto.livre.LivreDto;
-import com.dmc30.livreservice.web.exception.TechnicalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
