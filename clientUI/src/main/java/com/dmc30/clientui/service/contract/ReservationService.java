@@ -12,12 +12,9 @@ public interface ReservationService {
 
     boolean globalReservationPossibleCheck(Long livreId, String username, Long bibliothequeId) throws TechnicalException;
     Integer getNombreDeReservation(Long livreId, Long bibliothequeId);
-//    List<ReservationBean> getReservationsWithRowNumberFromOrderedList(Long livreId, Long bibliothequeId);
     List<ReservationBean> getReservationByUserId(Long userId);
     List<ReservationBean> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId);
     List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException;
+    String deleteReservation(Long reservationId) throws TechnicalException;
 
-//    void deleteReservation(Long reservationId) throws TechnicalException;
-
-    void deleteReservation(ReservationModelBean reservationModelBean) throws TechnicalException;
 }

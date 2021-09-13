@@ -210,7 +210,7 @@ public class LivreController {
                     int nbExDispoInOne = ouvrageService.getOuvrageDispoInOneBibliotheque(livreId, bibliothequeId);
                     theModel.addObject("nbExDispoInOne", nbExDispoInOne);
                     if ((nbExDispoInOne == 0)&&(!Objects.equals(username, "anonymousUser"))) {
-                        //DONE : checkReservationPossible dans ReservationService :
+                        //DONE T1: checkReservationPossible dans ReservationService :
                         try {
                             reservationPossible = reservationService.globalReservationPossibleCheck(livreId, username, bibliothequeId);
                         } catch (TechnicalException e) {
@@ -220,10 +220,10 @@ public class LivreController {
 
                     }
                     if (nbExDispoInOne == 0) {
-                        //DONE : afficher la date de retour prévue
+                        //DONE T1: afficher la date de retour prévue
                         String dateRetour = empruntService.getDateDeRetourPrevue(livreId, bibliothequeId);
                         theModel.addObject("dateRetour", dateRetour);
-                        //DONE : afficher le nombre de réservation en cours
+                        //DONE T1: afficher le nombre de réservation en cours
                         int nbReservation = reservationService.getNombreDeReservation(livreId, bibliothequeId);
                         theModel.addObject("nbReservation", nbReservation);
                     }

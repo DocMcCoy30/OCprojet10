@@ -219,7 +219,7 @@ public class UserController {
         try {
             utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
             utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
-            //TODO : afficher la liste des reservations en cours : titre du livre + date de retour prévu + position sur liste d'attente
+            //DONE T1 : afficher la liste des reservations en cours : titre du livre + date de retour prévu + position sur liste d'attente
             List<ReservationModelBean> reservationsToReturn = reservationService.getListeReservationsEnCours(username, bibliothequeId);
             theModel.addObject("reservationList", reservationsToReturn);
         } catch (TechnicalException e) {

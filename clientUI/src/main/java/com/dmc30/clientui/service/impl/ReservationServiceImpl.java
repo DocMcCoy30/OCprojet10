@@ -78,7 +78,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    //DONE : checkReservationPossible
+    //DONE T1: checkReservationPossible
 
     /**
      * Vérifie qu'une réservation peut être effectuée
@@ -142,7 +142,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservations;
     }
 
-    //DONE : liste des réservations en cours pour la page profil utilisateur
+    //DONE T1: liste des réservations en cours pour la page profil utilisateur
 
     /**
      * Renvoie la liste des réservations en cours : titre du livre, date de retour prévue, position dans le liste d'attente
@@ -191,18 +191,20 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void deleteReservation(ReservationModelBean reservationModelBean) throws TechnicalException {
+    public String deleteReservation(Long reservationId) throws TechnicalException {
+        String reservationMessage;
         try {
-            reservationServiceProxy.deleteReservation(reservationModelBean);
+            reservationMessage = reservationServiceProxy.deleteReservation(reservationId);
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
+        return reservationMessage;
     }
 
 
     //-------------------------Méthodes de classe----------------------------------------
 
-    //DONE : Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
+    //DONE T1: Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
 
     /**
      * Vérifie que la RG "pas d'emprunt en cours pour ce livre et cet utilisateur" est respectée.
@@ -237,7 +239,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param username le username de l'utilisateur.
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-    //DONE : Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+    //DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
     public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
@@ -258,7 +260,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param bibliothequeId l'identifiant de la bibliotheque
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-    //DONE : Check3 :  la liste d'attente n'est pas complète
+    //DONE T1: Check3 :  la liste d'attente n'est pas complète
     public boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
         boolean reservation = true;
         // récupérer le nombre de réservation (nbReservation) pour ce livre et cette bibliotheque

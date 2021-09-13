@@ -13,6 +13,8 @@
     <div th:if="${errorMessage}" th:utext="${errorMessage}"
          style="color:red;font-style:italic;">
     </div>
+    <div th:if="${reservationMessage}" th:utext="${reservationMessage}"
+         style="color:red;font-style:italic;"></div>
     <h2>Profil Abonné</h2>
     <div class="row">
         <div class="col-md-2">
@@ -161,12 +163,11 @@
                     <td th:text="${reservationModelBean.dateRetourPrevu}"></td>
                     <td th:text="${reservationModelBean.numeroAttente}"></td>
                     <td>
-                        <form th:action="@{annulerReservation(reservationId=${reservationModelBean.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"
-                              th:object="${reservationModelBean}" method="delete">
-                            <button class="btn btn-primary btn-md btn-block" type="submit">Annuler</button>
-                        </form>
-<!--                        <a th:href="@{annulerReservation(reservationId=${tempReservation.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"-->
-<!--                           class="card-link">Annuler</a>-->
+                        <a th:href="@{/annulerReservation(reservationId=${reservationModelBean.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"
+                           class="btn btn-danger btn-md btn-block"
+                           onclick="if (!(confirm('Annuler cette réservation ?'))) return false">
+                            Annuler
+                        </a>
                     </td>
                 </tr>
                 </tbody>
@@ -197,7 +198,6 @@
                 </tbody>
             </table>
         </div>
-
 
 
     </div>

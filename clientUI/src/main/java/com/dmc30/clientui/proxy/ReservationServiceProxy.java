@@ -24,7 +24,7 @@ public interface ReservationServiceProxy {
     List<ReservationBean> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(@PathVariable(name = "livreId") Long livreId,
                                                                       @PathVariable(name = "bibliothequeId")Long bibliothequeId);
 
-    @DeleteMapping("/reservations")
-    void deleteReservation(@RequestBody ReservationModelBean reservationModelBean);
+    @DeleteMapping("/reservations/{reservationId}")
+    String deleteReservation(@PathVariable Long reservationId);
 
 }

@@ -2,7 +2,6 @@ package com.dmc30.reservationservice.service.impl;
 
 import com.dmc30.reservationservice.data.entity.Reservation;
 import com.dmc30.reservationservice.data.repository.ReservationRepository;
-import com.dmc30.reservationservice.model.bean.ReservationModelBean;
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 import com.dmc30.reservationservice.model.mappers.ReservationMapper;
 import com.dmc30.reservationservice.service.contract.ReservationService;
@@ -119,8 +118,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param reservationId l'identifiant de la réservation à supprimer
      */
     @Override
-    public void deleteReservation(ReservationModelBean reservationModelBean) {
-        Long reservationId = reservationModelBean.getId();
+    public void deleteReservation(Long reservationId) {
         reservationRepository.deleteById(reservationId);
     }
 }

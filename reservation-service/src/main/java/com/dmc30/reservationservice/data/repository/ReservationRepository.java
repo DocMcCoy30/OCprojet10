@@ -1,7 +1,6 @@
 package com.dmc30.reservationservice.data.repository;
 
 import com.dmc30.reservationservice.data.entity.Reservation;
-import com.dmc30.reservationservice.model.dto.ReservationDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

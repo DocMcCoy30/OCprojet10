@@ -64,24 +64,25 @@ public class ReservationController {
         return theModel;
     }
 
-    @DeleteMapping("/annulerReservation")
-    public ModelAndView annulerReservation(@RequestBody ReservationModelBean reservationModelBean,
+    @GetMapping("/annulerReservation")
+    public ModelAndView annulerReservation(@RequestParam("reservationId") Long reservationId,
                                            @RequestParam("bibliothequeId") Long bibliothequeId,
                                            @RequestParam("username") String username,
                                            @RequestParam(value = "modification", required = false) boolean modification) {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
-        String message;
+        String reservationMessage = "";
         List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
         try {
             utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
-            reservationService.deleteReservation(reservationModelBean);
+            reservationMessage = reservationService.deleteReservation(reservationId);
             reservationsToReturn = reservationService.getListeReservationsEnCours(username, bibliothequeId);
-            //TODO : implémenter méthode annulerReservation dans ReservationService
+            //DONE T1 : implémenter méthode annulerReservation dans ReservationService
         } catch (TechnicalException e) {
             theModel.addObject("errorMessage", e.getMessage());
         }
         theModel.addObject("reservationList", reservationsToReturn);
+        theModel.addObject("reservationMessage", reservationMessage);
         return theModel;
     }
 }
