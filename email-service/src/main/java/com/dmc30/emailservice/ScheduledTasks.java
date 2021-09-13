@@ -3,7 +3,7 @@ package com.dmc30.emailservice;
 import com.dmc30.emailservice.mail.EmailService;
 import com.dmc30.emailservice.service.contract.EmpruntService;
 import com.dmc30.emailservice.service.contract.UtilisateurService;
-import com.dmc30.emailservice.service.bean.CreateMailBean;
+import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModelBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -29,15 +29,14 @@ public class ScheduledTasks {
     }
 
 //    @Scheduled(cron = "0 0 0 * * ?") // tous les jours à minuit
-    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
-//    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
-    public void scheduledTaskServiceTest() throws MessagingException {
-        System.out.println("scheduledTaskTest is running.");
+//    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
+    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
+    public void scheduledMailServiceForRetard() throws MessagingException {
+        System.out.println("scheduledMailServiceForRetard is running.");
         Locale locale = new Locale("FRANCE");
-        List<CreateMailBean> mailToSendList = emailService.createMailList();
-        for (CreateMailBean mailToSend : mailToSendList) {
-            emailService.sendSimpleMail(mailToSend, locale);
+        List<MailForRetardEmpruntModelBean> mailToSendList = emailService.createMailListForRetardEmprunt();
+        for (MailForRetardEmpruntModelBean mailToSend : mailToSendList) {
+            emailService.sendMailForRetard(mailToSend, locale);
         }
     }
-
 }

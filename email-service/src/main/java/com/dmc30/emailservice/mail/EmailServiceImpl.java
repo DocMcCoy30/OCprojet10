@@ -1,6 +1,6 @@
 package com.dmc30.emailservice.mail;
 
-import com.dmc30.emailservice.service.bean.CreateMailBean;
+import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModelBean;
 import com.dmc30.emailservice.service.bean.LivreForMailBean;
 import com.dmc30.emailservice.service.bean.EmpruntBean;
 import com.dmc30.emailservice.service.bean.UtilisateurBean;
@@ -49,17 +49,29 @@ public class EmailServiceImpl implements EmailService {
         this.htmlTemplateEngine = htmlTemplateEngine;
     }
 
+
+    @Override
+    public MailForRetardEmpruntModelBean expiredEmpruntEmailMaker(
+            UtilisateurBean utilisateur,
+            List<LivreForMailBean> livres) {
+        MailForRetardEmpruntModelBean mailForRetardEmpruntModelBean = new MailForRetardEmpruntModelBean();
+        mailForRetardEmpruntModelBean.setUserId(utilisateur.getId());
+        mailForRetardEmpruntModelBean.setUsername(utilisateur.getUsername());
+        mailForRetardEmpruntModelBean.setPrenom(utilisateur.getPrenom());
+        mailForRetardEmpruntModelBean.setNom(utilisateur.getNom());
+        mailForRetardEmpruntModelBean.setEmail(utilisateur.getEmail());
+        mailForRetardEmpruntModelBean.setLivres(livres);
+        return mailForRetardEmpruntModelBean;
+    }
+
     /*
      * Send HTML mail (simple)
      */
-    public void sendSimpleMail(
-            CreateMailBean createMailBean, final Locale locale)
-            throws MessagingException {
-
+    public void sendMailForRetard(MailForRetardEmpruntModelBean mailForRetardEmpruntModelBean, final Locale locale) throws MessagingException {
         // Prepare the evaluation context
         final Context ctx = new Context(locale);
-        ctx.setVariable("name", createMailBean.getUsername());
-        ctx.setVariable("livres", createMailBean.getLivres());
+        ctx.setVariable("name", mailForRetardEmpruntModelBean.getUsername());
+        ctx.setVariable("livres", mailForRetardEmpruntModelBean.getLivres());
         ctx.setVariable("subscriptionDate", new Date());
 
         // Prepare message using a Spring helper
@@ -67,7 +79,7 @@ public class EmailServiceImpl implements EmailService {
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
         message.setSubject(SUBJECT);
         message.setFrom(NOREPLY_ADDRESS);
-        message.setTo(createMailBean.getEmail());
+        message.setTo(mailForRetardEmpruntModelBean.getEmail());
 
         // Create the HTML body using Thymeleaf
         final String htmlContent = this.htmlTemplateEngine.process(EMAIL_SIMPLE_TEMPLATE_NAME, ctx);
@@ -78,8 +90,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<CreateMailBean> createMailList() {
-        List<CreateMailBean> mailToCreateList = new ArrayList<>();
+    public List<MailForRetardEmpruntModelBean> createMailListForRetardEmprunt() {
+        List<MailForRetardEmpruntModelBean> mailToCreateList = new ArrayList<>();
         List<LivreForMailBean> livres = new ArrayList<>();
         List<EmpruntBean> expiredempruntsList = new ArrayList<>();
         List<Long> utilisateursEnRetardId = empruntService.findUtilisateurEnRetard();
@@ -90,7 +102,7 @@ public class EmailServiceImpl implements EmailService {
                 LivreForMailBean livre = livreService.getTitreDuLivre(expiredempruntsList.get(i).getOuvrageId());
                 livres.add(livre);
             }
-            CreateMailBean newMail = expiredempruntEmailMaker(utilisateurBean, livres);
+            MailForRetardEmpruntModelBean newMail = expiredEmpruntEmailMaker(utilisateurBean, livres);
             mailToCreateList.add(newMail);
             livres = new ArrayList<>();
         }
@@ -113,18 +125,5 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    @Override
-    public CreateMailBean expiredempruntEmailMaker(
-                                               UtilisateurBean utilisateur,
-                                               List<LivreForMailBean> livres) {
-        CreateMailBean createMailBean = new CreateMailBean();
-        createMailBean.setUserId(utilisateur.getId());
-        createMailBean.setUsername(utilisateur.getUsername());
-        createMailBean.setPrenom(utilisateur.getPrenom());
-        createMailBean.setNom(utilisateur.getNom());
-        createMailBean.setEmail(utilisateur.getEmail());
-        createMailBean.setLivres(livres);
-        return createMailBean;
-    }
 }
 

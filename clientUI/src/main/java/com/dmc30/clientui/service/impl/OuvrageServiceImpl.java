@@ -80,13 +80,14 @@ public class OuvrageServiceImpl implements OuvrageService {
             ouvrageResponseModelBean.setId(ouvrageBean.getId());
             ouvrageResponseModelBean.setIdInterne((ouvrageBean.getIdInterne()));
             ouvrageResponseModelBean.setEmprunte(ouvrageBean.isEmprunte());
-            Long livreId = livreServiceProxy.getLivreIdByOuvrageId(ouvrageBean.getId());
+            Long livreId = livreService.getLivreIdByOuvrageId(ouvrageBean.getId());
             ResponseEntity<?> response = livreServiceProxy.getLivreById(livreId);
             ObjectMapper mapper = new ObjectMapper();
             LivreBean livreBean = mapper.convertValue(response.getBody(), LivreBean.class);
             ouvrageResponseModelBean.setTitre(livreBean.getTitre());
             ouvrageResponseModelBean.setAuteur(livreService.formatListeAuteurs(livreBean.getAuteurs()));
             ouvrageResponseModelBean.setBibliothequeId(ouvrageBean.getBibliothequeId());
+            ouvrageResponseModelBean.setLivreId(ouvrageBean.getLivreId());
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }

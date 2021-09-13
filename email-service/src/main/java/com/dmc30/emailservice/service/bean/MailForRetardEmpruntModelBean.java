@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CreateMailBean {
+public class MailForRetardEmpruntModelBean {
 
     private Long userId;
     private String username;

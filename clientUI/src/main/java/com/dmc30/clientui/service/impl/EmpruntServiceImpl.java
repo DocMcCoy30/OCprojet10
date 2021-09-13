@@ -1,11 +1,16 @@
 package com.dmc30.clientui.service.impl;
 
+import com.dmc30.clientui.proxy.ReservationServiceProxy;
+import com.dmc30.clientui.service.contract.LivreService;
 import com.dmc30.clientui.service.contract.OuvrageService;
+import com.dmc30.clientui.service.contract.ReservationService;
 import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.proxy.EmpruntServiceProxy;
 import com.dmc30.clientui.service.contract.EmpruntService;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
+import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
+import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import feign.FeignException;
@@ -26,13 +31,19 @@ public class EmpruntServiceImpl implements EmpruntService {
     Logger logger = LogManager.getLogger(EmpruntServiceImpl.class);
 
     EmpruntServiceProxy empruntServiceProxy;
+    ReservationServiceProxy reservationServiceProxy;
     OuvrageService ouvrageService;
+    LivreService livreService;
 
     @Autowired
     public EmpruntServiceImpl(EmpruntServiceProxy empruntServiceProxy,
-                              OuvrageService ouvrageService) {
+                              OuvrageService ouvrageService,
+                              ReservationServiceProxy reservationServiceProxy,
+                              LivreService livreService) {
         this.empruntServiceProxy = empruntServiceProxy;
         this.ouvrageService = ouvrageService;
+        this.reservationServiceProxy = reservationServiceProxy;
+        this.livreService = livreService;
     }
 
     @Override
@@ -40,6 +51,13 @@ public class EmpruntServiceImpl implements EmpruntService {
         EmpruntBean empruntBean = new EmpruntBean();
         try {
             empruntBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
+            Long livreEmprunteId = livreService.getLivreIdByOuvrageId(empruntBean.getOuvrageId());
+            List<ReservationBean> reservationsEnCours = reservationServiceProxy.getReservationsByUserId(empruntBean.getUtilisateurId());
+            for (ReservationBean reservation:reservationsEnCours) {
+                if (reservation.getLivreId().equals(livreEmprunteId)) {
+                    reservationServiceProxy.deleteReservation(reservation.getId());
+                }
+            }
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
@@ -83,6 +101,7 @@ public class EmpruntServiceImpl implements EmpruntService {
     public void prolongerEmprunt(Long empruntId) throws TechnicalException {
         try {
             empruntServiceProxy.prolongerEmprunt(empruntId);
+
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
@@ -99,8 +118,10 @@ public class EmpruntServiceImpl implements EmpruntService {
             List<OuvrageBean> ouvrageBeans = ouvrageService.getOuvrageByLivreIdAndBibliothequeId(livreId, bibliothequeId);
             //récupérer la liste des emprunts non restitués correspondants aux ouvrages
             for (OuvrageBean ouvrage : ouvrageBeans) {
-                EmpruntBean empruntBean = empruntServiceProxy.getEmpruntEnCoursByOuvrageId(ouvrage.getId());
-                empruntBeans.add(empruntBean);
+                if (ouvrage.isEmprunte()) {
+                    EmpruntBean empruntBean = empruntServiceProxy.getEmpruntEnCoursByOuvrageId(ouvrage.getId());
+                    empruntBeans.add(empruntBean);
+                }
             }
             //Comparer pour chaque ouvrage la date de restitution ou prolongation et récupérer la plus proche.
             for (EmpruntBean empruntEnCours:empruntBeans) {

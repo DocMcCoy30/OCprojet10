@@ -210,5 +210,15 @@ public class LivreServiceImpl implements LivreService {
         }
         return genrePourVue;
     }
+
+    /**
+     * Récupère l'identifiant d'un livre avec l'identifiant d'un ouvrage
+     * @param ouvrageId l'identifiant de l'ouvrage
+     * @return l'identifiant du livre
+     */
+    @Override
+    public Long getLivreIdByOuvrageId(Long ouvrageId) {
+        return livreServiceProxy.getLivreIdByOuvrageId(ouvrageId);
+    }
 }
 

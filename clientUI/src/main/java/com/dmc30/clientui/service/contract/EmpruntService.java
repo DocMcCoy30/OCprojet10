@@ -9,14 +9,9 @@ import java.util.List;
 public interface EmpruntService {
 
     EmpruntBean createEmprunt(CreateEmpruntBean createEmpruntBean) throws TechnicalException;
-
     List<EmpruntBean> getEmpruntsEnCours(Long bibliothequeId) throws TechnicalException;
-
     List<EmpruntBean> getEmpruntByUtilisateurId(Long utilisateurId) throws TechnicalException;
-
     void retournerEmprunt(Long empruntId, String ouvrageId) throws TechnicalException;
-
     void prolongerEmprunt(Long empruntId) throws TechnicalException;
-
     String getDateDeRetourPrevue(Long livreId, Long bibliothequeId) throws TechnicalException;
 }

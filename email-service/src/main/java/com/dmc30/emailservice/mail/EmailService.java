@@ -1,6 +1,6 @@
 package com.dmc30.emailservice.mail;
 
-import com.dmc30.emailservice.service.bean.CreateMailBean;
+import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModelBean;
 import com.dmc30.emailservice.service.bean.LivreForMailBean;
 import com.dmc30.emailservice.service.bean.UtilisateurBean;
 
@@ -10,15 +10,12 @@ import java.util.Locale;
 
 public interface EmailService {
 
-    void sendSimpleMessage(String to, String subject, String text);
+//-------------------- Méthodes Mail pour retard prêt -------------------------
+    MailForRetardEmpruntModelBean expiredEmpruntEmailMaker(UtilisateurBean utilisateur, List<LivreForMailBean> livres);
+    List<MailForRetardEmpruntModelBean> createMailListForRetardEmprunt();
+    void sendMailForRetard(MailForRetardEmpruntModelBean mailForRetardEmpruntModelBean, final Locale locale) throws MessagingException;
 
-    void sendSimpleMail(
-            CreateMailBean createMailBean, final Locale locale)
-            throws MessagingException;
 
-    List<CreateMailBean> createMailList();
 
-    CreateMailBean expiredempruntEmailMaker(
-            UtilisateurBean utilisateur,
-            List<LivreForMailBean> livres);
+
 }

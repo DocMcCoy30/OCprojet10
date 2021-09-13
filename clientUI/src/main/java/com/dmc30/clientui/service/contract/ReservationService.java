@@ -16,5 +16,5 @@ public interface ReservationService {
     List<ReservationBean> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId);
     List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException;
     String deleteReservation(Long reservationId) throws TechnicalException;
-
+    boolean reservationPossibleCheck2(Long livreId, String username);
 }

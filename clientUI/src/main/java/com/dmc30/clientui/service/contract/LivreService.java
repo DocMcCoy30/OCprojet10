@@ -2,6 +2,7 @@ package com.dmc30.clientui.service.contract;
 
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.GenreBean;
+import com.dmc30.clientui.shared.bean.livre.LivreBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import org.springframework.http.ResponseEntity;
@@ -17,5 +18,6 @@ public interface LivreService {
     List<LivreResponseModelBean> getLivreByAuteur(Long auteurId) throws TechnicalException;
     String formatListeAuteurs (List<AuteurBean> auteurs);
     String formatListeGenres(List<GenreBean> genres);
+    Long getLivreIdByOuvrageId(Long ouvrageId);
 
 }
