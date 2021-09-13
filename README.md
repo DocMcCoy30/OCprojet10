@@ -1,9 +1,9 @@
-# OpenClassrooms Projet 10 - Developpeur d'Application Java
+# OpenClassrooms Projet 10 - Developpeur d'Application Java #
 
-##Améliorez le système d’information de la bibliothèque
+##Améliorez le système d’information de la bibliothèque ##
 
 
-##Langages et Technologies utilisées :
+### Langages et Technologies utilisées : ###
 
 + Java / Html / Css
 
@@ -23,20 +23,20 @@
 
 + Thymeleaf / Bootstrap
 
-##Documentation 
+### Documentation ###
 
 La documentation se trouve dans le dossier "1-Documents" : 
 + sql : structure et data de la base de données PostgreSQL
 + uml : diagrammes UML (classes, MPD, arborescence, usecase, activité)
 
-##application.properties => modification de la configuration
+### application.properties => modification de la configuration ###
 
 
 + configuration de la base de données (livre-service, utilisateur-service- emprunt-service) :
 
 ![](.README_images/5be63c66.png)
 
-## Base de données
+### Base de données ###
 
 - les backup pour la base de données sont dans le répertoire 1-Documents/sql
 
@@ -52,7 +52,7 @@ La documentation se trouve dans le dossier "1-Documents" :
 
 ![](.README_images/9f6c00c6.png)
 
-## Installation
+### Installation ###
 
 IntelliJ = File -> New ->Project from Version Control
 
@@ -69,7 +69,7 @@ $ git clone https://github.com/DocMcCoy30/OCprojet7.git
 $mvn install pour chaque service si nécessaire
 ```
 
-## Demarrage des services
+### Demarrage des services ###
 
 1- eureka-server
 
@@ -87,7 +87,7 @@ $ cd ../path/to/the/file/target
 $ java -jar nom-du-service.jar
 ```
 
-## Utilisation et fonctionnalités
+### Utilisation et fonctionnalités ###
 
 Page d'accueil accessible à : https://localhost:8999/ (gateway)
 
