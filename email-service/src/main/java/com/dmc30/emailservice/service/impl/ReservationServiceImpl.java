@@ -21,30 +21,32 @@ public class ReservationServiceImpl implements ReservationService {
     UserServiceProxy userServiceProxy;
     EmpruntServiceProxy empruntServiceProxy;
     LivreServiceProxy livreServiceProxy;
-    EmailService emailService;
-
 
     @Autowired
     public ReservationServiceImpl(ReservationServiceProxy reservationServiceProxy,
                                   UserServiceProxy userServiceProxy,
                                   EmpruntServiceProxy empruntServiceProxy,
-                                  LivreServiceProxy livreServiceProxy,
-                                  EmailService emailService) {
+                                  LivreServiceProxy livreServiceProxy) {
         this.reservationServiceProxy = reservationServiceProxy;
         this.userServiceProxy = userServiceProxy;
         this.empruntServiceProxy = empruntServiceProxy;
         this.livreServiceProxy = livreServiceProxy;
-        this.emailService = emailService;
     }
 
-    @Override
-    public List<ReservationBean> checkReservationsForSendingMail() {
+    /**
+     * Crée la liste des reservations concernées par l'envoi d'un mail de notification
+     * @return la liste
+     */
+    public List<ReservationBean> createReservationsForSendingMail() {
         List<LivreBean> livresRestitues = checkLivresRestitues();
         List<ReservationBean> reservationsForMail = checkReservationsAndSetExpirees(livresRestitues);
         return reservationsForMail;
     }
 
-
+    /**
+     * Retourne une liste de livres pour lesquels un emprunt a été retourné le jour même.
+     * @return la liste
+     */
     private List<LivreBean> checkLivresRestitues() {
         ObjectMapper mapper = new ObjectMapper();
         List<LivreBean> livresRestitues = new ArrayList<>();
@@ -59,6 +61,12 @@ public class ReservationServiceImpl implements ReservationService {
         return livresRestitues;
     }
 
+    /**
+     * Récupère une liste de réservations concernées par un retour d'emprunt, vérifie que la réservation n'est pas expirée,
+     * met à jour la réservation si la date d'expiration est dépassée et retourne la liste des reservations pour envoi d'un mail.
+     * @param livresRestitues  la liste des livres restitues
+     * @return la liste des reservations pour lesquelles un mail doit etre envoyé.
+     */
     private List<ReservationBean> checkReservationsAndSetExpirees(List<LivreBean> livresRestitues) {
         Calendar c = Calendar.getInstance(); // starts with today's date and time
         c.add(Calendar.DAY_OF_YEAR, 2);  // advances day by 2
@@ -67,10 +75,21 @@ public class ReservationServiceImpl implements ReservationService {
         for (LivreBean livreRestitue : livresRestitues) {
             Long livreId = livreRestitue.getId();
             List<ReservationBean> reservationsByLivre = reservationServiceProxy.getReservationsByLivreId(livreId);
-            for (ReservationBean reservationByLivre : reservationsByLivre)
-            if (((!reservationByLivre.isExpiree()) && (reservationByLivre.isMailEnvoye()) && ((reservationByLivre.getDateEnvoiMail().after(dateExpiration))))) {
-                reservationByLivre.setExpiree(true);
-                reservationsForMail.add(reservationByLivre);
+            boolean constructList = true;
+            for (ReservationBean reservationByLivre : reservationsByLivre) {
+                while (constructList) {
+                    if (reservationByLivre.getDateEnvoiMail() != null) {
+                        if (!reservationByLivre.getDateEnvoiMail().after(dateExpiration)) {
+                            reservationByLivre.setExpiree(true);
+                            reservationServiceProxy.updateReservation(reservationByLivre);
+                        }
+                    } else if ((!reservationByLivre.isExpiree()) && (!reservationByLivre.isMailEnvoye())) {
+                        reservationByLivre.setMailEnvoye(true);
+                        reservationByLivre.setDateEnvoiMail(new Date());
+                        reservationsForMail.add(reservationByLivre);
+                        constructList = false;
+                    }
+                }
             }
         }
         return reservationsForMail;

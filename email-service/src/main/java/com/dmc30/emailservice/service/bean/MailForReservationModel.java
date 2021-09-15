@@ -1,18 +1,18 @@
 package com.dmc30.emailservice.service.bean;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-public class MailForReservationExpireeModelBean {
+@Getter
+@Setter
+public class MailForReservationModel {
 
     private Long userId;
     private String username;
     private String prenom;
     private String nom;
     private String email;
-    private List<ReservationBean> reservationsExpirees;
     private String titre;
     private String dateReservation;
-    private String dateRetourPrevuDuLivre;
-
-
+    private String bibliotheque;
 }

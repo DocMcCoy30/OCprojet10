@@ -33,4 +33,12 @@ public class LivreServiceImpl implements LivreService {
         livre.setTitre(titre);
         return livre;
     }
+
+    @Override
+    public LivreBean getLivreById(Long livreId) {
+        ObjectMapper mapper = new ObjectMapper();
+        ResponseEntity<?> responseEntity = livreServiceProxy.getLivreById(livreId);
+        LivreBean livre = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
+        return livre;
+    }
 }

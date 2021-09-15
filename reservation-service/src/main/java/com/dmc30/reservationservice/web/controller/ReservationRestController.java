@@ -111,8 +111,24 @@ public class ReservationRestController {
         return "La reservation a bien été supprimée.";
     }
 
+    //--------------- Mail Service Méthodes ----------------
+
+    /**
+     * Récupère une liste de réservations par l'identifiant du livre concerné
+     * @param livreId l'identifiant du livre
+     * @return la liste
+     */
     @GetMapping("/livre/{livreId}")
     public List<ReservationDto> getReservationsByLivreId(@PathVariable(name = "livreId") Long livreId) {
         return reservationService.getReservationsByLivreId(livreId);
+    }
+
+    /**
+     * Met à jour une réservation
+     * @param reservation la réservation à mettre à jour
+     */
+    @PutMapping("/update")
+    public void updateReservation (@RequestBody ReservationDto reservationDto) {
+        reservationService.updateReservation(reservationDto);
     }
 }

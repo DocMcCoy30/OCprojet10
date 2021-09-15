@@ -17,4 +17,6 @@ public interface ReservationService {
     //--------------- Mail Service Methode --------------------
 
     List<ReservationDto> getReservationsByLivreId(Long livreId);
+
+    void updateReservation(ReservationDto reservationDto);
 }

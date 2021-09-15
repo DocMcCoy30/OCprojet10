@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ReservationService {
 
-    List<ReservationBean> checkReservationsForSendingMail();
+    List<ReservationBean> createReservationsForSendingMail();
 
 }

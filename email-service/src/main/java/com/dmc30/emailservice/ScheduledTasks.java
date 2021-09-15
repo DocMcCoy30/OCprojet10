@@ -1,11 +1,12 @@
 package com.dmc30.emailservice;
 
 import com.dmc30.emailservice.mail.EmailService;
+import com.dmc30.emailservice.service.bean.MailForReservationModel;
 import com.dmc30.emailservice.service.bean.ReservationBean;
 import com.dmc30.emailservice.service.contract.EmpruntService;
 import com.dmc30.emailservice.service.contract.ReservationService;
 import com.dmc30.emailservice.service.contract.UtilisateurService;
-import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModelBean;
+import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -39,15 +40,20 @@ public class ScheduledTasks {
     public void scheduledMailServiceForRetard() throws MessagingException {
         System.out.println("scheduledMailServiceForRetard is running.");
         Locale locale = new Locale("FRANCE");
-        List<MailForRetardEmpruntModelBean> mailToSendList = emailService.createMailListForRetardEmprunt();
-        for (MailForRetardEmpruntModelBean mailToSend : mailToSendList) {
+        List<MailForRetardEmpruntModel> mailToSendList = emailService.createMailListForRetardEmprunt();
+        for (MailForRetardEmpruntModel mailToSend : mailToSendList) {
             emailService.sendMailForRetard(mailToSend, locale);
         }
     }
 
-    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
+    @Scheduled(cron = "*/10 * * * * *") // toutes les 30 secondes
     public void scheduledMailServiceForReservation() throws MessagingException {
-        List<ReservationBean> testList = reservationService.checkReservationsForSendingMail();
+        System.out.println("scheduledMailServiceForReservation is running.");
+        Locale locale = new Locale("FRANCE");
+        List<MailForReservationModel> mailToSendList = emailService.createMailListForReservation();
+        for (MailForReservationModel mailToSend : mailToSendList) {
+            emailService.sendMailForReservation(mailToSend, locale);
+        };
     }
 
 }

@@ -4,6 +4,8 @@ import com.dmc30.emailservice.service.bean.ReservationBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -22,4 +24,7 @@ public interface ReservationServiceProxy {
 
     @GetMapping("/reservations/livre/{livreId}")
     List<ReservationBean> getReservationsByLivreId(@PathVariable(name = "livreId") Long livreId);
+
+    @PutMapping("/reservation/update")
+    void updateReservation(@RequestBody ReservationBean reservation);
 }

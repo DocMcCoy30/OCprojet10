@@ -10,18 +10,11 @@ import java.util.Date;
 public class EmpruntBean {
 
     private Long id;
-
     private Date dateEmprunt;
-
     private Date dateRestitution;
-
     private Date dateProlongation;
-
     private Boolean prolongation;
-
     private boolean restitution;
-
     private Long ouvrageId;
-
     private Long utilisateurId;
 }

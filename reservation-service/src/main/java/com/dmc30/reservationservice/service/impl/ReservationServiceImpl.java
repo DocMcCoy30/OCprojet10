@@ -134,4 +134,10 @@ public class ReservationServiceImpl implements ReservationService {
                 .collect(Collectors.toList());
         return reservationsByLivreIdDto;
     }
+
+    @Override
+    public void updateReservation(ReservationDto reservationDto) {
+        Reservation reservationToUpdate = reservationMapper.reservationDtoToReservation(reservationDto);
+        reservationRepository.save(reservationToUpdate);
+    }
 }
