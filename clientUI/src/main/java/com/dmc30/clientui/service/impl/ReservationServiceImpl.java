@@ -121,6 +121,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * Récupère la liste des réservations d'un utilisateur
+     *
      * @param userId l'identifiant de l'utilisateur
      * @return la liste
      */
@@ -132,7 +133,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * Récupère la liste des réservations par livre et par bibliothèque ordonnée par date
-     * @param livreId l'identifiant du livre
+     *
+     * @param livreId        l'identifiant du livre
      * @param bibliothequeId l'identifiant de la bibliothèque
      * @return la liste
      */
@@ -146,7 +148,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     /**
      * Renvoie la liste des réservations en cours : titre du livre, date de retour prévue, position dans le liste d'attente
-     * @param username le username de l'abonné
+     *
+     * @param username       le username de l'abonné
      * @param bibliothequeId l'identifiant de la bibliotheque
      * @return la liste
      * @throws TechnicalException
@@ -155,42 +158,43 @@ public class ReservationServiceImpl implements ReservationService {
     public List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
         Long livreId;
-        ReservationModelBean reservationModelBean = new ReservationModelBean();
         List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
         // recupérer les reservations de l'utilisateur.
         try {
             Long userId = userService.getUtilisateurByUsername(username).getId();
             List<ReservationBean> reservationsParUser = reservationServiceProxy.getReservationsByUserId(userId);
-            // pour chaque résa de l'u récupérer le livre id
+            // pour chaque résa de l'u récupérer le livre id, la date, le titre
             for (ReservationBean reservationParUser : reservationsParUser) {
+                ReservationModelBean reservationModelBean = new ReservationModelBean();
                 livreId = reservationParUser.getLivreId();
+                reservationModelBean.setId(reservationParUser.getId());
+                String dateReservation = dateFormat.format(reservationParUser.getDateReservation());
+                reservationModelBean.setDateReservation(dateReservation);
+                ResponseEntity<?> response = livreService.getLivreById(livreId);
+                if (response.getStatusCodeValue() == 202) {
+                    LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();
+                    reservationModelBean.setTitreDuLivre(livreResponseModelBean.getTitre());
+                }
                 // récupérer la liste des resa par livre et biblio ordonnée par date
                 List<ReservationBean> reservationsOrdonnees = reservationServiceProxy.getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(livreId, bibliothequeId);
                 for (ReservationBean reservationParLivre : reservationsOrdonnees) {
                     // récupérer le numéro dans la file d'attente
                     if (reservationParLivre.getUtilisateurId().equals(userId)) {
-                        reservationModelBean.setId(reservationParLivre.getId());
-                        String dateReservation = dateFormat.format(reservationParLivre.getDateReservation());
-                        reservationModelBean.setDateReservation(dateReservation);
-                        ResponseEntity<?> response = livreService.getLivreById(livreId);
-                        if (response.getStatusCodeValue() == 202) {
-                            LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();
-                            reservationModelBean.setTitreDuLivre(livreResponseModelBean.getTitre());
-                        }
                         int index = reservationsOrdonnees.indexOf(reservationParLivre);
                         reservationModelBean.setNumeroAttente(index + 1);
                         //récupérer la date de retour prévu
                         reservationModelBean.setDateRetourPrevu(empruntService.getDateDeRetourPrevue(livreId, bibliothequeId));
-                        //construire la liste des reservationListeModel
-                        reservationsToReturn.add(reservationModelBean);
                     }
                 }
+                //construire la liste des reservationListeModel
+                reservationsToReturn.add(reservationModelBean);
             }
-        }catch (FeignException e) {
+        } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
         return reservationsToReturn;
     }
+
 
     @Override
     public String deleteReservation(Long reservationId) throws TechnicalException {
@@ -204,9 +208,9 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    //-------------------------Méthodes de classe----------------------------------------
+//-------------------------Méthodes de classe----------------------------------------
 
-    //DONE T1: Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
+//DONE T1: Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
 
     /**
      * Vérifie que la RG "pas d'emprunt en cours pour ce livre et cet utilisateur" est respectée.
@@ -241,7 +245,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param username le username de l'utilisateur.
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-    //DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+//DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
     public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
@@ -262,7 +266,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param bibliothequeId l'identifiant de la bibliotheque
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-    //DONE T1: Check3 :  la liste d'attente n'est pas complète
+//DONE T1: Check3 :  la liste d'attente n'est pas complète
     public boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
         boolean reservation = true;
         // récupérer le nombre de réservation (nbReservation) pour ce livre et cette bibliotheque

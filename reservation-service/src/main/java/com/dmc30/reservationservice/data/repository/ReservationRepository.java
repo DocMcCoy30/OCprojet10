@@ -16,4 +16,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(value = "SELECT * FROM reservation WHERE id_livre=?1 AND id_bibliotheque=?2 AND expiree=false ORDER BY date_reservation", nativeQuery = true)
     List<Reservation> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId);
+
+    //DONE T1 : Mail Service Méthode
+
+    //----------------- Mail Service Methode ----------------------
+
+    @Query(value = "SELECT * FROM reservation WHERE id_livre=?1 ORDER BY date_reservation", nativeQuery = true)
+    List<Reservation> getReservationByLivreIdOrderByDateReservation(Long livreId);
 }

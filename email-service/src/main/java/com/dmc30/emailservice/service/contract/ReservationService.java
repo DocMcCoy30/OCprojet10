@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ReservationService {
 
-    List<ReservationBean> getReservationsExpireesByUserId (Long UserId);
+    List<ReservationBean> checkReservationsForSendingMail();
+
 }

@@ -1,9 +1,6 @@
 package com.dmc30.emailservice.mail;
 
-import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModelBean;
-import com.dmc30.emailservice.service.bean.LivreForMailBean;
-import com.dmc30.emailservice.service.bean.EmpruntBean;
-import com.dmc30.emailservice.service.bean.UtilisateurBean;
+import com.dmc30.emailservice.service.bean.*;
 import com.dmc30.emailservice.service.contract.EmpruntService;
 import com.dmc30.emailservice.service.contract.LivreService;
 import com.dmc30.emailservice.service.contract.UtilisateurService;
@@ -87,6 +84,11 @@ public class EmailServiceImpl implements EmailService {
 
         // Send email
         this.emailSender.send(mimeMessage);
+    }
+
+    @Override
+    public void sendMailForReservation(UtilisateurBean utilisateur, ReservationBean reservation) {
+
     }
 
     @Override

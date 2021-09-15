@@ -40,4 +40,9 @@ public interface EmpruntRepository extends JpaRepository<Emprunt, Long> {
 
     @Query(value = "SELECT * FROM emprunt WHERE id_ouvrage=?1 AND restitution=false ORDER BY id_ouvrage", nativeQuery = true)
     Emprunt getEmpruntEnCoursByOuvrageId(Long ouvrageId);
+
+    // ---------------------Mail Service Methodes --------------------------
+
+    @Query(value = "SELECT * FROM public.emprunt WHERE restitution=true AND date_restitution=CURRENT_DATE", nativeQuery = true)
+    List<Emprunt> getEmpruntsRestitues();
 }

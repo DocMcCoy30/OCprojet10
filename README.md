@@ -48,16 +48,13 @@ La documentation du projet pour les différents tickets se trouve dans le dossie
 
 ![img.png](.README_images/db-structure.png)
 
-- Copier/Coller le contenu du fichier DataFromP7WithUsersAndEmprunts.sql dans le QueryEditor et executer le script
-
-![img.png](.README_images/db-datas.png)
-
-A ce niveau, la base de données créée correspond à celle utilisé par la bibliothèque avant l'implémentation de
-nouvelles fonctionnalités.
-
 - Copier/Coller le contenu du fichier MigrationFromP7toP10.sql dans le QueryEditor et executer le script
 
 ![img.png](.README_images/db-migration.png)
+
+- Copier/Coller le contenu du fichier DataFromP7WithUsersAndEmprunts.sql dans le QueryEditor et executer le script
+
+![img.png](.README_images/db-datas.png)
 
 Ce script ajoute les tables nécessaires à l'implémentation de la fonctionnalité demandée dans le premier ticket
 (réservation d'ouvrages).

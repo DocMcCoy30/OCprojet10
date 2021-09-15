@@ -1,4 +1,4 @@
-package com.dmc30.empruntservice.web;
+package com.dmc30.empruntservice.web.controller;
 
 import com.dmc30.empruntservice.service.dto.EmpruntDto;
 import com.dmc30.empruntservice.service.contract.EmpruntService;
@@ -111,5 +111,15 @@ public class EmpruntController {
     public EmpruntDto getEmpruntEnCoursByOuvrageId(@PathVariable(name = "ouvrageId") Long ouvrageId) {
         EmpruntDto emprunt = empruntService.getEmpruntEnCoursByOuvrageId(ouvrageId);
         return emprunt;
+    }
+
+    //DONE : Méthodes pour le service d'envoi de mail pour les reservations
+
+    // ---------------------Mail Service Methode --------------------------
+
+    @GetMapping("/restitues")
+    public List<EmpruntDto> empruntsRestitues () {
+        List<EmpruntDto> empruntsRestitues = empruntService.getEmpruntsRestitues();
+        return empruntsRestitues;
     }
 }

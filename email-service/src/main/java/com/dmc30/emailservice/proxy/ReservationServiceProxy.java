@@ -10,6 +10,16 @@ import java.util.List;
 @FeignClient(name = "reservation-service", url = "localhost:9004")
 public interface ReservationServiceProxy {
 
+    @GetMapping("reservations/")
+    List<ReservationBean> getReservations();
+
+    @GetMapping("reservations/listeAttente/{livreId}&{bibliothequeId}")
+    List<ReservationBean> getReservationsByLivreAndBibliothequeId(@PathVariable(name = "livreId") Long livreId,
+                                                                  @PathVariable(name = "bibliothequeId") Long bibliothequeId);
+
     @GetMapping("/reservations/expiree/{userId}")
     List<ReservationBean> getReservationsExpireesByUserId(@PathVariable(name = "userId") Long userId);
+
+    @GetMapping("/reservations/livre/{livreId}")
+    List<ReservationBean> getReservationsByLivreId(@PathVariable(name = "livreId") Long livreId);
 }

@@ -13,4 +13,8 @@ public interface ReservationService {
     Integer getNombreDeReservation(Long livreId, Long bibliothequeId);
     List<ReservationDto> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId);
     void deleteReservation(Long reservationId);
+
+    //--------------- Mail Service Methode --------------------
+
+    List<ReservationDto> getReservationsByLivreId(Long livreId);
 }

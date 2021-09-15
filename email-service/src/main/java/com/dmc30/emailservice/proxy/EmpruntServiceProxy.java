@@ -18,4 +18,7 @@ public interface EmpruntServiceProxy {
 
     @GetMapping("/emprunts/expiredUsers")
     List<Long> findUtilisateurEnRetard();
+
+    @GetMapping("/emprunts/restitues")
+    List<EmpruntBean> getEmpruntRestitue();
 }

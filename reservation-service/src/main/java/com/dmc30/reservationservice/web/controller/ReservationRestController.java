@@ -111,9 +111,8 @@ public class ReservationRestController {
         return "La reservation a bien été supprimée.";
     }
 
-    @GetMapping("/expiree/{userId}")
-    public List<ReservationDto> getReservationsExpireesByUserId(@PathVariable(name = "userId") Long userId) {
-
-        return null;
+    @GetMapping("/livre/{livreId}")
+    public List<ReservationDto> getReservationsByLivreId(@PathVariable(name = "livreId") Long livreId) {
+        return reservationService.getReservationsByLivreId(livreId);
     }
 }

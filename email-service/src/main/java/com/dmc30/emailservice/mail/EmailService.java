@@ -2,6 +2,7 @@ package com.dmc30.emailservice.mail;
 
 import com.dmc30.emailservice.service.bean.MailForRetardEmpruntModelBean;
 import com.dmc30.emailservice.service.bean.LivreForMailBean;
+import com.dmc30.emailservice.service.bean.ReservationBean;
 import com.dmc30.emailservice.service.bean.UtilisateurBean;
 
 import javax.mail.MessagingException;
@@ -14,6 +15,8 @@ public interface EmailService {
     MailForRetardEmpruntModelBean expiredEmpruntEmailMaker(UtilisateurBean utilisateur, List<LivreForMailBean> livres);
     List<MailForRetardEmpruntModelBean> createMailListForRetardEmprunt();
     void sendMailForRetard(MailForRetardEmpruntModelBean mailForRetardEmpruntModelBean, final Locale locale) throws MessagingException;
+    void sendMailForReservation(UtilisateurBean utilisateur, ReservationBean reservation);
+
     void sendSimpleMessage(String to, String subject, String text);
 
 

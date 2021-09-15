@@ -12,6 +12,8 @@ public class ReservationBean {
     private Long id;
     private Date dateReservation;
     private boolean expiree;
+    private boolean mailEnvoye;
+    private Date dateEnvoiMail;
     private Long utilisateurId;
     private Long livreId;
     private Long bibliothequeId;

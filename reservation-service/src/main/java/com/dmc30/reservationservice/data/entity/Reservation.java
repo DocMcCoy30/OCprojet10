@@ -25,6 +25,12 @@ public class Reservation {
     @Column(name = "expiree")
     private boolean expiree;
 
+    @Column(name = "mail_envoye")
+    private boolean mailEnvoye;
+
+    @Column(name = "date_envoi_mail")
+    private Date dateEnvoiMail;
+
     @Column(name = "id_utilisateur")
     private Long utilisateurId;
 

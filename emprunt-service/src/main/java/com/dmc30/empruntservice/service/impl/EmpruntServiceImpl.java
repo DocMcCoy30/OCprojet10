@@ -217,4 +217,19 @@ public class EmpruntServiceImpl implements EmpruntService {
         EmpruntDto empruntDto = modelMapper.map(emprunt, EmpruntDto.class);
         return empruntDto;
     }
+
+    // ---------------------Mail Service Methodes --------------------------
+
+    @Override
+    public List<EmpruntDto> getEmpruntsRestitues() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        List<Emprunt> empruntsRestitues = empruntRepository.getEmpruntsRestitues();
+        List<EmpruntDto> empruntsRestituesDto = new ArrayList<>();
+        for (Emprunt empruntRestitue : empruntsRestitues) {
+            EmpruntDto empruntRestitueDto = modelMapper.map(empruntRestitue, EmpruntDto.class);
+            empruntsRestituesDto.add(empruntRestitueDto);
+        }
+        return empruntsRestituesDto;
+    }
 }

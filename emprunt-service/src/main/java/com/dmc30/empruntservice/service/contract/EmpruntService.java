@@ -24,4 +24,8 @@ public interface EmpruntService {
     List<Long> findUtilisateurEnRetard();
 
     EmpruntDto getEmpruntEnCoursByOuvrageId(Long ouvrageId);
+
+    // ---------------------Mail Service Methode --------------------------
+
+    List<EmpruntDto> getEmpruntsRestitues();
 }

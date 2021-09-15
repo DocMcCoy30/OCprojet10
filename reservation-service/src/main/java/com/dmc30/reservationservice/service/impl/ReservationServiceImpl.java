@@ -121,4 +121,17 @@ public class ReservationServiceImpl implements ReservationService {
     public void deleteReservation(Long reservationId) {
         reservationRepository.deleteById(reservationId);
     }
+
+
+    //DONE T1 : Mail Service
+
+    // ----------------- Mail Service Methode -----------------------
+    @Override
+    public List<ReservationDto> getReservationsByLivreId(Long livreId) {
+        List<Reservation> reservationsByLivreId = reservationRepository.getReservationByLivreIdOrderByDateReservation(livreId);
+        List<ReservationDto> reservationsByLivreIdDto = reservationsByLivreId.stream()
+                .map(reservation -> reservationMapper.reservationToReservationDto(reservation))
+                .collect(Collectors.toList());
+        return reservationsByLivreIdDto;
+    }
 }
