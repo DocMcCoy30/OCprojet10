@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class PretDto {
+public class EmpruntDto {
 
     private OuvrageDto ouvrage;
     private Date dateEmprunt;

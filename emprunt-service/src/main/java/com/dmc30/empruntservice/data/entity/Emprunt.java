@@ -7,12 +7,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "pret")
+@Table(name = "emprunt")
 @Entity
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Pret {
+public class Emprunt {
 
     @Column(name = "id", nullable = false)
     @Id

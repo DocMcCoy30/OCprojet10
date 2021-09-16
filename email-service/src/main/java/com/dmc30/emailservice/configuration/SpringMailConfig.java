@@ -12,14 +12,10 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-import org.thymeleaf.templateresolver.StringTemplateResolver;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -61,7 +57,7 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
     }
 
     @Bean
-    public JavaMailSender mailSender() throws IOException {
+    public JavaMailSender mailSender() {
 
         final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(mailServerHost);
@@ -97,7 +93,7 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 
     private ITemplateResolver htmlTemplateResolver() {
         final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setOrder(Integer.valueOf(2));
+        templateResolver.setOrder(2);
         templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
         templateResolver.setPrefix("/mail/");
         templateResolver.setSuffix(".html");

@@ -1,13 +1,10 @@
 package com.dmc30.emailservice.mail;
 
-import com.dmc30.emailservice.service.bean.CreateMailBean;
-import com.dmc30.emailservice.service.bean.LivreForMailBean;
-import com.dmc30.emailservice.service.bean.PretBean;
-import com.dmc30.emailservice.service.bean.UtilisateurBean;
-import com.dmc30.emailservice.service.contract.EmpruntService;
-import com.dmc30.emailservice.service.contract.LivreService;
-import com.dmc30.emailservice.service.contract.UtilisateurService;
+import com.dmc30.emailservice.service.bean.*;
+import com.dmc30.emailservice.service.contract.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +15,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,13 +24,17 @@ import java.util.Locale;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private static final String EMAIL_SIMPLE_TEMPLATE_NAME = "email-simple";
-    private static final String NOREPLY_ADDRESS = "noreply@OCProjet7-Bibliothèque.com";
+    private static final String EMAIL_RETARD_EMPRUNT = "email-retard_emprunt";
+    private static final String EMAIL_NOTIFICATION_RESERVATION = "email-notification-reservation";
+    private static final String NOREPLY_ADDRESS = "noreply@BibliothequeDeNimes.com";
     private static final String SUBJECT = "Non restitution de votre (vos) emprunt(s)";
+    private static final String SUBJECT2 = "Le livre que vous avez réservé est à nouveau disponible !";
 
     private EmpruntService empruntService;
     private LivreService livreService;
     private UtilisateurService utilisateurService;
+    private BibliothequeService bibliothequeService;
+    private ReservationService reservationService;
     private JavaMailSender emailSender;
     TemplateEngine htmlTemplateEngine;
 
@@ -40,26 +42,62 @@ public class EmailServiceImpl implements EmailService {
     public EmailServiceImpl(EmpruntService empruntService,
                             LivreService livreService,
                             UtilisateurService utilisateurService,
+                            BibliothequeService bibliothequeService,
+                            ReservationService reservationService,
                             JavaMailSender emailSender,
                             TemplateEngine htmlTemplateEngine) {
         this.empruntService = empruntService;
         this.livreService = livreService;
         this.utilisateurService = utilisateurService;
+        this.bibliothequeService = bibliothequeService;
+        this.reservationService = reservationService;
         this.emailSender = emailSender;
         this.htmlTemplateEngine = htmlTemplateEngine;
+    }
+
+
+    @Override
+    public MailForRetardEmpruntModel expiredEmpruntEmailMaker(
+            UtilisateurBean utilisateur,
+            List<LivreForMailBean> livres) {
+        MailForRetardEmpruntModel mailForRetardEmpruntModel = new MailForRetardEmpruntModel();
+        mailForRetardEmpruntModel.setUserId(utilisateur.getId());
+        mailForRetardEmpruntModel.setUsername(utilisateur.getUsername());
+        mailForRetardEmpruntModel.setPrenom(utilisateur.getPrenom());
+        mailForRetardEmpruntModel.setNom(utilisateur.getNom());
+        mailForRetardEmpruntModel.setEmail(utilisateur.getEmail());
+        mailForRetardEmpruntModel.setLivres(livres);
+        return mailForRetardEmpruntModel;
+    }
+
+    @Override
+    public List<MailForRetardEmpruntModel> createMailListForRetardEmprunt() {
+        List<MailForRetardEmpruntModel> mailToCreateList = new ArrayList<>();
+        List<LivreForMailBean> livres = new ArrayList<>();
+        List<EmpruntBean> expiredempruntsList = new ArrayList<>();
+        List<Long> utilisateursEnRetardId = empruntService.findUtilisateurEnRetard();
+        for (Long utisateurEnRetardId : utilisateursEnRetardId) {
+            UtilisateurBean utilisateurBean = utilisateurService.findUtilisateurById(utisateurEnRetardId);
+            expiredempruntsList = empruntService.findExpiredempruntsByUtilisateurId(utisateurEnRetardId);
+            for (EmpruntBean empruntBean : expiredempruntsList) {
+                LivreForMailBean livre = livreService.getTitreDuLivre(empruntBean.getOuvrageId());
+                livres.add(livre);
+            }
+            MailForRetardEmpruntModel newMail = expiredEmpruntEmailMaker(utilisateurBean, livres);
+            mailToCreateList.add(newMail);
+            livres = new ArrayList<>();
+        }
+        return mailToCreateList;
     }
 
     /*
      * Send HTML mail (simple)
      */
-    public void sendSimpleMail(
-            CreateMailBean createMailBean, final Locale locale)
-            throws MessagingException {
-
+    public void sendMailForRetard(MailForRetardEmpruntModel mailForRetardEmpruntModel, final Locale locale) throws MessagingException {
         // Prepare the evaluation context
         final Context ctx = new Context(locale);
-        ctx.setVariable("name", createMailBean.getUsername());
-        ctx.setVariable("livres", createMailBean.getLivres());
+        ctx.setVariable("name", mailForRetardEmpruntModel.getUsername());
+        ctx.setVariable("livres", mailForRetardEmpruntModel.getLivres());
         ctx.setVariable("subscriptionDate", new Date());
 
         // Prepare message using a Spring helper
@@ -67,10 +105,10 @@ public class EmailServiceImpl implements EmailService {
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
         message.setSubject(SUBJECT);
         message.setFrom(NOREPLY_ADDRESS);
-        message.setTo(createMailBean.getEmail());
+        message.setTo(mailForRetardEmpruntModel.getEmail());
 
         // Create the HTML body using Thymeleaf
-        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_SIMPLE_TEMPLATE_NAME, ctx);
+        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_RETARD_EMPRUNT, ctx);
         message.setText(htmlContent, true /* isHtml */);
 
         // Send email
@@ -78,24 +116,59 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<CreateMailBean> createMailList() {
-        List<CreateMailBean> mailToCreateList = new ArrayList<>();
-        List<LivreForMailBean> livres = new ArrayList<>();
-        List<PretBean> expiredPretsList = new ArrayList<>();
-        List<Long> utilisateursEnRetardId = empruntService.findUtilisateurEnRetard();
-        for (Long utisateurEnRetardId : utilisateursEnRetardId) {
-            UtilisateurBean utilisateurBean = utilisateurService.findUtilisateurById(utisateurEnRetardId);
-            expiredPretsList = empruntService.findExpiredPretsByUtilisateurId(utisateurEnRetardId);
-            for (int i = 0; i < expiredPretsList.size(); i++) {
-                LivreForMailBean livre = livreService.getTitreDuLivre(expiredPretsList.get(i).getOuvrageId());
-                livres.add(livre);
-            }
-            CreateMailBean newMail = expiredPretEmailMaker(utilisateurBean, livres);
-            mailToCreateList.add(newMail);
-            livres = new ArrayList<>();
+    public List<MailForReservationModel> createMailListForReservation() {
+        List<ReservationBean> reservationANotifier = reservationService.createReservationsForSendingMail();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
+        List<MailForReservationModel> mailForReservationModels = new ArrayList<>();
+
+        for (ReservationBean reservation : reservationANotifier) {
+            MailForReservationModel mailForReservationModel = new MailForReservationModel();
+            UtilisateurBean utilisateur = utilisateurService.findUtilisateurById(reservation.getUtilisateurId());
+            LivreBean livre = livreService.getLivreById(reservation.getLivreId());
+            Long bibliothequeId = reservation.getBibliothequeId();
+            BibliothequeBean bibliotheque= bibliothequeService.getBibliothequeById(bibliothequeId);
+
+            mailForReservationModel.setPrenom(utilisateur.getPrenom());
+            mailForReservationModel.setNom(utilisateur.getNom());
+            mailForReservationModel.setUsername(utilisateur.getUsername());
+            mailForReservationModel.setEmail("dmc30dev@gmail.com");
+            mailForReservationModel.setTitre(livre.getTitre());
+            mailForReservationModel.setDateReservation(dateFormat.format(reservation.getDateReservation()));
+            mailForReservationModel.setBibliotheque(bibliotheque.getNom());
+
+            mailForReservationModels.add(mailForReservationModel);
         }
-        return mailToCreateList;
+        return mailForReservationModels;
     }
+
+
+    @Override
+    public void sendMailForReservation(MailForReservationModel mailForReservation, final Locale locale) throws MessagingException {
+        // Prepare the evaluation context
+        final Context ctx = new Context(locale);
+
+        ctx.setVariable("username", mailForReservation.getUsername());
+        ctx.setVariable("prenom", mailForReservation.getPrenom());
+        ctx.setVariable("nom", mailForReservation.getNom());
+        ctx.setVariable("livre", mailForReservation.getTitre());
+        ctx.setVariable("dateReservation", mailForReservation.getDateReservation());
+        ctx.setVariable("bibliotheque", mailForReservation.getBibliotheque());
+
+        // Prepare message using a Spring helper
+        final MimeMessage mimeMessage = this.emailSender.createMimeMessage();
+        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
+        message.setSubject(SUBJECT2);
+        message.setFrom(NOREPLY_ADDRESS);
+        message.setTo(mailForReservation.getEmail());
+
+        // Create the HTML body using Thymeleaf
+        final String htmlContent = this.htmlTemplateEngine.process(EMAIL_NOTIFICATION_RESERVATION, ctx);
+        message.setText(htmlContent, true /* isHtml */);
+
+        // Send email
+        this.emailSender.send(mimeMessage);
+    }
+
 
 
     @Override
@@ -113,18 +186,5 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    @Override
-    public CreateMailBean expiredPretEmailMaker(
-                                               UtilisateurBean utilisateur,
-                                               List<LivreForMailBean> livres) {
-        CreateMailBean createMailBean = new CreateMailBean();
-        createMailBean.setUserId(utilisateur.getId());
-        createMailBean.setUsername(utilisateur.getUsername());
-        createMailBean.setPrenom(utilisateur.getPrenom());
-        createMailBean.setNom(utilisateur.getNom());
-        createMailBean.setEmail(utilisateur.getEmail());
-        createMailBean.setLivres(livres);
-        return createMailBean;
-    }
 }
 

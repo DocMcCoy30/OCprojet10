@@ -1,13 +1,11 @@
 package com.dmc30.clientui.service.impl;
 
-import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
 import com.dmc30.clientui.proxy.LivreServiceProxy;
 import com.dmc30.clientui.service.contract.LivreService;
 import com.dmc30.clientui.service.contract.OuvrageService;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
 import com.dmc30.clientui.shared.bean.livre.LivreBean;
-import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,13 +80,14 @@ public class OuvrageServiceImpl implements OuvrageService {
             ouvrageResponseModelBean.setId(ouvrageBean.getId());
             ouvrageResponseModelBean.setIdInterne((ouvrageBean.getIdInterne()));
             ouvrageResponseModelBean.setEmprunte(ouvrageBean.isEmprunte());
-            Long livreId = livreServiceProxy.getLivreIdByOuvrageId(ouvrageBean.getId());
+            Long livreId = livreService.getLivreIdByOuvrageId(ouvrageBean.getId());
             ResponseEntity<?> response = livreServiceProxy.getLivreById(livreId);
             ObjectMapper mapper = new ObjectMapper();
             LivreBean livreBean = mapper.convertValue(response.getBody(), LivreBean.class);
             ouvrageResponseModelBean.setTitre(livreBean.getTitre());
             ouvrageResponseModelBean.setAuteur(livreService.formatListeAuteurs(livreBean.getAuteurs()));
             ouvrageResponseModelBean.setBibliothequeId(ouvrageBean.getBibliothequeId());
+            ouvrageResponseModelBean.setLivreId(ouvrageBean.getLivreId());
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
@@ -155,4 +154,28 @@ public class OuvrageServiceImpl implements OuvrageService {
             }
             return ouvrageResponseModelBean;
         }
+
+    /**
+     * Récupère le nombre d'ouvrages correspondant à un livre dans une bibliothèque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliothèque.
+     * @return le nombre d'ouvrages.
+     */
+    @Override
+    public Integer getNombreDOuvrage(Long livreId, Long bibliothequeId) {
+        Integer nbOuvrage = livreServiceProxy.getNombreDOuvrage(livreId, bibliothequeId);
+        return nbOuvrage;
     }
+
+    /**
+     * Récupère et renvoie une liste d'ouvrages correspondants à un livre pour une bibliotheque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return la liste
+     */
+    @Override
+    public List<OuvrageBean> getOuvrageByLivreIdAndBibliothequeId(Long livreId, Long bibliothequeId) {
+        List<OuvrageBean> ouvrageBeans = livreServiceProxy.getOuvrageByLivreAndBibliothequeId(livreId, bibliothequeId);
+        return ouvrageBeans;
+    }
+}

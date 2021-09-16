@@ -20,6 +20,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         this.userServiceProxy = userServiceProxy;
     }
 
+    //TODO : javadoc
+
     @Override
     public List<UtilisateurBean> findAll() {
         List<UtilisateurBean> utilisateurs = userServiceProxy.findAll();

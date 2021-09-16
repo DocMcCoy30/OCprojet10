@@ -13,6 +13,8 @@
     <div th:if="${errorMessage}" th:utext="${errorMessage}"
          style="color:red;font-style:italic;">
     </div>
+    <div th:if="${reservationMessage}" th:utext="${reservationMessage}"
+         style="color:red;font-style:italic;"></div>
     <div th:if="${!#strings.isEmpty(prolongationImpossibleMessage)}" th:utext="${prolongationImpossibleMessage}"
          style="color:red;font-style:italic;">
     </div>
@@ -147,6 +149,38 @@
                 </tbody>
             </table>
         </div>
+        <div th:if="${!#lists.isEmpty(reservationList)}">
+            <h4>Reservation en cours : <a th:text="${abonne.prenom}"></a><a> </a><a th:text="${abonne.nom}"></a></h4>
+            <table class="table table-striped  table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Titre du livre</th>
+                    <th>Date de réservation</th>
+                    <th>Date de retour prévue</th>
+                    <th>Numéro dans file d'attente</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reservationModelBean : ${reservationList}">
+                    <td th:text="${reservationModelBean.titreDuLivre}"></td>
+                    <td th:text="${reservationModelBean.dateReservation}"></td>
+                    <td th:text="${reservationModelBean.dateRetourPrevu}"></td>
+                    <td th:text="${reservationModelBean.numeroAttente}"></td>
+                    <td th:if="${!reservationModelBean.isExpiree()}">
+                        <a th:href="@{/annulerReservation(reservationId=${reservationModelBean.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"
+                           class="btn btn-danger btn-md btn-block"
+                           onclick="if (!(confirm('Annuler cette réservation ?'))) return false">
+                            Annuler
+                        </a>
+                    </td>
+                    <td th:if="${reservationModelBean.isExpiree()}">
+                        <a style="color: red">Reservation Expirée</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div th:if="${!#lists.isEmpty(empruntsRetournes)}">
             <h4>Historique des emprunts : <a th:text="${abonne.prenom}"></a><a> </a><a th:text="${abonne.nom}"></a></h4>
             <table class="table table-striped  table-bordered">
@@ -172,6 +206,8 @@
                 </tbody>
             </table>
         </div>
+
+
     </div>
 </div>
 <footer th:insert="fragments/footer.html"></footer>

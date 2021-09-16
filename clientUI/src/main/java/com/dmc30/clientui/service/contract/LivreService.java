@@ -17,5 +17,6 @@ public interface LivreService {
     List<LivreResponseModelBean> getLivreByAuteur(Long auteurId) throws TechnicalException;
     String formatListeAuteurs (List<AuteurBean> auteurs);
     String formatListeGenres(List<GenreBean> genres);
+    Long getLivreIdByOuvrageId(Long ouvrageId);
 
 }

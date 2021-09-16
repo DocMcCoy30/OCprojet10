@@ -19,12 +19,18 @@ public interface OuvrageRepository extends JpaRepository<Ouvrage, Long> {
 
     Ouvrage findOuvrageByIdInterne(String idInterne);
 
-    @Query(value = "SELECT * FROM ouvrage WHERE (id_interne) ILIKE '%' || ?1 || '%' ORDER BY id_interne ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM ouvrage WHERE (id_interne) ILIKE '%' || ?1 || '%' ORDER BY id_interne ", nativeQuery = true)
     List<Ouvrage> findOuvragesByIdInterne(String idInterne);
 
     Ouvrage findOuvrageById(Long ouvrageId);
 
     @Query(value = "SELECT id_livre FROM ouvrage WHERE id=?1", nativeQuery = true)
     Long findLivreByOuvrageId(Long ouvrageId);
+
+    @Query(value = "SELECT COUNT(id) FROM ouvrage WHERE id_livre=?1 AND id_bibliotheque=?2", nativeQuery = true)
+    Integer getNombreDOuvrageByLivreAndBibliotheque(Long livreId, Long bibliothequeId);
+
+    @Query(value = "SELECT * FROM ouvrage WHERE id_livre=?1 AND id_bibliotheque=?2", nativeQuery = true)
+    List<Ouvrage> getOuvragesByLivreIdAndBibliothequeId(Long livreId, Long bibliothequeId);
 }
 

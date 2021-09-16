@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -42,6 +41,16 @@ public class EmpruntController {
         this.empruntService = empruntService;
     }
 
+    //DONE : javadoc
+
+    /**
+     * Récupère les données at affiche la page d'enregistrement d'un emprunt (employé)
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @param createEmpruntBean le formulaire de création d'un emprunt
+     * @param numAbonne le numéro de l'abonné
+     * @param idInterne l'identifiant interne de l'ouvrage
+     * @return le model + vue
+     */
     @GetMapping("/showEmpruntPage")
     public ModelAndView showEmpruntPage(@RequestParam("bibliothequeId") Long bibliothequeId,
                                         @ModelAttribute CreateEmpruntBean createEmpruntBean,
@@ -65,7 +74,6 @@ public class EmpruntController {
                     utilsMethodService.setAbonneForEmpruntBean(createEmpruntBean, abonnes.get(0));
                     theModel.addObject("createEmpruntBean", createEmpruntBean);
                 } else {
-                    message = "Il y a plusieurs abonnés correspondants à votre choix";
                     theModel.addObject("abonnes", abonnes);
                 }
                 ouvrages = ouvrageService.getOuvragesByIdInterne(idInterne);
@@ -78,7 +86,6 @@ public class EmpruntController {
                             ouvragesByBibliotheque.add(ouvrage);
                         }
                     }
-                    message = "Il y a plusieurs ouvrages correspondants à votre choix";
                     theModel.addObject("ouvrages", ouvragesByBibliotheque);
                 }
             } else if (!numAbonne.equals("")) {
@@ -97,7 +104,14 @@ public class EmpruntController {
         return theModel;
     }
 
-
+    /**
+     * Outil de création du formulaire d'enregistrement d'un emprunt
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @param createEmpruntBean le formulaire de création d'un emprunt
+     * @param numAbonne le numero de l'abonné
+     * @param idInterne l'identifiant interne de l'ouvrage
+     * @return le model + vue
+     */
     @PostMapping("/createEmpruntSearchForm")
     public ModelAndView populateTheCreateEmpruntForm(@RequestParam("bibliothequeId") Long bibliothequeId,
                                                      @ModelAttribute CreateEmpruntBean createEmpruntBean,
@@ -148,6 +162,12 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Enregitre un emprunt dans la base de données
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @param createEmpruntBean le formulaire de création d'un emprunt
+     * @return le model + vue
+     */
     @PostMapping("/createEmprunt")
     public ModelAndView createEmprunt(@RequestParam("bibliothequeId") Long bibliothequeId,
                                       @ModelAttribute CreateEmpruntBean createEmpruntBean) {
@@ -166,7 +186,7 @@ public class EmpruntController {
         }
         else {
             try {
-                PretBean pretBean = empruntService.createEmprunt(createEmpruntBean);
+                EmpruntBean empruntBean = empruntService.createEmprunt(createEmpruntBean);
                 message = "L'emprunt du livre a bien été enregistré.";
             } catch (TechnicalException e) {
                 String errorMessage = e.getMessage();
@@ -179,6 +199,11 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Recherche et retourne la liste des emprunts en cours pour une bibliotheque
+     * @param bibliothequeId l'identifiant de le bibliotheque
+     * @return le model + vue
+     */
     @GetMapping("/searchEmpruntsEnCours")
     public ModelAndView getEmpruntEnCours(@RequestParam("bibliothequeId") Long bibliothequeId) {
         ModelAndView theModel = new ModelAndView("emprunt-en-cours-page");
@@ -189,6 +214,13 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Permet d'enregistrer le retour d'un emprunt
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @param ouvrageId l'identifiant de l'ouvrage
+     * @param empruntId l'identifiant de l'ouvrage emprunté
+     * @return le model + vue
+     */
     @GetMapping("/retournerEmprunt")
     public ModelAndView retournerEmprunt(@RequestParam("bibliothequeId") Long bibliothequeId,
                                          @RequestParam("ouvrageId") String ouvrageId,
@@ -209,6 +241,13 @@ public class EmpruntController {
         return theModel;
     }
 
+    /**
+     * Permet d'enregistrer la prolongation d'un emprunt
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @param empruntId l'identifiant de l'emprunt
+     * @param username le username de l'abonné
+     * @return le model + vue
+     */
     @GetMapping("/prolongerEmprunt")
     public ModelAndView prolongerEmprunt(@RequestParam("bibliothequeId") Long bibliothequeId,
                                          @RequestParam("empruntId") Long empruntId,

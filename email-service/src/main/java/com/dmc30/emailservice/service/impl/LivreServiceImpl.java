@@ -20,6 +20,7 @@ public class LivreServiceImpl implements LivreService {
         this.livreServiceProxy = livreServiceProxy;
     }
 
+    //TODO : javadoc
 
     @Override
     public LivreForMailBean getTitreDuLivre(Long ouvrageId) {
@@ -30,6 +31,14 @@ public class LivreServiceImpl implements LivreService {
         LivreBean livreBean = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
         String titre = livreBean.getTitre();
         livre.setTitre(titre);
+        return livre;
+    }
+
+    @Override
+    public LivreBean getLivreById(Long livreId) {
+        ObjectMapper mapper = new ObjectMapper();
+        ResponseEntity<?> responseEntity = livreServiceProxy.getLivreById(livreId);
+        LivreBean livre = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
         return livre;
     }
 }

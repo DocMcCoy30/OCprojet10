@@ -1,12 +1,10 @@
 package com.dmc30.clientui.web.controller;
 
 import com.dmc30.clientui.security.PasswordEncoderHelper;
-import com.dmc30.clientui.service.contract.BibliothequeService;
-import com.dmc30.clientui.service.contract.EmpruntService;
-import com.dmc30.clientui.service.contract.OuvrageService;
-import com.dmc30.clientui.service.contract.UserService;
+import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
-import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
+import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
+import com.dmc30.clientui.shared.bean.reservation.ReservationModelBean;
 import com.dmc30.clientui.shared.bean.utilisateur.CreateAbonneBean;
 import com.dmc30.clientui.shared.bean.utilisateur.LoginRequestBean;
 import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
@@ -42,6 +40,8 @@ public class UserController {
     BibliothequeService bibliothequeService;
     OuvrageService ouvrageService;
     EmpruntService empruntService;
+    LivreService livreService;
+    ReservationService reservationService;
     PasswordEncoderHelper passwordEncoderHelper;
 
     @Autowired
@@ -50,12 +50,16 @@ public class UserController {
                           BibliothequeService bibliothequeService,
                           EmpruntService empruntService,
                           OuvrageService ouvrageService,
+                          LivreService livreService,
+                          ReservationService reservationService,
                           PasswordEncoderHelper passwordEncoderHelper) {
         this.utilsMethodService = utilsMethodService;
         this.userService = userService;
         this.bibliothequeService = bibliothequeService;
         this.empruntService = empruntService;
         this.ouvrageService = ouvrageService;
+        this.livreService = livreService;
+        this.reservationService = reservationService;
         this.passwordEncoderHelper = passwordEncoderHelper;
     }
 
@@ -102,12 +106,11 @@ public class UserController {
      * @param bibliothequeId   L'identifiant de la bibliothèque selectionnée.
      * @param theModel         Le Model renvoyé.
      * @return la vue accueil si l'identification est un succès, la page login avec un messge d'erreur si les identifiant/mot de passe renseignés sont erronés.
-     * @throws TechnicalException
      */
     @PostMapping(path = "/login")
     public ModelAndView secureLogin(@ModelAttribute LoginRequestBean userLoginDetails,
                                     @RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId,
-                                    ModelAndView theModel) throws TechnicalException {
+                                    ModelAndView theModel) {
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         UtilisateurBean abonneDto = new UtilisateurBean();
         String errorMessage = "";
@@ -121,6 +124,8 @@ public class UserController {
                 case "OK":
                     abonneDto = userService.getUtilisateurByPublicId(result[1]);
                     theModel.addObject("abonne", abonneDto);
+                    List<LivreResponseModelBean> lastLivres = livreService.get12LastLivres();
+                    theModel.addObject("lastLivres", lastLivres);
                     viewName = "accueil";
                     break;
                 case "KO":
@@ -168,9 +173,9 @@ public class UserController {
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        String message = "";
-        String fieldError = "";
-        String path = "";
+        String message;
+        String fieldError;
+        String path;
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
             for (FieldError error : errors) {
@@ -186,7 +191,11 @@ public class UserController {
         } else {
             UtilisateurBean createdAbonne = modelMapper.map(userDetails, UtilisateurBean.class);
             createdAbonne.setEncryptedPassword(passwordEncoderHelper.encodePwd(userDetails.getPassword()));
-            createdAbonne = userService.createAbonne(createdAbonne, paysId);
+            try {
+                createdAbonne = userService.createAbonne(createdAbonne, paysId);
+            } catch (TechnicalException e) {
+                theModel.addObject("errorMessage", e.getMessage());
+            }
             message = "L'abonné " + createdAbonne.getUsername() + " / " + createdAbonne.getEmail() + " a bien été enregistré.";
             path = "accueil";
         }
@@ -206,12 +215,20 @@ public class UserController {
                                    @RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId,
                                    @RequestParam(value = "modification", required = false) boolean modification) {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");
-        utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
-        String message = "";
-        //DONE T2 : retard pret => prolongation impossible + message
-        utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
+        try {
+            utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
+            //DONE T2 : retard pret => prolongation impossible + message
+            utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
+            //DONE T1 : afficher la liste des reservations en cours : titre du livre + date de retour prévu + position sur liste d'attente
+            List<ReservationModelBean> reservationsToReturn = reservationService.getListeReservationsEnCours(username, bibliothequeId);
+            theModel.addObject("reservationList", reservationsToReturn);
+        } catch (TechnicalException e) {
+            theModel.addObject("errorMessage", e.getMessage());
+        }
         return theModel;
     }
+
+
 
     /**
      * Modification d'un profil utilisateur.
@@ -232,9 +249,6 @@ public class UserController {
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         userService.updateAbonne(userDetails);
         utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
-
-//        UtilisateurBean abonne = userService.getUtilisateurByPublicId(userDetails.getPublicId());
-//        theModel.addObject("abonne", abonne);
         return theModel;
     }
 }

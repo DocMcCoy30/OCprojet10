@@ -70,41 +70,41 @@ public class UtilsMethodService {
      * Construit la liste de modèles Emprunt à renvoyer aux controllers et à la vue
      *
      * @param empruntModelBeans la liste des emprunts à construire
-     * @param pret              le bean objet
+     * @param empruntBean              le bean objet
      * @param empruntModelBean  le bean empruntModel
      * @param abonne            le bean abonné
      * @param ouvrageService    le service ouvrage pour récupérer l'ouvrage emprunté
      */
-    public String setEmpruntModelBean(List<EmpruntModelBean> empruntModelBeans, PretBean pret, EmpruntModelBean empruntModelBean, UtilisateurBean abonne, OuvrageService ouvrageService) throws TechnicalException {
+    public void setEmpruntModelBean(List<EmpruntModelBean> empruntModelBeans, EmpruntBean empruntBean, EmpruntModelBean empruntModelBean, UtilisateurBean abonne, OuvrageService ouvrageService) throws TechnicalException {
         Date dateRestitution;
         Boolean prolongationImpossible = empruntModelBean.isRetard();
         String prolongationImpossibleMessage = "";
         empruntModelBean.setAbonne(abonne.getPrenom() + " " + abonne.getNom());
         empruntModelBean.setAbonneId(abonne.getId());
-        OuvrageResponseModelBean ouvrage = ouvrageService.getOuvrageById(pret.getOuvrageId());
+        OuvrageResponseModelBean ouvrage = ouvrageService.getOuvrageById(empruntBean.getOuvrageId());
         empruntModelBean.setIdentifiantOuvrage(ouvrage.getIdInterne());
         empruntModelBean.setTitreDuLivre(ouvrage.getTitre());
         empruntModelBean.setAuteur(ouvrage.getAuteur());
-        empruntModelBean.setEmpruntId(pret.getId());
+        empruntModelBean.setEmpruntId(empruntBean.getId());
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
-        empruntModelBean.setDateEmpruntFormat(dateFormat.format(pret.getDateEmprunt()));
-        empruntModelBean.setDateEmprunt(pret.getDateEmprunt());
-        if (pret.isProlongation()) {
-            dateRestitution = pret.getDateProlongation();
+        empruntModelBean.setDateEmpruntFormat(dateFormat.format(empruntBean.getDateEmprunt()));
+        empruntModelBean.setDateEmprunt(empruntBean.getDateEmprunt());
+        if (empruntBean.isProlongation()) {
+            dateRestitution = empruntBean.getDateProlongation();
         } else {
-            dateRestitution = pret.getDateRestitution();
+            dateRestitution = empruntBean.getDateRestitution();
             //DONE T2 : Retourne un message pour retard retour emprunt
             if (pret.getDateRestitution().before(new Date())) {
                 empruntModelBean.setRetard(true);
                 prolongationImpossibleMessage = "Vous avez un emprunt en retard. Merci de vous rapprocher de votre bibliothèque le plus rapidement possible";
             }
         }
-        if (pret.isRestitution()) {
-            dateRestitution = pret.getDateRestitution();
+        if (empruntBean.isRestitution()) {
+            dateRestitution = empruntBean.getDateRestitution();
         }
         empruntModelBean.setDateRetour(dateRestitution);
         empruntModelBean.setDateRetourFormat(dateFormat.format(dateRestitution));
-        empruntModelBean.setProlongation(pret.isProlongation());
+        empruntModelBean.setProlongation(empruntBean.isProlongation());
         empruntModelBeans.add(empruntModelBean);
         return prolongationImpossibleMessage;
     }
@@ -148,7 +148,7 @@ public class UtilsMethodService {
     public void setEmpruntsEnCours(ModelAndView theModel, List<EmpruntModelBean> empruntModelBeans, @RequestParam("bibliothequeId") Long bibliothequeId) {
         String message;
         try {
-            List<PretBean> empruntsEnCours = empruntService.getEmpruntsEnCours(bibliothequeId);
+            List<EmpruntBean> empruntsEnCours = empruntService.getEmpruntsEnCours(bibliothequeId);
             if (empruntsEnCours.isEmpty()) {
                 ResponseEntity<?> response = bibliothequeService.getBibliothequeById(bibliothequeId);
                 ObjectMapper mapper = new ObjectMapper();
@@ -156,10 +156,10 @@ public class UtilsMethodService {
                 message = "Aucun emprunt en cours pour " + bibliotheque.getNom();
                 theModel.addObject("message", message);
             } else {
-                for (PretBean pret : empruntsEnCours) {
+                for (EmpruntBean emprunt : empruntsEnCours) {
                     EmpruntModelBean empruntModelBean = new EmpruntModelBean();
-                    UtilisateurBean abonne = userService.getUtilisateurById(pret.getUtilisateurId());
-                    setEmpruntModelBean(empruntModelBeans, pret, empruntModelBean, abonne, ouvrageService);
+                    UtilisateurBean abonne = userService.getUtilisateurById(emprunt.getUtilisateurId());
+                    setEmpruntModelBean(empruntModelBeans, emprunt, empruntModelBean, abonne, ouvrageService);
                 }
                 theModel.addObject("empruntEnCours", empruntModelBeans);
             }
@@ -186,17 +186,16 @@ public class UtilsMethodService {
         List<EmpruntModelBean> empruntsRetournes = new ArrayList<>();
         Long utilisateurId = abonne.getId();
         try {
-            List<PretBean> empruntList = empruntService.getEmpruntByUtilisateurId(utilisateurId);
+            List<EmpruntBean> empruntList = empruntService.getEmpruntByUtilisateurId(utilisateurId);
             if (empruntList.isEmpty()) {
                 message = "Aucun emprunt en cours";
                 theModel.addObject("message", message);
             } else {
-                for (PretBean pret : empruntList) {
+                for (EmpruntBean emprunt : empruntList) {
                     EmpruntModelBean empruntModelBean = new EmpruntModelBean();
-                    if (pret.isRestitution()) {
-                        setEmpruntModelBean(empruntsRetournes, pret, empruntModelBean, abonne, ouvrageService);
-                        theModel.addObject("empruntsRetournes", empruntsRetournes);
-                    } else if (!pret.isRestitution()) {
+                    if (emprunt.isRestitution()) {
+                        setEmpruntModelBean(empruntsRetournes, emprunt, empruntModelBean, abonne, ouvrageService);
+                    } else if (!emprunt.isRestitution()) {
                         //DONE T2 : retard pret
                         prolongationImpossibleMessage = setEmpruntModelBean(empruntsEnCours, pret, empruntModelBean, abonne, ouvrageService);
                         theModel.addObject("empruntEnCours", empruntsEnCours);

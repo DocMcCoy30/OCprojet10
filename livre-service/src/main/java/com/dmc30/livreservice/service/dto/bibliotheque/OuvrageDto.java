@@ -16,6 +16,6 @@ public class OuvrageDto {
     private Long bibliothequeId;
     private Long livreId;
     @JsonIgnore
-    private List<PretDto> prets;
+    private List<EmpruntDto> emprunts;
 
 }

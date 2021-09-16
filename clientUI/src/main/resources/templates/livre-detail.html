@@ -34,7 +34,7 @@
                     <h4 th:text="${livre.auteurs}"></h4>
                 </div>
             </div>
-            <div class="card-body row">
+            <div class="card-body row" style="background-color: #dfe4ea">
                 <div th:if="${!#lists.isEmpty(livre.illustrations)}" class="photo col-md-3 offset-1 text-center">
                     <div th:each="illustration : ${livre.illustrations}">
                         <img th:src="@{${illustration.url}}" class="img-fluid" alt="Couverture">
@@ -59,11 +59,24 @@
                             <span> / Langue :  <a th:text="${livre.langue.getLangue()}"></a></span>
                         </div>
                         <br>
-                        <span>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a>
-                        <div th:if="${reservationPossible}">
-                            <button type="submit" class="btn btn-primary btn-md btn-block">reserver</button>
+                        <div>Nombre d'exemplaire(s) disponible(s) : <a th:text="${nbExDispoInOne}"></a></div>
+
+                        <div th:if="${nbExDispoInOne}==0">Date de retour prévue : <a th:text="${dateRetour}"></a></div>
+                        <div th:if="${nbExDispoInOne}==0">Nombre de personnes sur la liste d'attente : <a
+                                th:text="${nbReservation}"></a></div>
+                        <div th:if="${reservationMessage}" th:utext="${reservationMessage}"
+                             style="color:red;font-style:italic;">
                         </div>
-                        </span>
+                        <div th:if="${reservationPossible and #authorization.expression('isAuthenticated()')} ">
+                            <form method="POST"
+                                  th:action="@{createReservation(bibliothequeId=${bibliotheque.id}, livreId=${livre.id}, username=${#authentication.getPrincipal()})}">
+                                <br>
+                                <button type="submit" class="btn btn-primary btn-md btn-block"
+                                        onclick="if (!(confirm('Réserver ce livre ?'))) return false">
+                                    Réserver
+                                </button>
+                            </form>
+                        </div>
                         <br>
                         <hr>
                         <div th:if="${nbExDispoInOtherElements}">

@@ -43,7 +43,6 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      */
     @Override
     public ResponseEntity<?> getBibliothequeById(Long bibliothequeId) {
-
         try {
             ResponseEntity<?> response = livreServiceProxy.getBibliothequeById(bibliothequeId);
             return response;

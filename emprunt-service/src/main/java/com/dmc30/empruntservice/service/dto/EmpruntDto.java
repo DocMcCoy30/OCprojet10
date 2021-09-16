@@ -1,19 +1,27 @@
-package com.dmc30.clientui.shared.bean.bibliotheque;
+package com.dmc30.empruntservice.service.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Getter
 @Setter
-public class PretBean {
+public class EmpruntDto {
 
     private Long id;
+
     private Date dateEmprunt;
+
     private Date dateRestitution;
+
     private Date dateProlongation;
-    private boolean prolongation;
+
+    private Boolean prolongation;
+
     private boolean restitution;
+
     private Long ouvrageId;
+
     private Long utilisateurId;
 }

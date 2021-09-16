@@ -1,12 +1,12 @@
 package com.dmc30.empruntservice.service.impl;
 
+import com.dmc30.empruntservice.data.entity.Emprunt;
 import com.dmc30.empruntservice.data.entity.Ouvrage;
-import com.dmc30.empruntservice.data.entity.Pret;
 import com.dmc30.empruntservice.data.repository.OuvrageRepository;
-import com.dmc30.empruntservice.data.repository.PretRepository;
+import com.dmc30.empruntservice.data.repository.EmpruntRepository;
 import com.dmc30.empruntservice.service.dto.CreateEmpruntDto;
 import com.dmc30.empruntservice.service.dto.OuvrageDto;
-import com.dmc30.empruntservice.service.dto.PretDto;
+import com.dmc30.empruntservice.service.dto.EmpruntDto;
 import com.dmc30.empruntservice.service.contract.EmpruntService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -21,12 +21,12 @@ import java.util.*;
 public class EmpruntServiceImpl implements EmpruntService {
 
     OuvrageRepository ouvrageRepository;
-    PretRepository pretRepository;
+    EmpruntRepository empruntRepository;
 
     @Autowired
-    public EmpruntServiceImpl(OuvrageRepository ouvrageRepository, PretRepository pretRepository) {
+    public EmpruntServiceImpl(OuvrageRepository ouvrageRepository, EmpruntRepository empruntRepository) {
         this.ouvrageRepository = ouvrageRepository;
-        this.pretRepository = pretRepository;
+        this.empruntRepository = empruntRepository;
     }
 
     /**
@@ -35,7 +35,7 @@ public class EmpruntServiceImpl implements EmpruntService {
      * @param createEmpruntDto les paramètres de l'emprunt
      */
     @Override
-    public PretDto createEmprunt(CreateEmpruntDto createEmpruntDto) {
+    public EmpruntDto createEmprunt(CreateEmpruntDto createEmpruntDto) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -47,70 +47,87 @@ public class EmpruntServiceImpl implements EmpruntService {
         Ouvrage ouvrage = ouvrageRepository.getById(createEmpruntDto.getOuvrageId());
         ouvrage.setEmprunte(true);
         ouvrageRepository.save(ouvrage);
-        PretDto pretDto = new PretDto();
-        pretDto.setDateEmprunt(dateEmprunt);
-        pretDto.setDateRestitution(dateRestitution);
-        pretDto.setProlongation(false);
-        pretDto.setRestitution(false);
-        pretDto.setOuvrageId(ouvrage.getId());
-        pretDto.setUtilisateurId(createEmpruntDto.getAbonneId());
-        pretRepository.save(modelMapper.map(pretDto, Pret.class));
-        return pretDto;
+        EmpruntDto empruntDto = new EmpruntDto();
+        empruntDto.setDateEmprunt(dateEmprunt);
+        empruntDto.setDateRestitution(dateRestitution);
+        empruntDto.setProlongation(false);
+        empruntDto.setRestitution(false);
+        empruntDto.setOuvrageId(ouvrage.getId());
+        empruntDto.setUtilisateurId(createEmpruntDto.getAbonneId());
+        empruntRepository.save(modelMapper.map(empruntDto, Emprunt.class));
+        return empruntDto;
     }
 
+    //DONE : javadoc
+
+    /**
+     * Récupère les emprunts en cours pour une bibliotheque
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return la liste des emprunts en cours
+     */
     @Override
-    public List<PretDto> findEmpruntEnCours(Long bibliothequeId) {
+    public List<EmpruntDto> findEmpruntEnCours(Long bibliothequeId) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Date currentDate = new Date();
-        List<PretDto> pretDtoList = new ArrayList<>();
-        List<PretDto> pretDtoByBibliothequeList = new ArrayList<>();
-        List<PretDto> pretDtoEnCoursList = new ArrayList<>();
-        List<Pret> prets = pretRepository.findAll();
-        for (Pret pret : prets) {
-            PretDto pretDto = modelMapper.map(pret, PretDto.class);
-            pretDtoList.add(pretDto);
+        List<EmpruntDto> empruntDtoList = new ArrayList<>();
+        List<EmpruntDto> empruntDtoByBibliothequeList = new ArrayList<>();
+        List<EmpruntDto> empruntDtoEnCoursList = new ArrayList<>();
+        List<Emprunt> emprunts = empruntRepository.findAll();
+        for (Emprunt emprunt : emprunts) {
+            EmpruntDto empruntDto = modelMapper.map(emprunt, EmpruntDto.class);
+            empruntDtoList.add(empruntDto);
         }
-        for (PretDto pretDtoByBibliotheque : pretDtoList) {
-            Long ouvrageId = pretDtoByBibliotheque.getOuvrageId();
+        for (EmpruntDto empruntDtoByBibliotheque : empruntDtoList) {
+            Long ouvrageId = empruntDtoByBibliotheque.getOuvrageId();
             OuvrageDto ouvrageDto = modelMapper.map(ouvrageRepository.getById(ouvrageId), OuvrageDto.class);
             if (ouvrageDto.getBibliothequeId().equals(bibliothequeId)) {
-                pretDtoByBibliothequeList.add(pretDtoByBibliotheque);
+                empruntDtoByBibliothequeList.add(empruntDtoByBibliotheque);
             }
         }
-        for (PretDto pretDtoEnCours : pretDtoByBibliothequeList) {
-            if (!pretDtoEnCours.isRestitution()) {
-                pretDtoEnCoursList.add(pretDtoEnCours);
+        for (EmpruntDto empruntDtoEnCours : empruntDtoByBibliothequeList) {
+            if (!empruntDtoEnCours.isRestitution()) {
+                empruntDtoEnCoursList.add(empruntDtoEnCours);
             }
         }
-        return pretDtoEnCoursList;
+        return empruntDtoEnCoursList;
     }
 
+    /**
+     * Récupère la liste des emprunts pour un utilisateur
+     * @param utilisateurId l'identifiant d'un utilisateur
+     * @return la liste
+     */
     @Override
-    public List<PretDto> findEmpruntByUtilisateurId(Long utilisateurId) {
+    public List<EmpruntDto> findEmpruntByUtilisateurId(Long utilisateurId) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        List<PretDto>empruntsByUtilisateur = new ArrayList<>();
-        List<Pret> pretsByUtilisateur = pretRepository.findEmpruntByUtilisateurId(utilisateurId);
-        for (Pret pretByUtilisateur:pretsByUtilisateur) {
-            PretDto pretDtoByUtilisateur = modelMapper.map(pretByUtilisateur, PretDto.class);
-            empruntsByUtilisateur.add(pretDtoByUtilisateur);
+        List<EmpruntDto>empruntDtos = new ArrayList<>();
+        List<Emprunt> empruntsByUtilisateur = empruntRepository.findEmpruntByUtilisateurId(utilisateurId);
+        for (Emprunt empruntByUtilisateur :empruntsByUtilisateur) {
+            EmpruntDto empruntDtoByUtilisateur = modelMapper.map(empruntByUtilisateur, EmpruntDto.class);
+            empruntDtos.add(empruntDtoByUtilisateur);
         }
-        return empruntsByUtilisateur;
+        return empruntDtos;
     }
 
+    /**
+     * Enregistre le retour d'un emprunt par un abonné
+     * @param empruntId l'identfiant de l'emprunt
+     * @param ouvrageId l'identifiant de l'ouvrage
+     */
     @Override
     public void retournerEmprunt(Long empruntId, String ouvrageId) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        Pret pret = new Pret();
-        Optional<Pret> result1 = pretRepository.findById(empruntId);
+        Emprunt emprunt = new Emprunt();
+        Optional<Emprunt> result1 = empruntRepository.findById(empruntId);
         if (result1.isPresent()) {
-            pret = result1.get();
+            emprunt = result1.get();
         }
-        pret.setDateRestitution(new Date());
-        pret.setRestitution(true);
-        pretRepository.save(pret);
+        emprunt.setDateRestitution(new Date());
+        emprunt.setRestitution(true);
+        empruntRepository.save(emprunt);
         Ouvrage ouvrage = new Ouvrage();
         Optional<Ouvrage> result2 = ouvrageRepository.findByIdInterne(ouvrageId);
         if (result2.isPresent()) {
@@ -120,53 +137,99 @@ public class EmpruntServiceImpl implements EmpruntService {
         ouvrageRepository.save(ouvrage);
     }
 
+    /**
+     * Prolonge la durée d'un emprunt
+     * @param empruntId l'identifiant de l'emprunt concerné
+     */
     @Override
     public void prolongerEmprunt(Long empruntId) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        Pret pret = new Pret();
-        Optional<Pret> result1 = pretRepository.findById(empruntId);
+        Emprunt emprunt = new Emprunt();
+        Optional<Emprunt> result1 = empruntRepository.findById(empruntId);
         if (result1.isPresent()) {
-            pret = result1.get();
+            emprunt = result1.get();
         }
-        Date dateRestitutionPrevue = pret.getDateRestitution();
+        Date dateRestitutionPrevue = emprunt.getDateRestitution();
         Calendar c = Calendar.getInstance();
         c.setTime(dateRestitutionPrevue);
         c.add(Calendar.DAY_OF_MONTH, 31);
         Date dateProlongation = c.getTime();
-        pret.setDateProlongation(dateProlongation);
-        pret.setProlongation(true);
-        pretRepository.save(pret);
+        emprunt.setDateProlongation(dateProlongation);
+        emprunt.setProlongation(true);
+        empruntRepository.save(emprunt);
     }
 
+    /**
+     * Retourne la liste des emprunts expirés
+     * @return la liste
+     */
     @Override
-    public List<PretDto> findExpiredPrets() {
+    public List<EmpruntDto> findExpiredemprunts() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        List<Pret> expiredPrets = pretRepository.findExpiredPrets();
-        List<PretDto>expiredPretsDto = new ArrayList<>();
-        for (Pret expiredPret:expiredPrets) {
-            PretDto expiredPretDto = modelMapper.map(expiredPret, PretDto.class);
-            expiredPretsDto.add(expiredPretDto);
+        List<Emprunt> expiredEmprunts = empruntRepository.findExpiredemprunts();
+        List<EmpruntDto>expiredempruntsDto = new ArrayList<>();
+        for (Emprunt expiredEmprunt : expiredEmprunts) {
+            EmpruntDto expiredEmpruntDto = modelMapper.map(expiredEmprunt, EmpruntDto.class);
+            expiredempruntsDto.add(expiredEmpruntDto);
         }
-        return expiredPretsDto;
+        return expiredempruntsDto;
     }
 
+    /**
+     * Retourne la liste des emprunts expirés pour un utilisateur
+     * @param utilisateurId l'identifiant de l'utilisateur
+     * @return la liste
+     */
     @Override
-    public List<PretDto> findExpiredPretsByUtilisateurId(Long utilisateurId) {
+    public List<EmpruntDto> findExpiredempruntsByUtilisateurId(Long utilisateurId) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        List<Pret> expiredPrets = pretRepository.findExpiredPretsByUtilisateurId(utilisateurId);
-        List<PretDto>expiredPretsDto = new ArrayList<>();
-        for (Pret expiredPret:expiredPrets) {
-            PretDto expiredPretDto = modelMapper.map(expiredPret, PretDto.class);
-            expiredPretsDto.add(expiredPretDto);
+        List<Emprunt> expiredEmprunts = empruntRepository.findExpiredempruntsByUtilisateurId(utilisateurId);
+        List<EmpruntDto>expiredempruntsDto = new ArrayList<>();
+        for (Emprunt expiredEmprunt : expiredEmprunts) {
+            EmpruntDto expiredEmpruntDto = modelMapper.map(expiredEmprunt, EmpruntDto.class);
+            expiredempruntsDto.add(expiredEmpruntDto);
         }
-        return expiredPretsDto;
+        return expiredempruntsDto;
     }
 
+    /**
+     * Retourne la liste des utilisateurs en retard pour le retour d'un emprunt
+     * @return la liste
+     */
     @Override
     public List<Long> findUtilisateurEnRetard() {
-        return pretRepository.findUtilisateurEnRetard();
+        return empruntRepository.findUtilisateurEnRetard();
+    }
+
+    /**
+     * Récupère un emprunt en cours par l'identifiant de l'ouvrage
+     * @param ouvrageId l'identifiant de l'ouvrage emprunté
+     * @return l'ouvrage en cours d'emprunt
+     */
+    @Override
+    public EmpruntDto getEmpruntEnCoursByOuvrageId(Long ouvrageId) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        Emprunt emprunt = empruntRepository.getEmpruntEnCoursByOuvrageId(ouvrageId);
+        EmpruntDto empruntDto = modelMapper.map(emprunt, EmpruntDto.class);
+        return empruntDto;
+    }
+
+    // ---------------------Mail Service Methodes --------------------------
+
+    @Override
+    public List<EmpruntDto> getEmpruntsRestitues() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        List<Emprunt> empruntsRestitues = empruntRepository.getEmpruntsRestitues();
+        List<EmpruntDto> empruntsRestituesDto = new ArrayList<>();
+        for (Emprunt empruntRestitue : empruntsRestitues) {
+            EmpruntDto empruntRestitueDto = modelMapper.map(empruntRestitue, EmpruntDto.class);
+            empruntsRestituesDto.add(empruntRestitueDto);
+        }
+        return empruntsRestituesDto;
     }
 }

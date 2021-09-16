@@ -48,9 +48,12 @@
                 <td th:text="${tempEmpruntEnCours.dateEmpruntFormat}"></td>
                 <td th:text="${tempEmpruntEnCours.dateRetourFormat}"></td>
                 <td>
-                    <a th:href="@{retournerEmprunt(bibliothequeId=${bibliotheque.id},
-                     empruntId=${tempEmpruntEnCours.empruntId}, ouvrageId=${tempEmpruntEnCours.identifiantOuvrage})}"
-                       class="card-link">Retour</a></td>
+                    <a th:href="@{retournerEmprunt(bibliothequeId=${bibliotheque.id}, empruntId=${tempEmpruntEnCours.empruntId}, ouvrageId=${tempEmpruntEnCours.identifiantOuvrage})}"
+                       class="btn btn-danger btn-md btn-block"
+                       onclick="if (!(confirm('Confirmer le retour du livre ?'))) return false">
+                        Retour
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>

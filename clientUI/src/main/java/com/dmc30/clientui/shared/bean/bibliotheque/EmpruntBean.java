@@ -1,27 +1,19 @@
-package com.dmc30.emailservice.service.bean;
+package com.dmc30.clientui.shared.bean.bibliotheque;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
 @Setter
-public class PretBean {
+public class EmpruntBean {
 
     private Long id;
-
     private Date dateEmprunt;
-
     private Date dateRestitution;
-
     private Date dateProlongation;
-
-    private Boolean prolongation;
-
+    private boolean prolongation;
     private boolean restitution;
-
     private Long ouvrageId;
-
     private Long utilisateurId;
 }

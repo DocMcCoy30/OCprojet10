@@ -1,11 +1,6 @@
 .container {
   max-width: 1100px;
-  /*margin: auto;*/
 }
-/*#header-title{*/
-/*  font-size: x-large;*/
-/*}*/
-
 
 /* Custom default button */
 .btn-secondary,
@@ -21,7 +16,12 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  height: 100%
+  height: 100%;
+  background-color: #dfe4ea;
+}
+
+#card {
+  background-color: #ced6e0;
 }
 
 .cover-container {

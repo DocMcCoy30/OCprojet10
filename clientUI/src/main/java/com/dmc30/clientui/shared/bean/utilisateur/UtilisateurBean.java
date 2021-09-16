@@ -28,13 +28,9 @@ public class UtilisateurBean implements Serializable {
     private List<RoleBean> roles;
     private String numTelephone;
     private AdresseBean adresse;
-    //Abonne
     private String numAbonne;
     private Date dateCreationCompte;
     private String dateCreationCompteFormat;
-//    private Set<Pret> prets;
-
-    //Employe
     private String matricule;
     private Date dateEntree;
     private Date dateSortie;

@@ -68,7 +68,7 @@
                 <td th:text="${tempLivre.dateEdition}"></td>
                 <td th:text="${tempLivre.editeur.nomMaisonEdition}"></td>
                 <td th:text="${tempLivre.auteurs}"></td>
-                <td><a th:href="@{showLivreDetails(livreId=${tempLivre.id}, bibliothequeId=${bibliotheque.id})}"
+                <td><a th:href="@{showLivreDetails(livreId=${tempLivre.id}, bibliothequeId=${bibliotheque.id}, username=${#authentication.getPrincipal()})}"
                        class="card-link">Détail</a></td>
             </tr>
             </tbody>

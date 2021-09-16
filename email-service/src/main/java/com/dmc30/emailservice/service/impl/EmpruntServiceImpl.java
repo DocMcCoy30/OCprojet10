@@ -1,14 +1,11 @@
 package com.dmc30.emailservice.service.impl;
 
 import com.dmc30.emailservice.proxy.EmpruntServiceProxy;
-import com.dmc30.emailservice.service.bean.PretBean;
+import com.dmc30.emailservice.service.bean.EmpruntBean;
 import com.dmc30.emailservice.service.contract.EmpruntService;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,10 +18,12 @@ public class EmpruntServiceImpl implements EmpruntService {
         this.empruntServiceProxy = empruntServiceProxy;
     }
 
+    //TODO : javadoc
+
     @Override
-    public List<PretBean> findExpiredPrets() {
-        List<PretBean> pretBeans = empruntServiceProxy.findExpiredPrets();
-        return pretBeans;
+    public List<EmpruntBean> findExpiredemprunts() {
+        List<EmpruntBean> empruntBeans = empruntServiceProxy.findExpiredemprunts();
+        return empruntBeans;
     }
 
     @Override
@@ -33,8 +32,8 @@ public class EmpruntServiceImpl implements EmpruntService {
     }
 
     @Override
-    public List<PretBean> findExpiredPretsByUtilisateurId(Long utilisateurId) {
-        List<PretBean> pretBeans = empruntServiceProxy.findExpiredPretsByUtilisateurId(utilisateurId);
-        return pretBeans;
+    public List<EmpruntBean> findExpiredempruntsByUtilisateurId(Long utilisateurId) {
+        List<EmpruntBean> empruntBeans = empruntServiceProxy.findExpiredempruntsByUtilisateurId(utilisateurId);
+        return empruntBeans;
     }
 }

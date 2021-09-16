@@ -1,12 +1,12 @@
 package com.dmc30.clientui.proxy;
 
-import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
 import com.dmc30.clientui.shared.bean.livre.AuteurBean;
 import com.dmc30.clientui.shared.bean.livre.LivreBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,7 +18,7 @@ public interface LivreServiceProxy {
     @GetMapping("/livres/all") //
     List<LivreBean> getLivres();
 
-    @GetMapping("/livres/id") //
+    @GetMapping("/livres/livreId") //
     ResponseEntity<?> getLivreById(@RequestParam("livreId") Long livreId);
 
     @PostMapping("/livres/titre") //
@@ -61,4 +61,12 @@ public interface LivreServiceProxy {
 
     @GetMapping("ouvrages/livres")
     Long getLivreIdByOuvrageId(@RequestParam("ouvrageId") Long ouvrageId);
+
+    @GetMapping("ouvrages/nbOuvrages/{livreId}&{bibliothequeId}")
+    Integer getNombreDOuvrage(@PathVariable (name = "livreId")Long livreId,
+                              @PathVariable (name = "bibliothequeId")Long bibliothequeId);
+
+    @GetMapping("ouvrages/{livreId}&{bibliothequeId}")
+    List<OuvrageBean> getOuvrageByLivreAndBibliothequeId(@PathVariable (name = "livreId")Long livreId,
+                                                         @PathVariable (name = "bibliothequeId")Long bibliothequeId);
 }

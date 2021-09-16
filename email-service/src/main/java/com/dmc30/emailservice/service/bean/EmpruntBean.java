@@ -1,4 +1,4 @@
-package com.dmc30.empruntservice.service.dto;
+package com.dmc30.emailservice.service.bean;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,21 +7,14 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class PretDto {
+public class EmpruntBean {
 
     private Long id;
-
     private Date dateEmprunt;
-
     private Date dateRestitution;
-
     private Date dateProlongation;
-
     private Boolean prolongation;
-
     private boolean restitution;
-
     private Long ouvrageId;
-
     private Long utilisateurId;
 }

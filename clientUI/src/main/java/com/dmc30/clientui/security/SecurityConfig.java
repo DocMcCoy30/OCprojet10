@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -17,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/showAccueil", "/showLivreDetails", "/searchLivresOrAuteurs", "/searchLivreByAuteurs", "/login", "/signin").permitAll()
-                .antMatchers("/showProfil", "/update", "/prolongerEmprunt").hasAnyRole("ABONNE", "EMPLOYE")
+                .antMatchers("/showProfil", "/update", "/prolongerEmprunt", "/reservations/").hasAnyRole("ABONNE", "EMPLOYE")
                 .antMatchers("/showEmpruntPage", "/createEmpruntSearchForm", "/createEmprunt", "/searchEmpruntsEnCours", "/retournerEmprunt").hasRole("EMPLOYE")
                 .and()
                 .exceptionHandling().accessDeniedPage("/accessDenied")

@@ -1,20 +1,24 @@
 package com.dmc30.clientui.service.impl;
 
+import com.dmc30.clientui.proxy.ReservationServiceProxy;
+import com.dmc30.clientui.service.contract.LivreService;
+import com.dmc30.clientui.service.contract.OuvrageService;
 import com.dmc30.clientui.shared.bean.bibliotheque.CreateEmpruntBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntModelBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageResponseModelBean;
-import com.dmc30.clientui.shared.bean.bibliotheque.PretBean;
-import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
+import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.proxy.EmpruntServiceProxy;
 import com.dmc30.clientui.service.contract.EmpruntService;
-import com.dmc30.clientui.service.contract.OuvrageService;
+import com.dmc30.clientui.shared.bean.bibliotheque.OuvrageBean;
+import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
 import feign.FeignException;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,44 +26,63 @@ import java.util.List;
 @Service
 public class EmpruntServiceImpl implements EmpruntService {
 
+    Logger logger = LogManager.getLogger(EmpruntServiceImpl.class);
+
     EmpruntServiceProxy empruntServiceProxy;
+    ReservationServiceProxy reservationServiceProxy;
+    OuvrageService ouvrageService;
+    LivreService livreService;
 
     @Autowired
-    public EmpruntServiceImpl(EmpruntServiceProxy empruntServiceProxy) {
+    public EmpruntServiceImpl(EmpruntServiceProxy empruntServiceProxy,
+                              OuvrageService ouvrageService,
+                              ReservationServiceProxy reservationServiceProxy,
+                              LivreService livreService) {
         this.empruntServiceProxy = empruntServiceProxy;
+        this.ouvrageService = ouvrageService;
+        this.reservationServiceProxy = reservationServiceProxy;
+        this.livreService = livreService;
     }
 
     @Override
-    public PretBean createEmprunt(CreateEmpruntBean createEmpruntBean) throws TechnicalException {
-        PretBean pretBean = new PretBean();
+    public EmpruntBean createEmprunt(CreateEmpruntBean createEmpruntBean) throws TechnicalException {
+        EmpruntBean empruntBean = new EmpruntBean();
         try {
-            pretBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
+            empruntBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
+            Long livreEmprunteId = livreService.getLivreIdByOuvrageId(empruntBean.getOuvrageId());
+            List<ReservationBean> reservationsEnCours = reservationServiceProxy.getReservationsByUserId(empruntBean.getUtilisateurId());
+            //DONE T2 : réservation annuler lorsque livre emprunté
+            for (ReservationBean reservation:reservationsEnCours) {
+                if (reservation.getLivreId().equals(livreEmprunteId)) {
+                    reservationServiceProxy.deleteReservation(reservation.getId());
+                }
+            }
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
-        return pretBean;
+        return empruntBean;
     }
 
     @Override
-    public List<PretBean> getEmpruntsEnCours(Long bibliothequeId) throws TechnicalException {
-        List<PretBean> pretBeanList = new ArrayList<>();
+    public List<EmpruntBean> getEmpruntsEnCours(Long bibliothequeId) throws TechnicalException {
+        List<EmpruntBean> empruntBeanList = new ArrayList<>();
         try {
-            pretBeanList = empruntServiceProxy.findEmpruntEnCours(bibliothequeId);
+            empruntBeanList = empruntServiceProxy.findEmpruntEnCours(bibliothequeId);
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
-        return pretBeanList;
+        return empruntBeanList;
     }
 
     @Override
-    public List<PretBean> getEmpruntByUtilisateurId(Long utilisateurId) throws TechnicalException {
-        List<PretBean> pretBeanList = new ArrayList<>();
+    public List<EmpruntBean> getEmpruntByUtilisateurId(Long utilisateurId) throws TechnicalException {
+        List<EmpruntBean> empruntBeanList = new ArrayList<>();
         try {
-            pretBeanList = empruntServiceProxy.findEmpruntByUtilisateurId(utilisateurId);
+            empruntBeanList = empruntServiceProxy.findEmpruntByUtilisateurId(utilisateurId);
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
-        return pretBeanList;
+        return empruntBeanList;
     }
 
 
@@ -76,9 +99,44 @@ public class EmpruntServiceImpl implements EmpruntService {
     @Override
     public void prolongerEmprunt(Long empruntId) throws TechnicalException {
         try {
-        empruntServiceProxy.prolongerEmprunt(empruntId);
-    } catch (FeignException e) {
+            empruntServiceProxy.prolongerEmprunt(empruntId);
+
+        } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
     }
+
+    @Override
+    public String getDateDeRetourPrevue(Long livreId, Long bibliothequeId) throws TechnicalException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
+        List<EmpruntBean> empruntBeans = new ArrayList<>();
+        Date dateRetourEmprunt = null;
+        Date dateRetourPrevue = DateUtils.addMonths(new Date(), 2);
+        try {
+            //récupérer la liste des ouvrages correspondants au livre et à la bibliotheque
+            List<OuvrageBean> ouvrageBeans = ouvrageService.getOuvrageByLivreIdAndBibliothequeId(livreId, bibliothequeId);
+            //récupérer la liste des emprunts non restitués correspondants aux ouvrages
+            for (OuvrageBean ouvrage : ouvrageBeans) {
+                if (ouvrage.isEmprunte()) {
+                    EmpruntBean empruntBean = empruntServiceProxy.getEmpruntEnCoursByOuvrageId(ouvrage.getId());
+                    empruntBeans.add(empruntBean);
+                }
+            }
+            //Comparer pour chaque ouvrage la date de restitution ou prolongation et récupérer la plus proche.
+            for (EmpruntBean empruntEnCours:empruntBeans) {
+                if(!empruntEnCours.isProlongation()) {
+                    dateRetourEmprunt = empruntEnCours.getDateRestitution();
+                }else {
+                    dateRetourEmprunt = empruntEnCours.getDateProlongation();
+                }
+                if(dateRetourEmprunt.before(dateRetourPrevue)) {
+                    dateRetourPrevue = dateRetourEmprunt;
+                }
+            }
+        } catch (FeignException e) {
+            throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
+        }
+        return dateFormat.format(dateRetourPrevue);
+    }
+
 }

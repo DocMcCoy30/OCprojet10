@@ -118,4 +118,33 @@ public class OuvrageServiceImpl implements OuvrageService {
         Long livreId = ouvrageRepository.findLivreByOuvrageId(ouvrageId);
         return livreId;
     }
+
+    /**
+     * Récupère le nombre d'ouvrage correspondant à un livre dans une bibliothèque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliothèque
+     * @return le nombre d'ouvrage
+     */
+    @Override
+    public Integer getNombreDOuvrageByLivreAndBibliotheque(Long livreId, Long bibliothequeId) {
+        return ouvrageRepository.getNombreDOuvrageByLivreAndBibliotheque(livreId, bibliothequeId);
+    }
+
+    /**
+     * Récupère et renvoir une liste d'ouvrages correspondants à un livre pour une bibliotheque
+     * @param livreId l'identifiant du livre
+     * @param bibliothequeId l'identifiant de la bibliotheque
+     * @return la liste
+     */
+    @Override
+    public List<OuvrageDto> getOuvrageByLivreIdAndBibliothequeId(Long livreId, Long bibliothequeId) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        List<OuvrageDto> ouvrageDtos = new ArrayList<>();
+        List<Ouvrage> ouvrages = ouvrageRepository.getOuvragesByLivreIdAndBibliothequeId(livreId, bibliothequeId);
+        for (Ouvrage ouvrage: ouvrages) {
+            ouvrageDtos.add(modelMapper.map(ouvrage, OuvrageDto.class));
+        }
+        return ouvrageDtos;
+    }
 }
