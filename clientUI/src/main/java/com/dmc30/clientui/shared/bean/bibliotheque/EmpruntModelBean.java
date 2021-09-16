@@ -21,4 +21,5 @@ public class EmpruntModelBean {
     private String auteur;
     private Long abonneId;
     private String abonne;
+    private boolean retard;
 }

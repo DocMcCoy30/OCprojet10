@@ -217,6 +217,7 @@ public class UserController {
         ModelAndView theModel = new ModelAndView("profil-utilisateur");
         try {
             utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
+            //DONE T2 : retard pret => prolongation impossible + message
             utilsMethodService.setEmpruntListForProfilView(username, theModel, modification);
             //DONE T1 : afficher la liste des reservations en cours : titre du livre + date de retour prévu + position sur liste d'attente
             List<ReservationModelBean> reservationsToReturn = reservationService.getListeReservationsEnCours(username, bibliothequeId);

@@ -82,6 +82,7 @@ $mvn install pour chaque service si nécessaire
 
 2- eureka-server
 
+
 3- utilisateur-service / livre-service / emprunt-service / reservation-service / email-service
 
 4- clientUI
