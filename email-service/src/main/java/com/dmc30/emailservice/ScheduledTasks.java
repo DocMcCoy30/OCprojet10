@@ -46,7 +46,10 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(cron = "*/5 * * * * *") // toutes les 30 secondes
+    //DONE T1 : Scheduled Methodde pour envoi mail notification réservation.
+
+    //    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
+    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
     public void scheduledMailServiceForReservation() throws MessagingException {
         System.out.println("scheduledMailServiceForReservation is running.");
         Locale locale = new Locale("FRANCE");

@@ -9,10 +9,11 @@
     <span>Bonjour </span><span th:text="${prenom + ' ' + nom + ','}"></span>
 </p>
 <p>
-    <span th:text="${livre}"></span>
-    <span th:text="${dateReservation}"></span>
-    <span th:text="${'Nous vous invitons à venir le retirer à la bibliotheque ' + ${bibliotheque} + '.'}"></span>
-    <span th:text="Nous vous rappelons que cette réservation est valable pendant 48h et que, passé ce délai, elle sera automatiquement annulé."></span>
+<div th:text="${'Le livre ' + livre + ' pour lequel vous avez enregistré une réservation en date du ' + dateReservation + ' est à nouveau disponibe.'}"></div>
+<br>
+<div th:text="${'Nous vous invitons à venir le retirer à la ' + bibliotheque + '.'}"></div>
+<br>
+<div>Nous vous rappelons que cette réservation est valable pendant 48h et que, passé ce délai, elle sera automatiquement annulée.</div>
 </p>
 <p>
     Cordialement, <br/>

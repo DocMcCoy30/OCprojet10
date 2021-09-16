@@ -130,7 +130,7 @@ public class EmailServiceImpl implements EmailService {
             mailForReservationModel.setPrenom(utilisateur.getPrenom());
             mailForReservationModel.setNom(utilisateur.getNom());
             mailForReservationModel.setUsername(utilisateur.getUsername());
-            mailForReservationModel.setEmail(utilisateur.getEmail());
+            mailForReservationModel.setEmail("dmc30dev@gmail.com");
             mailForReservationModel.setTitre(livre.getTitre());
             mailForReservationModel.setDateReservation(dateFormat.format(reservation.getDateReservation()));
             mailForReservationModel.setBibliotheque(bibliotheque.getNom());
