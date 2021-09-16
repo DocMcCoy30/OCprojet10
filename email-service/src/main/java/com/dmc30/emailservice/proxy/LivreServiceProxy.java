@@ -17,5 +17,5 @@ public interface LivreServiceProxy {
     OuvrageBean getOuvrageById(@RequestParam("ouvrageId") Long ouvrageId);
 
     @PostMapping("/bibliotheques/id")
-    ResponseEntity<?>getBibliothequeById(Long bibliothequeId);
+    ResponseEntity<?>getBibliothequeById(@RequestParam("bibliothequeId") Long bibliothequeId);
 }

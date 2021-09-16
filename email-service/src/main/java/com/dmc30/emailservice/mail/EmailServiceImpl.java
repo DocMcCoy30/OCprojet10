@@ -125,7 +125,8 @@ public class EmailServiceImpl implements EmailService {
             MailForReservationModel mailForReservationModel = new MailForReservationModel();
             UtilisateurBean utilisateur = utilisateurService.findUtilisateurById(reservation.getUtilisateurId());
             LivreBean livre = livreService.getLivreById(reservation.getLivreId());
-            BibliothequeBean bibliotheque= bibliothequeService.getBibliothequeById(reservation.getBibliothequeId());
+            Long bibliothequeId = reservation.getBibliothequeId();
+            BibliothequeBean bibliotheque= bibliothequeService.getBibliothequeById(bibliothequeId);
 
             mailForReservationModel.setPrenom(utilisateur.getPrenom());
             mailForReservationModel.setNom(utilisateur.getNom());
