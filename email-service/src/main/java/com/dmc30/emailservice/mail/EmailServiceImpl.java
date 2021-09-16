@@ -150,7 +150,7 @@ public class EmailServiceImpl implements EmailService {
         ctx.setVariable("prenom", mailForReservation.getPrenom());
         ctx.setVariable("nom", mailForReservation.getNom());
         ctx.setVariable("livre", mailForReservation.getTitre());
-        ctx.setVariable("date-reservation", mailForReservation.getDateReservation());
+        ctx.setVariable("dateReservation", mailForReservation.getDateReservation());
         ctx.setVariable("bibliotheque", mailForReservation.getBibliotheque());
 
         // Prepare message using a Spring helper

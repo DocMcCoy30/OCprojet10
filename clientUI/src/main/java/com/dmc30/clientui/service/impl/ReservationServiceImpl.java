@@ -170,6 +170,7 @@ public class ReservationServiceImpl implements ReservationService {
                 reservationModelBean.setId(reservationParUser.getId());
                 String dateReservation = dateFormat.format(reservationParUser.getDateReservation());
                 reservationModelBean.setDateReservation(dateReservation);
+                reservationModelBean.setExpiree(reservationParUser.isExpiree());
                 ResponseEntity<?> response = livreService.getLivreById(livreId);
                 if (response.getStatusCodeValue() == 202) {
                     LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();

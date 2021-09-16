@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:remove="all">Email emprunt expiré</title>
+    <title th:remove="all">Email Notification Reservation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <p>
-    <span>Bonjour </span><span th:text="(${name})"></span>
+    <span>Bonjour </span><span th:text="${prenom + ' ' + nom + ','}"></span>
 </p>
 <p>
-    Nous constatons que vous avez un ou plusieurs emprunts dont la date de restitution est aujourd'hui dépassée.
-</p>
-<p style="font-weight: bold">
-    Titre(s) des ouvrages concernés :
-</p>
-<ul th:if="${!livres.isEmpty()}">
-    <li th:each="livre : ${livres}"
-        th:text="${livre.titre}">Titre de l'ouvrage
-    </li>
-</ul>
-<p>
-    Nous vous invitons à vous rapprocher le plus rapidement possible de votre bibliothèque.
+    <span th:text="${livre}"></span>
+    <span th:text="${dateReservation}"></span>
+    <span th:text="${'Nous vous invitons à venir le retirer à la bibliotheque ' + ${bibliotheque} + '.'}"></span>
+    <span th:text="Nous vous rappelons que cette réservation est valable pendant 48h et que, passé ce délai, elle sera automatiquement annulé."></span>
 </p>
 <p>
     Cordialement, <br/>

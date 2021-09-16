@@ -46,14 +46,14 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(cron = "*/10 * * * * *") // toutes les 30 secondes
+    @Scheduled(cron = "*/5 * * * * *") // toutes les 30 secondes
     public void scheduledMailServiceForReservation() throws MessagingException {
         System.out.println("scheduledMailServiceForReservation is running.");
         Locale locale = new Locale("FRANCE");
         List<MailForReservationModel> mailToSendList = emailService.createMailListForReservation();
         for (MailForReservationModel mailToSend : mailToSendList) {
             emailService.sendMailForReservation(mailToSend, locale);
-        };
+        }
     }
 
 }

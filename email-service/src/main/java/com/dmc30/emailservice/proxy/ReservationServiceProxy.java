@@ -25,6 +25,6 @@ public interface ReservationServiceProxy {
     @GetMapping("/reservations/livre/{livreId}")
     List<ReservationBean> getReservationsByLivreId(@PathVariable(name = "livreId") Long livreId);
 
-    @PutMapping("/reservation/update")
+    @PutMapping("/reservations/update")
     void updateReservation(@RequestBody ReservationBean reservation);
 }

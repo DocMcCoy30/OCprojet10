@@ -162,12 +162,15 @@
                     <td th:text="${reservationModelBean.dateReservation}"></td>
                     <td th:text="${reservationModelBean.dateRetourPrevu}"></td>
                     <td th:text="${reservationModelBean.numeroAttente}"></td>
-                    <td>
+                    <td th:if="${!reservationModelBean.isExpiree()}">
                         <a th:href="@{/annulerReservation(reservationId=${reservationModelBean.id}, bibliothequeId=${bibliotheque.id}, username=${abonne.username})}"
                            class="btn btn-danger btn-md btn-block"
                            onclick="if (!(confirm('Annuler cette réservation ?'))) return false">
                             Annuler
                         </a>
+                    </td>
+                    <td th:if="${reservationModelBean.isExpiree()}">
+                        <a style="color: red">Reservation Expirée</a>
                     </td>
                 </tr>
                 </tbody>
