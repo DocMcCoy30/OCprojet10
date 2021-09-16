@@ -125,7 +125,7 @@ public class ReservationRestController {
 
     /**
      * Met à jour une réservation
-     * @param reservation la réservation à mettre à jour
+     * @param reservationDto la réservation à mettre à jour
      */
     @PutMapping("/update")
     public void updateReservation (@RequestBody ReservationDto reservationDto) {

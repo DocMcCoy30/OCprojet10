@@ -34,7 +34,7 @@ public class ScheduledTasks {
         this.emailService = emailService;
     }
 
-//    @Scheduled(cron = "0 0 0 * * ?") // tous les jours à minuit
+    //    @Scheduled(cron = "0 0 0 * * ?") // tous les jours à minuit
 //    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
 //    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
     public void scheduledMailServiceForRetard() throws MessagingException {
@@ -48,8 +48,8 @@ public class ScheduledTasks {
 
     //DONE T1 : Scheduled Methodde pour envoi mail notification réservation.
 
-    //    @Scheduled(cron = "0 */3 * * * *") // toutes les 3 minutes
-    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
+    @Scheduled(cron = "0 */1 * * * *") // toutes les minutes
+//    @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
     public void scheduledMailServiceForReservation() throws MessagingException {
         System.out.println("scheduledMailServiceForReservation is running.");
         Locale locale = new Locale("FRANCE");

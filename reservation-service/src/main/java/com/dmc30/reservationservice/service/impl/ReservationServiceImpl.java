@@ -38,6 +38,7 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public ReservationDto createReservation(ReservationDto reservationDto) {
+        reservationDto.setMailEnvoye(false);
         Reservation newReservation = reservationMapper.reservationDtoToReservation(reservationDto);
         Reservation savedReservation = reservationRepository.save(newReservation);
         ReservationDto savedReservationDto = reservationMapper.reservationToReservationDto(savedReservation);
