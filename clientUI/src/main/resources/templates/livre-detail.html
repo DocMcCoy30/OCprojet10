@@ -19,7 +19,7 @@
     </div>
     <div th:text="${statut}"></div>
     <div th:if="${message}" th:utext="${message}"
-         style="color:red;font-style:italic;">
+         style="font-weight: bolder; font-size: large; color: red">
     </div>
 
     <!--    <h3>Détail du livre :</h3>-->
@@ -65,7 +65,7 @@
                         <div th:if="${nbExDispoInOne}==0">Nombre de personnes sur la liste d'attente : <a
                                 th:text="${nbReservation}"></a></div>
                         <div th:if="${reservationMessage}" th:utext="${reservationMessage}"
-                             style="color:red;font-style:italic;">
+                             style="font-weight: bolder; font-size: large; color: red">
                         </div>
                         <div th:if="${reservationPossible and #authorization.expression('isAuthenticated()')} ">
                             <form method="POST"

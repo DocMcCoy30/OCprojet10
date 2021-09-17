@@ -51,7 +51,7 @@ public class EmpruntServiceImpl implements EmpruntService {
             empruntBean = empruntServiceProxy.createEmprunt(createEmpruntBean);
             Long livreEmprunteId = livreService.getLivreIdByOuvrageId(empruntBean.getOuvrageId());
             List<ReservationBean> reservationsEnCours = reservationServiceProxy.getReservationsByUserId(empruntBean.getUtilisateurId());
-            //DONE T2 : réservation annuler lorsque livre emprunté
+            //DONE T2 : réservation annulée lorsque livre emprunté
             for (ReservationBean reservation:reservationsEnCours) {
                 if (reservation.getLivreId().equals(livreEmprunteId)) {
                     reservationServiceProxy.deleteReservation(reservation.getId());

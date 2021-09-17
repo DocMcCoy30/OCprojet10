@@ -114,6 +114,15 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationDtos;
     }
 
+    @Override
+    public List<ReservationDto> getReservationByLivreIdOrderByDateReservation(Long livreId) {
+        List<Reservation> reservations = reservationRepository.getReservationsByLivreIdOrderByDateReservation(livreId);
+        List<ReservationDto> reservationDtos = reservations.stream()
+                .map(reservation -> reservationMapper.reservationToReservationDto(reservation) )
+                .collect(Collectors.toList());
+        return reservationDtos;
+    }
+
     /**
      * Supprime une réservation
      * @param reservationId l'identifiant de la réservation à supprimer

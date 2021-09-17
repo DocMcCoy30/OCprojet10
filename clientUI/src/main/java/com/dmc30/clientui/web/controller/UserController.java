@@ -3,6 +3,7 @@ package com.dmc30.clientui.web.controller;
 import com.dmc30.clientui.security.PasswordEncoderHelper;
 import com.dmc30.clientui.service.contract.*;
 import com.dmc30.clientui.shared.UtilsMethodService;
+import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.shared.bean.reservation.ReservationModelBean;
 import com.dmc30.clientui.shared.bean.utilisateur.CreateAbonneBean;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,12 +89,19 @@ public class UserController {
     public ModelAndView loginPage(@RequestParam(value = "logout", required = false) String logout,
                                   @RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId) {
         ModelAndView theModel = new ModelAndView("login-page");
+        String errorMessage = "";
         utilsMethodService.setBibliothequeForTheVue(theModel, bibliothequeId);
         LoginRequestBean user = new LoginRequestBean();
+        List<BibliothequeBean> bibliotheques = new ArrayList<>();
         if (logout != null) {
-            ResponseEntity<?> bibliotheques = bibliothequeService.getBibliotheques();
-            theModel.addObject("bibliotheques", bibliotheques.getBody());
+            try {
+                 bibliotheques= bibliothequeService.getBibliotheques();
+            }catch (TechnicalException e) {
+                errorMessage = e.getMessage();
+            }
+            theModel.addObject("bibliotheques", bibliotheques);
             theModel.addObject("logoutMessage", "Vous êtes deconnecté !");
+            theModel.addObject("errorMessage", errorMessage);
             theModel.setViewName("index");
         }
         theModel.addObject("user", user);
@@ -185,22 +194,26 @@ public class UserController {
             }
             logger.info(String.valueOf(bindingResult.getModel()));
             theModel.addObject("abonne", userDetails);
-
             message = "Les informations renseignées ne sont pas conformes";
+            theModel.addObject("message", message);
             path = "signin-page";
         } else {
             UtilisateurBean createdAbonne = modelMapper.map(userDetails, UtilisateurBean.class);
             createdAbonne.setEncryptedPassword(passwordEncoderHelper.encodePwd(userDetails.getPassword()));
             try {
                 createdAbonne = userService.createAbonne(createdAbonne, paysId);
+                message = "L'abonné " + createdAbonne.getUsername() + " / " + createdAbonne.getEmail() + " a bien été enregistré.";
+                theModel.addObject("message", message);
+                path = "accueil";
             } catch (TechnicalException e) {
                 theModel.addObject("errorMessage", e.getMessage());
+                UtilisateurBean abooneToCreate = new UtilisateurBean();
+                theModel.addObject("abonne", abooneToCreate);
+                path = "signin-page";
             }
-            message = "L'abonné " + createdAbonne.getUsername() + " / " + createdAbonne.getEmail() + " a bien été enregistré.";
-            path = "accueil";
+
         }
         theModel.setViewName(path);
-        theModel.addObject("message", message);
         return theModel;
     }
 

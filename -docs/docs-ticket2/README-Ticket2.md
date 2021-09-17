@@ -36,6 +36,9 @@ sur les autres évolutions demandées.
 
 ### Base de données ###
 
+A noter : il n'est pas nécessaire de revenir à la version de la base de données précédente (P7).
+Néanmoins, il est possible de le faire en la recréant de la manière suivante : 
+
 - les backup (structure et datas) pour la base de données sont dans le répertoire -docs/docs-ticket#/sql
 
 
@@ -53,6 +56,8 @@ sur les autres évolutions demandées.
 
 
 ### Utilisation et fonctionnalités ###
+
+A noter : il s'agit des fonctionnalité de base du projet (P7).
 
 Page d'accueil accessible à : https://localhost:8999/ (gateway)
 

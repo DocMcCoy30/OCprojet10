@@ -31,7 +31,7 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      * @return la liste des bibliothèques
      */
     @Override
-    public ResponseEntity<?> findAll() {
+    public List<BibliothequeDto> findAll() throws TechnicalException {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         List<BibliothequeDto> bibliothequeDtos = new ArrayList<>();
@@ -40,13 +40,9 @@ public class BibliothequeServiceImpl implements BibliothequeService {
             for (Bibliotheque bibliotheque : bibliotheques) {
                 bibliothequeDtos.add(modelMapper.map(bibliotheque, BibliothequeDto.class));
             }
-            ResponseEntity<?> responseEntity = ResponseEntity.status(HttpStatus.ACCEPTED).body(bibliothequeDtos);
-            return responseEntity;
+            return bibliothequeDtos;
         } catch (Exception e) {
-//            throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
-            ResponseEntity<?> responseEntity = ResponseEntity.status(ErrorMessage.TECHNICAL_ERROR.getErrorCode())
-                    .body(new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage()));
-            return responseEntity;
+            throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
     }
 
@@ -57,35 +53,25 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      * @return un objet bibliothèque
      */
     @Override
-    public ResponseEntity<?> findById(Long bibliothequeId) {
+    public BibliothequeDto findById(Long bibliothequeId) throws TechnicalException {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-//        Bibliotheque bibliotheque = new Bibliotheque();
+        BibliothequeDto bibliothequeDto;
         if (bibliothequeId == null) {
             bibliothequeId = 1L;
         }
         try {
             Bibliotheque bibliotheque = bibliothequeRepository.findBibliothequeById(bibliothequeId);
             if (bibliotheque != null) {
-                BibliothequeDto bibliothequeDto = modelMapper.map(bibliotheque, BibliothequeDto.class);
-                ResponseEntity<?> responseEntity = ResponseEntity.status(HttpStatus.ACCEPTED).body(bibliothequeDto);
-                return responseEntity;
+                bibliothequeDto = modelMapper.map(bibliotheque, BibliothequeDto.class);
             } else {
-//                throw new TechnicalException(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
-                ResponseEntity<?> responseEntity = ResponseEntity.status(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorCode())
-                        .body(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
-                return responseEntity;
+                throw new TechnicalException(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
             }
         } catch (IllegalArgumentException e1) {
-//            throw new TechnicalException(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
-            ResponseEntity<?> responseEntity = ResponseEntity.status(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorCode())
-                    .body(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
-            return responseEntity;
+            throw new TechnicalException(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
         } catch (Exception e2) {
-//            throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
-            ResponseEntity<?> responseEntity = ResponseEntity.status(ErrorMessage.TECHNICAL_ERROR.getErrorCode())
-                    .body(new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage()));
-            return responseEntity;
+            throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
+        return bibliothequeDto;
     }
 }

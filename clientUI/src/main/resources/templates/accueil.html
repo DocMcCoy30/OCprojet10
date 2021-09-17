@@ -15,11 +15,11 @@
 <div class="container">
     <div th:insert="fragments/recherche.html"></div>
     <div th:if="${errorMessage}" th:utext="${errorMessage}"
-         style="color:red;font-style:italic;">
+         style="font-weight: bolder; font-size: large; color: red">
     </div>
     <div th:text="${statut}"></div>
     <div th:if="${message}" th:utext="${message}"
-         style="color:red;font-style:italic;">
+         style="font-weight: bolder; font-size: large; color: red">
     </div>
 
     <div th:if="${! #lists.isEmpty(lastLivres)}">

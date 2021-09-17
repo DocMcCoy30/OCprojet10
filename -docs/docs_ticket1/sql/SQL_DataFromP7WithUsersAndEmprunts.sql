@@ -5,7 +5,7 @@
 -- Dumped from database version 13.4
 -- Dumped by pg_dump version 13.4
 
--- Started on 2021-09-04 17:12:51
+-- Started on 2021-09-17 17:56:07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3167 (class 0 OID 17850)
+-- TOC entry 3179 (class 0 OID 23673)
 -- Dependencies: 222
 -- Data for Name: pays; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -28,7 +28,7 @@ INSERT INTO public.pays (id, nom, code_alpha2, code_alpha3, code) VALUES (1, 'Fr
 
 
 --
--- TOC entry 3146 (class 0 OID 17760)
+-- TOC entry 3158 (class 0 OID 23583)
 -- Dependencies: 201
 -- Data for Name: adresse; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -48,7 +48,7 @@ INSERT INTO public.adresse (id, rue, code_postal, ville, id_pays) VALUES (15, '3
 
 
 --
--- TOC entry 3148 (class 0 OID 17769)
+-- TOC entry 3160 (class 0 OID 23592)
 -- Dependencies: 203
 -- Data for Name: auteur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -105,7 +105,7 @@ INSERT INTO public.auteur (id, nom, prenom, date_naissance, date_deces) VALUES (
 
 
 --
--- TOC entry 3150 (class 0 OID 17778)
+-- TOC entry 3162 (class 0 OID 23601)
 -- Dependencies: 205
 -- Data for Name: bibliotheque; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -117,7 +117,7 @@ INSERT INTO public.bibliotheque (id, code, numero_siret, nom, id_adresse) VALUES
 
 
 --
--- TOC entry 3152 (class 0 OID 17787)
+-- TOC entry 3164 (class 0 OID 23610)
 -- Dependencies: 207
 -- Data for Name: editeur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -131,35 +131,7 @@ INSERT INTO public.editeur (id, nom_maison_edition) VALUES (6, 'Ace');
 
 
 --
--- TOC entry 3154 (class 0 OID 17796)
--- Dependencies: 209
--- Data for Name: genre; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.genre (id, genre) VALUES (12, 'Philosophie');
-INSERT INTO public.genre (id, genre) VALUES (9, 'Science-Fiction');
-INSERT INTO public.genre (id, genre) VALUES (8, 'Horreur');
-INSERT INTO public.genre (id, genre) VALUES (10, 'Fantasy');
-INSERT INTO public.genre (id, genre) VALUES (13, 'Histoire');
-INSERT INTO public.genre (id, genre) VALUES (7, 'Thriller');
-INSERT INTO public.genre (id, genre) VALUES (14, 'Economie');
-INSERT INTO public.genre (id, genre) VALUES (6, 'Policier');
-INSERT INTO public.genre (id, genre) VALUES (11, 'Biographie');
-INSERT INTO public.genre (id, genre) VALUES (2, 'Litterature Française');
-INSERT INTO public.genre (id, genre) VALUES (17, 'Poesie');
-INSERT INTO public.genre (id, genre) VALUES (16, 'Theatre');
-INSERT INTO public.genre (id, genre) VALUES (5, 'Roman Historique');
-INSERT INTO public.genre (id, genre) VALUES (15, 'Droit');
-INSERT INTO public.genre (id, genre) VALUES (19, 'Bandes Dessinees');
-INSERT INTO public.genre (id, genre) VALUES (1, 'Classique');
-INSERT INTO public.genre (id, genre) VALUES (18, 'Dictionnaire');
-INSERT INTO public.genre (id, genre) VALUES (20, 'Enfant');
-INSERT INTO public.genre (id, genre) VALUES (4, 'Roman');
-INSERT INTO public.genre (id, genre) VALUES (3, 'Litterature Etrangere');
-
-
---
--- TOC entry 3158 (class 0 OID 17814)
+-- TOC entry 3170 (class 0 OID 23637)
 -- Dependencies: 213
 -- Data for Name: langue; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -172,7 +144,7 @@ INSERT INTO public.langue (id, code, langue) VALUES (1, 'fr', 'Français');
 
 
 --
--- TOC entry 3160 (class 0 OID 17823)
+-- TOC entry 3172 (class 0 OID 23646)
 -- Dependencies: 215
 -- Data for Name: livre; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -216,144 +188,7 @@ INSERT INTO public.livre (id, titre, resume, date_edition, numero_isbn13, id_edi
 
 
 --
--- TOC entry 3156 (class 0 OID 17805)
--- Dependencies: 211
--- Data for Name: illustration; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (1, 'http://localhost:8081/imageserver/static/Ca - tome 1.jpg', 'couverture', 6);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (2, 'http://localhost:8081/imageserver/static/Voyage au bout de la nuit.jpg', 'couverture', 1);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (3, 'http://localhost:8081/imageserver/static/Mort à crédit.jpg', 'couverture', 2);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (4, 'http://localhost:8081/imageserver/static/Guignol''s band.jpg', 'couverture', 3);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (5, 'http://localhost:8081/imageserver/static/D''un château l''autre.jpg', 'couverture', 4);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (6, 'http://localhost:8081/imageserver/static/Féerie pour une autre fois.jpg', 'couverture', 5);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (7, 'http://localhost:8081/imageserver/static/Ca - tome 2.jpg', 'couverture', 7);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (8, 'http://localhost:8081/imageserver/static/Shining.jpg', 'couverture', 8);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (9, 'http://localhost:8081/imageserver/static/Simetierre .jpg', 'couverture', 9);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (10, 'http://localhost:8081/imageserver/static/Salem.jpg', 'couverture', 10);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (11, 'http://localhost:8081/imageserver/static/Docteur Sleep.jpg', 'couverture', 11);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (12, 'http://localhost:8081/imageserver/static/Dune.jpg', 'couverture', 12);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (13, 'http://localhost:8081/imageserver/static/Dune Messiah.jpg', 'couverture', 13);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (14, 'http://localhost:8081/imageserver/static/Children of Dune.jpg', 'couverture', 14);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (15, 'http://localhost:8081/imageserver/static/Heretics of Dune.jpg', 'couverture', 15);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (16, 'http://localhost:8081/imageserver/static/God Emperor of Dune.jpg', 'couverture', 16);
-INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (17, 'http://localhost:8081/imageserver/static/Chapterhouse Dune.jpg', 'couverture', 17);
-
-
---
--- TOC entry 3161 (class 0 OID 17830)
--- Dependencies: 216
--- Data for Name: many_livre_has_many_auteur; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (1, 14);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (2, 14);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (3, 14);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (4, 14);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (5, 14);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (6, 34);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (7, 34);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (8, 34);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (9, 34);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (10, 34);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (11, 34);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (12, 49);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (13, 49);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (14, 49);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (15, 49);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (16, 49);
-INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (17, 49);
-
-
---
--- TOC entry 3162 (class 0 OID 17833)
--- Dependencies: 217
--- Data for Name: many_livre_has_many_genre; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (1, 2);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (1, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (2, 2);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (2, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (3, 2);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (3, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (4, 2);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (4, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (5, 2);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (5, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (6, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (6, 8);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (7, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (7, 8);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (8, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (8, 8);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (9, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (9, 8);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (10, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (10, 8);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (11, 4);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (11, 8);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (12, 3);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (12, 9);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (13, 3);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (13, 9);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (14, 3);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (14, 9);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (15, 3);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (15, 9);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (16, 3);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (16, 9);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (17, 3);
-INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (17, 9);
-
-
---
--- TOC entry 3171 (class 0 OID 17865)
--- Dependencies: 226
--- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.role (id, role, description) VALUES (1, 'ROLE_USER', 'accès à signIn/LogIn/recherche');
-INSERT INTO public.role (id, role, description) VALUES (2, 'ROLE_ABONNE', 'accès à ConsultationProfil/Prolongation');
-INSERT INTO public.role (id, role, description) VALUES (3, 'ROLE_EMPLOYE', 'accès à emprunt/retour');
-INSERT INTO public.role (id, role, description) VALUES (4, 'ROLE_ADMIN', 'accès BackOffice');
-
-
---
--- TOC entry 3173 (class 0 OID 17874)
--- Dependencies: 228
--- Data for Name: utilisateur; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (3, 'oss117', 'Hubert', 'Bonisseur de la Bath', 'oss117@mail.com', '$2a$10$f8hi8ME0LD.4sMXRdtIbZucPg2mCfxLSF.nij/1qnq6R3pw3znY6C', '0687654321', '1770d628-6b54-4619-80a3-11aff968f298', '2021-09-04', 'HUBO-1770', NULL, NULL, NULL, 8);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (4, 'comolet', 'Bernard', 'Comolet', 'comolet@mail.com', '$2a$10$hYO58otjhJn9USSHCDrpd.q8tOYo6bL1aw5pgg4nSF3NtUOKuw0eu', '0687654321', 'c1e8721b-a361-45fb-9330-ec84047754c7', '2021-09-04', 'BECO-c1e8', NULL, NULL, NULL, 9);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (6, 'leboissier', 'Bernard', 'Leboissier', 'leboissier@mail.com', '$2a$10$bVCZsDltBYS81G/ClIM5J.IAlndvf9Z15PhuPJEkvZwjy01LpZO/.', '0687654321', 'fe04e6b3-f23e-4995-b5b2-b62e3e0209f2', '2021-09-04', 'BELE-fe04', NULL, NULL, NULL, 11);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (7, 'delannoy', 'Bernard', 'Delannoy', 'delannoy@mail.com', '$2a$10$fWUeZx6NQevNgvoZNda.COYrjErUXpNOsQfFZ9p4iNWLEZ9TQ80Mm', '0687654321', 'f53d8f8b-aa62-424a-840f-28eaf0a72c0c', '2021-09-04', 'BEDE-f53d', NULL, NULL, NULL, 12);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (10, 'mongier', 'Bernard', 'Mongier', 'mongier@mail.com', '$2a$10$mEmd9m4XzzwvB0BTsFb7LuPprrLCWKJE2Knnl3hwsc8aDwLRteKmS', '0687654321', 'c3c8a4c9-7513-4f12-a5d9-3240a2c24f56', '2021-09-04', 'BEMO-c3c8', NULL, NULL, NULL, 15);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (5, 'charpon', 'Bernard', 'Charpon', 'charpon@mail.com', '$2a$10$ORV4TvDgXp3zMqSmr7c.7OKb5G5daNNVMQd7p4cFflHZ.x5GXyNby', '0687654321', 'c2205d3b-c91f-4391-a6d0-86882dd12ddf', '2021-09-04', 'BECH-c220', NULL, NULL, NULL, 10);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (8, 'labouse', 'Bernard', 'Labouse', 'labouse@mail.com', '$2a$10$DC3NE.6NfxV7mRjodOwtpOnrHNTBNp1A2UCjLVxJELIbhcVRtq1na', '0687654321', '6c0504d5-07f5-4e54-8dca-08e814518f1a', '2021-09-04', 'BELA-6c05', NULL, NULL, NULL, 13);
-INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (9, 'francard', 'Bernard', 'Francard', 'francard@mail.com', '$2a$10$FtvquhoQJZojf6ylaSrG6uuGUFxk76Uj1Yl.NCdvHbrDZ/btKF/OG', '0687654321', '413e12ce-f935-45b0-8ed1-3b56648fd0fe', '2021-09-04', 'BEFR-413e', NULL, NULL, NULL, 14);
-
-
---
--- TOC entry 3163 (class 0 OID 17836)
--- Dependencies: 218
--- Data for Name: many_utilisateur_has_many_role; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (3, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (3, 3);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (4, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (5, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (6, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (7, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (8, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (9, 2);
-INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (10, 2);
-
-
---
--- TOC entry 3165 (class 0 OID 17841)
+-- TOC entry 3177 (class 0 OID 23664)
 -- Dependencies: 220
 -- Data for Name: ouvrage; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -492,7 +327,7 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (143, 'SER_DUN1_12_2', false, 4, 12);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (144, 'SER_DUN1_12_3', false, 4, 12);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (145, 'CEN_DUN2_13_1', false, 1, 13);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (134, 'CEN_DUN1_12_2', true, 1, 12);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (134, 'CEN_DUN1_12_2', false, 1, 12);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (146, 'CEN_DUN2_13_2', false, 1, 13);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (147, 'CEN_DUN2_13_3', false, 1, 13);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (148, 'VAL_DUN2_13_1', false, 2, 13);
@@ -513,36 +348,24 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (163, 'JDO_DUN3_14_1', false, 3, 14);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (164, 'JDO_DUN3_14_2', false, 3, 14);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (165, 'JDO_DUN3_14_3', false, 3, 14);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (166, 'SER_DUN3_14_1', false, 4, 14);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (167, 'SER_DUN3_14_2', false, 4, 14);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (168, 'SER_DUN3_14_3', false, 4, 14);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (169, 'CEN_DUN4_15_1', false, 1, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (170, 'CEN_DUN4_15_2', false, 1, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (171, 'CEN_DUN4_15_3', false, 1, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (172, 'VAL_DUN4_15_1', false, 2, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (173, 'VAL_DUN4_15_2', false, 2, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (174, 'VAL_DUN4_15_3', false, 2, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (175, 'JDO_DUN4_15_1', false, 3, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (176, 'JDO_DUN4_15_2', false, 3, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (177, 'JDO_DUN4_15_3', false, 3, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (178, 'SER_DUN4_15_1', false, 4, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (179, 'SER_DUN4_15_2', false, 4, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (180, 'SER_DUN4_15_3', false, 4, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (181, 'CEN_DUN5_16_1', false, 1, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (182, 'CEN_DUN5_16_2', false, 1, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (183, 'CEN_DUN5_16_3', false, 1, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (184, 'VAL_DUN5_16_1', false, 2, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (185, 'VAL_DUN5_16_2', false, 2, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (186, 'VAL_DUN5_16_3', false, 2, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (187, 'JDO_DUN5_16_1', false, 3, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (188, 'JDO_DUN5_16_2', false, 3, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (189, 'JDO_DUN5_16_3', false, 3, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (190, 'SER_DUN5_16_1', false, 4, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (191, 'SER_DUN5_16_2', false, 4, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (192, 'SER_DUN5_16_3', false, 4, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (193, 'CEN_DUN6_17_1', false, 1, 17);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (194, 'CEN_DUN6_17_2', false, 1, 17);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (195, 'CEN_DUN6_17_3', false, 1, 17);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (196, 'VAL_DUN6_17_1', false, 2, 17);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (197, 'VAL_DUN6_17_2', false, 2, 17);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (198, 'VAL_DUN6_17_3', false, 2, 17);
@@ -560,23 +383,231 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (14, 'CEN_MOR_2_2', false, 1, 2);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (3, 'CEN_VOY_1_3', false, 1, 1);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (10, 'SER_VOY_1_1', false, 4, 1);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (133, 'CEN_DUN1_12_1', true, 1, 12);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (135, 'CEN_DUN1_12_3', true, 1, 12);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (133, 'CEN_DUN1_12_1', false, 1, 12);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (135, 'CEN_DUN1_12_3', false, 1, 12);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (193, 'CEN_DUN6_17_1', true, 1, 17);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (194, 'CEN_DUN6_17_2', true, 1, 17);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (195, 'CEN_DUN6_17_3', true, 1, 17);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (184, 'VAL_DUN5_16_1', true, 2, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (185, 'VAL_DUN5_16_2', true, 2, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (186, 'VAL_DUN5_16_3', true, 2, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (175, 'JDO_DUN4_15_1', true, 3, 15);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (176, 'JDO_DUN4_15_2', true, 3, 15);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (177, 'JDO_DUN4_15_3', true, 3, 15);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (166, 'SER_DUN3_14_1', true, 4, 14);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (167, 'SER_DUN3_14_2', true, 4, 14);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (168, 'SER_DUN3_14_3', true, 4, 14);
 
 
 --
--- TOC entry 3187 (class 0 OID 18811)
--- Dependencies: 230
+-- TOC entry 3184 (class 0 OID 23697)
+-- Dependencies: 227
+-- Data for Name: utilisateur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (3, 'oss117', 'Hubert', 'Bonisseur de la Bath', 'oss117@mail.com', '$2a$10$f8hi8ME0LD.4sMXRdtIbZucPg2mCfxLSF.nij/1qnq6R3pw3znY6C', '0687654321', '1770d628-6b54-4619-80a3-11aff968f298', '2021-09-04', 'HUBO-1770', NULL, NULL, NULL, 8);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (4, 'comolet', 'Bernard', 'Comolet', 'comolet@mail.com', '$2a$10$hYO58otjhJn9USSHCDrpd.q8tOYo6bL1aw5pgg4nSF3NtUOKuw0eu', '0687654321', 'c1e8721b-a361-45fb-9330-ec84047754c7', '2021-09-04', 'BECO-c1e8', NULL, NULL, NULL, 9);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (6, 'leboissier', 'Bernard', 'Leboissier', 'leboissier@mail.com', '$2a$10$bVCZsDltBYS81G/ClIM5J.IAlndvf9Z15PhuPJEkvZwjy01LpZO/.', '0687654321', 'fe04e6b3-f23e-4995-b5b2-b62e3e0209f2', '2021-09-04', 'BELE-fe04', NULL, NULL, NULL, 11);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (7, 'delannoy', 'Bernard', 'Delannoy', 'delannoy@mail.com', '$2a$10$fWUeZx6NQevNgvoZNda.COYrjErUXpNOsQfFZ9p4iNWLEZ9TQ80Mm', '0687654321', 'f53d8f8b-aa62-424a-840f-28eaf0a72c0c', '2021-09-04', 'BEDE-f53d', NULL, NULL, NULL, 12);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (10, 'mongier', 'Bernard', 'Mongier', 'mongier@mail.com', '$2a$10$mEmd9m4XzzwvB0BTsFb7LuPprrLCWKJE2Knnl3hwsc8aDwLRteKmS', '0687654321', 'c3c8a4c9-7513-4f12-a5d9-3240a2c24f56', '2021-09-04', 'BEMO-c3c8', NULL, NULL, NULL, 15);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (5, 'charpon', 'Bernard', 'Charpon', 'charpon@mail.com', '$2a$10$ORV4TvDgXp3zMqSmr7c.7OKb5G5daNNVMQd7p4cFflHZ.x5GXyNby', '0687654321', 'c2205d3b-c91f-4391-a6d0-86882dd12ddf', '2021-09-04', 'BECH-c220', NULL, NULL, NULL, 10);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (8, 'labouse', 'Bernard', 'Labouse', 'labouse@mail.com', '$2a$10$DC3NE.6NfxV7mRjodOwtpOnrHNTBNp1A2UCjLVxJELIbhcVRtq1na', '0687654321', '6c0504d5-07f5-4e54-8dca-08e814518f1a', '2021-09-04', 'BELA-6c05', NULL, NULL, NULL, 13);
+INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, numero_telephone, public_id, date_creation_compte, numero_abonne, matricule, date_entree, date_sortie, id_adresse) VALUES (9, 'francard', 'Bernard', 'Francard', 'francard@mail.com', '$2a$10$FtvquhoQJZojf6ylaSrG6uuGUFxk76Uj1Yl.NCdvHbrDZ/btKF/OG', '0687654321', '413e12ce-f935-45b0-8ed1-3b56648fd0fe', '2021-09-04', 'BEFR-413e', NULL, NULL, NULL, 14);
+
+
+--
+-- TOC entry 3185 (class 0 OID 23824)
+-- Dependencies: 228
 -- Data for Name: emprunt; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (4, '2021-09-04', '2021-10-05', NULL, false, false, 133, 4);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (5, '2021-09-04', '2021-10-05', NULL, false, false, 134, 5);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (6, '2021-09-04', '2021-10-05', NULL, false, false, 135, 6);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (8, '2021-09-17', '2021-10-18', NULL, false, false, 194, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (9, '2021-09-17', '2021-10-18', NULL, false, false, 195, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (10, '2021-09-17', '2021-10-18', NULL, false, false, 184, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (11, '2021-09-17', '2021-10-18', NULL, false, false, 185, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (12, '2021-09-17', '2021-10-18', NULL, false, false, 186, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (13, '2021-09-17', '2021-10-18', NULL, false, false, 175, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (14, '2021-09-17', '2021-10-18', NULL, false, false, 176, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (15, '2021-09-17', '2021-10-18', NULL, false, false, 177, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (16, '2021-09-17', '2021-10-18', NULL, false, false, 166, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (17, '2021-09-17', '2021-10-18', NULL, false, false, 167, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (18, '2021-09-17', '2021-10-18', NULL, false, false, 168, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (7, '2021-08-01', '2021-09-02', NULL, false, false, 193, 3);
 
 
 --
--- TOC entry 3179 (class 0 OID 0)
+-- TOC entry 3166 (class 0 OID 23619)
+-- Dependencies: 209
+-- Data for Name: genre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.genre (id, genre) VALUES (12, 'Philosophie');
+INSERT INTO public.genre (id, genre) VALUES (9, 'Science-Fiction');
+INSERT INTO public.genre (id, genre) VALUES (8, 'Horreur');
+INSERT INTO public.genre (id, genre) VALUES (10, 'Fantasy');
+INSERT INTO public.genre (id, genre) VALUES (13, 'Histoire');
+INSERT INTO public.genre (id, genre) VALUES (7, 'Thriller');
+INSERT INTO public.genre (id, genre) VALUES (14, 'Economie');
+INSERT INTO public.genre (id, genre) VALUES (6, 'Policier');
+INSERT INTO public.genre (id, genre) VALUES (11, 'Biographie');
+INSERT INTO public.genre (id, genre) VALUES (2, 'Litterature Française');
+INSERT INTO public.genre (id, genre) VALUES (17, 'Poesie');
+INSERT INTO public.genre (id, genre) VALUES (16, 'Theatre');
+INSERT INTO public.genre (id, genre) VALUES (5, 'Roman Historique');
+INSERT INTO public.genre (id, genre) VALUES (15, 'Droit');
+INSERT INTO public.genre (id, genre) VALUES (19, 'Bandes Dessinees');
+INSERT INTO public.genre (id, genre) VALUES (1, 'Classique');
+INSERT INTO public.genre (id, genre) VALUES (18, 'Dictionnaire');
+INSERT INTO public.genre (id, genre) VALUES (20, 'Enfant');
+INSERT INTO public.genre (id, genre) VALUES (4, 'Roman');
+INSERT INTO public.genre (id, genre) VALUES (3, 'Litterature Etrangere');
+
+
+--
+-- TOC entry 3168 (class 0 OID 23628)
+-- Dependencies: 211
+-- Data for Name: illustration; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (1, 'http://localhost:8081/imageserver/static/Ca - tome 1.jpg', 'couverture', 6);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (2, 'http://localhost:8081/imageserver/static/Voyage au bout de la nuit.jpg', 'couverture', 1);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (3, 'http://localhost:8081/imageserver/static/Mort à crédit.jpg', 'couverture', 2);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (4, 'http://localhost:8081/imageserver/static/Guignol''s band.jpg', 'couverture', 3);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (5, 'http://localhost:8081/imageserver/static/D''un château l''autre.jpg', 'couverture', 4);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (6, 'http://localhost:8081/imageserver/static/Féerie pour une autre fois.jpg', 'couverture', 5);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (7, 'http://localhost:8081/imageserver/static/Ca - tome 2.jpg', 'couverture', 7);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (8, 'http://localhost:8081/imageserver/static/Shining.jpg', 'couverture', 8);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (9, 'http://localhost:8081/imageserver/static/Simetierre .jpg', 'couverture', 9);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (10, 'http://localhost:8081/imageserver/static/Salem.jpg', 'couverture', 10);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (11, 'http://localhost:8081/imageserver/static/Docteur Sleep.jpg', 'couverture', 11);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (12, 'http://localhost:8081/imageserver/static/Dune.jpg', 'couverture', 12);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (13, 'http://localhost:8081/imageserver/static/Dune Messiah.jpg', 'couverture', 13);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (14, 'http://localhost:8081/imageserver/static/Children of Dune.jpg', 'couverture', 14);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (15, 'http://localhost:8081/imageserver/static/Heretics of Dune.jpg', 'couverture', 15);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (16, 'http://localhost:8081/imageserver/static/God Emperor of Dune.jpg', 'couverture', 16);
+INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (17, 'http://localhost:8081/imageserver/static/Chapterhouse Dune.jpg', 'couverture', 17);
+
+
+--
+-- TOC entry 3173 (class 0 OID 23653)
+-- Dependencies: 216
+-- Data for Name: many_livre_has_many_auteur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (1, 14);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (2, 14);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (3, 14);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (4, 14);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (5, 14);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (6, 34);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (7, 34);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (8, 34);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (9, 34);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (10, 34);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (11, 34);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (12, 49);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (13, 49);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (14, 49);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (15, 49);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (16, 49);
+INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (17, 49);
+
+
+--
+-- TOC entry 3174 (class 0 OID 23656)
+-- Dependencies: 217
+-- Data for Name: many_livre_has_many_genre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (1, 2);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (1, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (2, 2);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (2, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (3, 2);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (3, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (4, 2);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (4, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (5, 2);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (5, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (6, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (6, 8);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (7, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (7, 8);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (8, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (8, 8);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (9, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (9, 8);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (10, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (10, 8);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (11, 4);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (11, 8);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (12, 3);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (12, 9);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (13, 3);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (13, 9);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (14, 3);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (14, 9);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (15, 3);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (15, 9);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (16, 3);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (16, 9);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (17, 3);
+INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (17, 9);
+
+
+--
+-- TOC entry 3182 (class 0 OID 23688)
+-- Dependencies: 225
+-- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.role (id, role, description) VALUES (1, 'ROLE_USER', 'accès à signIn/LogIn/recherche');
+INSERT INTO public.role (id, role, description) VALUES (2, 'ROLE_ABONNE', 'accès à ConsultationProfil/Prolongation');
+INSERT INTO public.role (id, role, description) VALUES (3, 'ROLE_EMPLOYE', 'accès à emprunt/retour');
+INSERT INTO public.role (id, role, description) VALUES (4, 'ROLE_ADMIN', 'accès BackOffice');
+
+
+--
+-- TOC entry 3175 (class 0 OID 23659)
+-- Dependencies: 218
+-- Data for Name: many_utilisateur_has_many_role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (3, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (3, 3);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (4, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (5, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (6, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (7, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (8, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (9, 2);
+INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALUES (10, 2);
+
+
+--
+-- TOC entry 3187 (class 0 OID 23832)
+-- Dependencies: 230
+-- Data for Name: reservation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (1, '2021-09-17', false, false, NULL, NULL, NULL, 7, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (2, '2021-09-17', false, false, NULL, NULL, NULL, 7, 16, 2);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (3, '2021-09-17', false, false, NULL, NULL, NULL, 7, 15, 3);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (4, '2021-09-17', false, false, NULL, NULL, NULL, 7, 14, 4);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (5, '2021-09-17', false, false, NULL, NULL, NULL, 6, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (6, '2021-09-17', false, false, NULL, NULL, NULL, 6, 16, 2);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (7, '2021-09-17', false, false, NULL, NULL, NULL, 6, 15, 3);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (8, '2021-09-17', false, false, NULL, NULL, NULL, 6, 14, 4);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (9, '2021-09-17', false, false, NULL, NULL, NULL, 9, 16, 2);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (10, '2021-09-17', false, false, NULL, NULL, NULL, 9, 15, 3);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (11, '2021-09-17', false, false, NULL, NULL, NULL, 9, 14, 4);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (12, '2021-09-17', false, false, NULL, NULL, NULL, 10, 15, 3);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (13, '2021-09-17', false, false, NULL, NULL, NULL, 10, 14, 4);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (14, '2021-09-17', false, false, NULL, NULL, NULL, 8, 14, 4);
+
+
+--
+-- TOC entry 3193 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: adresse_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -585,7 +616,7 @@ SELECT pg_catalog.setval('public.adresse_id_seq1', 15, true);
 
 
 --
--- TOC entry 3180 (class 0 OID 0)
+-- TOC entry 3194 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: auteur_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -594,7 +625,7 @@ SELECT pg_catalog.setval('public.auteur_id_seq1', 1, false);
 
 
 --
--- TOC entry 3181 (class 0 OID 0)
+-- TOC entry 3195 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: bibliotheque_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -603,7 +634,7 @@ SELECT pg_catalog.setval('public.bibliotheque_id_seq1', 1, false);
 
 
 --
--- TOC entry 3182 (class 0 OID 0)
+-- TOC entry 3196 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: editeur_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -612,7 +643,7 @@ SELECT pg_catalog.setval('public.editeur_id_seq1', 1, false);
 
 
 --
--- TOC entry 3183 (class 0 OID 0)
+-- TOC entry 3197 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: genre_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -621,7 +652,7 @@ SELECT pg_catalog.setval('public.genre_id_seq1', 1, false);
 
 
 --
--- TOC entry 3184 (class 0 OID 0)
+-- TOC entry 3198 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: illustration_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -630,7 +661,7 @@ SELECT pg_catalog.setval('public.illustration_id_seq1', 1, false);
 
 
 --
--- TOC entry 3185 (class 0 OID 0)
+-- TOC entry 3199 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: langue_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -639,7 +670,7 @@ SELECT pg_catalog.setval('public.langue_id_seq1', 1, false);
 
 
 --
--- TOC entry 3186 (class 0 OID 0)
+-- TOC entry 3200 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: livre_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -648,7 +679,7 @@ SELECT pg_catalog.setval('public.livre_id_seq1', 1, false);
 
 
 --
--- TOC entry 3187 (class 0 OID 0)
+-- TOC entry 3201 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: ouvrage_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -657,7 +688,7 @@ SELECT pg_catalog.setval('public.ouvrage_id_seq1', 1, false);
 
 
 --
--- TOC entry 3188 (class 0 OID 0)
+-- TOC entry 3202 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: pays_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -666,17 +697,26 @@ SELECT pg_catalog.setval('public.pays_id_seq1', 1, false);
 
 
 --
--- TOC entry 3189 (class 0 OID 0)
+-- TOC entry 3203 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: pret_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pret_id_seq1', 6, true);
+SELECT pg_catalog.setval('public.pret_id_seq1', 18, true);
 
 
 --
--- TOC entry 3190 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 3204 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: reservation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reservation_id_seq', 14, true);
+
+
+--
+-- TOC entry 3205 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: role_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -684,15 +724,15 @@ SELECT pg_catalog.setval('public.role_id_seq1', 1, false);
 
 
 --
--- TOC entry 3191 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 3206 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: utilisateur_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.utilisateur_id_seq', 10, true);
 
 
--- Completed on 2021-09-04 17:12:51
+-- Completed on 2021-09-17 17:56:07
 
 --
 -- PostgreSQL database dump complete

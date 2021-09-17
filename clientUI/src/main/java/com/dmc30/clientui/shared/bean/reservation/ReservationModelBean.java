@@ -15,4 +15,5 @@ public class ReservationModelBean {
         private Integer numeroAttente;
         private String dateRetourPrevu;
         private boolean expiree;
+        String bibliotheque;
 }

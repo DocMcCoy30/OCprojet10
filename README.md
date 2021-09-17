@@ -52,12 +52,12 @@ La documentation du projet pour les différents tickets se trouve dans le dossie
 
 ![img.png](.README_images/db-migration.png)
 
+Ce script ajoute les tables nécessaires à l'implémentation de la fonctionnalité demandée dans le premier ticket
+(réservation d'ouvrages).
+
 - Copier/Coller le contenu du fichier DataFromP7WithUsersAndEmprunts.sql dans le QueryEditor et executer le script
 
 ![img.png](.README_images/db-datas.png)
-
-Ce script ajoute les tables nécessaires à l'implémentation de la fonctionnalité demandée dans le premier ticket
-(réservation d'ouvrages).
 
 ### Installation ###
 
@@ -82,10 +82,9 @@ $mvn install pour chaque service si nécessaire
 
 2- eureka-server
 
+3- utilisateur-service / livre-service / emprunt-service / reservation-service 
 
-3- utilisateur-service / livre-service / emprunt-service / reservation-service / email-service
-
-4- clientUI
+4- clientUI / email-service
 
 5- gateway-server
 
@@ -100,7 +99,7 @@ $ java -jar nom-du-service.jar
 Page d'accueil accessible à : https://localhost:8999/ (gateway)
 
 Pour les besoins des tests des cas d'utilisation des nouvelles fonctionnalités, 8 utilisateurs sont créés dans 
-la base de données (ainsi qu'un certain nombre de prêts en cours sur l'ouvrage "Dune" de la Bibliothèque du Carré d'Art) :
+la base de données (ainsi qu'un certain nombre de prêts et de réservations) :
 
 Catégorie  | Login | Password
 ------------- | ------------- | -------------

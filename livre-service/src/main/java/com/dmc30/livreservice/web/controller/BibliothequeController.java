@@ -1,9 +1,13 @@
 package com.dmc30.livreservice.web.controller;
 
 import com.dmc30.livreservice.service.contract.BibliothequeService;
+import com.dmc30.livreservice.service.dto.bibliotheque.BibliothequeDto;
+import com.dmc30.livreservice.web.exception.TechnicalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/bibliotheques")
@@ -21,7 +25,7 @@ public class BibliothequeController {
      * @return la liste de toutes les bibliothèques
      */
     @GetMapping("/all")
-    public ResponseEntity<?> getBibliotheques() {
+    public List<BibliothequeDto> getBibliotheques() throws TechnicalException {
         return bibliothequeService.findAll();
     }
 
@@ -31,7 +35,7 @@ public class BibliothequeController {
      * @return la bibliothèque recherchée
      */
     @PostMapping("/id")
-    public ResponseEntity<?> getBibliothequeById(@RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId) {
+    public BibliothequeDto getBibliothequeById(@RequestParam(value = "bibliothequeId", required = false) Long bibliothequeId) throws TechnicalException {
         return bibliothequeService.findById(bibliothequeId);
     }
 }

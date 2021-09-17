@@ -50,17 +50,13 @@ public class UtilsMethodService {
      */
     public void setBibliothequeForTheVue(ModelAndView theModel, @RequestParam("bibliothequeId") Long bibliothequeId) {
         String errorMessage;
+        BibliothequeBean bibliothequeBean;
         if (bibliothequeId != null) {
-            ResponseEntity<?> response = bibliothequeService.getBibliothequeById(bibliothequeId);
-            if (response.getStatusCodeValue() == 202) {
-                ObjectMapper mapper = new ObjectMapper();
-                BibliothequeBean bibliotheque = mapper.convertValue(response.getBody(), BibliothequeBean.class);
-                theModel.addObject("bibliotheque", bibliotheque);
-            } else if (response.getStatusCodeValue() == 491) {
-                errorMessage = (String) response.getBody();
-                theModel.addObject("errorMessage", errorMessage);
-            } else if (response.getStatusCodeValue() == 490) {
-                errorMessage = (String) response.getBody();
+            try {
+                bibliothequeBean = bibliothequeService.getBibliothequeById(bibliothequeId);
+                theModel.addObject("bibliotheque", bibliothequeBean);
+            } catch (TechnicalException e) {
+                errorMessage = e.getMessage();
                 theModel.addObject("errorMessage", errorMessage);
             }
         }
@@ -75,13 +71,14 @@ public class UtilsMethodService {
      * @param abonne            le bean abonné
      * @param ouvrageService    le service ouvrage pour récupérer l'ouvrage emprunté
      */
-    public void setEmpruntModelBean(List<EmpruntModelBean> empruntModelBeans, EmpruntBean empruntBean, EmpruntModelBean empruntModelBean, UtilisateurBean abonne, OuvrageService ouvrageService) throws TechnicalException {
+    public String setEmpruntModelBean(List<EmpruntModelBean> empruntModelBeans, EmpruntBean empruntBean, EmpruntModelBean empruntModelBean, UtilisateurBean abonne, OuvrageService ouvrageService) throws TechnicalException {
         Date dateRestitution;
-        Boolean prolongationImpossible = empruntModelBean.isRetard();
         String prolongationImpossibleMessage = "";
         empruntModelBean.setAbonne(abonne.getPrenom() + " " + abonne.getNom());
         empruntModelBean.setAbonneId(abonne.getId());
         OuvrageResponseModelBean ouvrage = ouvrageService.getOuvrageById(empruntBean.getOuvrageId());
+        BibliothequeBean bibliotheque = bibliothequeService.getBibliothequeById(ouvrage.getBibliothequeId());
+        empruntModelBean.setBibliotheque(bibliotheque.getNom());
         empruntModelBean.setIdentifiantOuvrage(ouvrage.getIdInterne());
         empruntModelBean.setTitreDuLivre(ouvrage.getTitre());
         empruntModelBean.setAuteur(ouvrage.getAuteur());
@@ -94,7 +91,7 @@ public class UtilsMethodService {
         } else {
             dateRestitution = empruntBean.getDateRestitution();
             //DONE T2 : Retourne un message pour retard retour emprunt
-            if (pret.getDateRestitution().before(new Date())) {
+            if (empruntBean.getDateRestitution().before(new Date())) {
                 empruntModelBean.setRetard(true);
                 prolongationImpossibleMessage = "Vous avez un emprunt en retard. Merci de vous rapprocher de votre bibliothèque le plus rapidement possible";
             }
@@ -147,13 +144,13 @@ public class UtilsMethodService {
      */
     public void setEmpruntsEnCours(ModelAndView theModel, List<EmpruntModelBean> empruntModelBeans, @RequestParam("bibliothequeId") Long bibliothequeId) {
         String message;
+        BibliothequeBean bibliothequeBean;
         try {
             List<EmpruntBean> empruntsEnCours = empruntService.getEmpruntsEnCours(bibliothequeId);
             if (empruntsEnCours.isEmpty()) {
-                ResponseEntity<?> response = bibliothequeService.getBibliothequeById(bibliothequeId);
+                bibliothequeBean = bibliothequeService.getBibliothequeById(bibliothequeId);
                 ObjectMapper mapper = new ObjectMapper();
-                BibliothequeBean bibliotheque = mapper.convertValue(response.getBody(), BibliothequeBean.class);
-                message = "Aucun emprunt en cours pour " + bibliotheque.getNom();
+                message = "Aucun emprunt en cours pour " + bibliothequeBean.getNom();
                 theModel.addObject("message", message);
             } else {
                 for (EmpruntBean emprunt : empruntsEnCours) {
@@ -195,9 +192,10 @@ public class UtilsMethodService {
                     EmpruntModelBean empruntModelBean = new EmpruntModelBean();
                     if (emprunt.isRestitution()) {
                         setEmpruntModelBean(empruntsRetournes, emprunt, empruntModelBean, abonne, ouvrageService);
+                        theModel.addObject("empruntsRetournes", empruntsRetournes);
                     } else if (!emprunt.isRestitution()) {
                         //DONE T2 : retard pret
-                        prolongationImpossibleMessage = setEmpruntModelBean(empruntsEnCours, pret, empruntModelBean, abonne, ouvrageService);
+                        prolongationImpossibleMessage = setEmpruntModelBean(empruntsEnCours, emprunt, empruntModelBean, abonne, ouvrageService);
                         theModel.addObject("empruntEnCours", empruntsEnCours);
                     }
                 }

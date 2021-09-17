@@ -2,11 +2,16 @@ package com.dmc30.clientui.service.impl;
 
 import com.dmc30.clientui.proxy.LivreServiceProxy;
 import com.dmc30.clientui.service.contract.BibliothequeService;
+import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
+import com.dmc30.clientui.web.exception.TechnicalException;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BibliothequeServiceImpl implements BibliothequeService {
@@ -24,15 +29,14 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      * @return la liste
      */
     @Override
-    public ResponseEntity<?> getBibliotheques() {
+    public List<BibliothequeBean> getBibliotheques() throws TechnicalException {
+        List<BibliothequeBean> bibliotheques = new ArrayList<>();
         try {
-            ResponseEntity<?> response = livreServiceProxy.getBibliotheques();
-            return response;
+            bibliotheques = livreServiceProxy.getBibliotheques();
         } catch (FeignException e) {
-            ResponseEntity<?> response = ResponseEntity.status(ErrorMessage.TECHNICAL_ERROR.getErrorCode())
-                    .body(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
-            return response;
+            throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
         }
+        return bibliotheques;
     }
 
     /**
@@ -42,21 +46,15 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      * @return la bibliothèque recherchée
      */
     @Override
-    public ResponseEntity<?> getBibliothequeById(Long bibliothequeId) {
+    public BibliothequeBean getBibliothequeById(Long bibliothequeId) throws TechnicalException {
+        BibliothequeBean bibliotheque = null;
         try {
-            ResponseEntity<?> response = livreServiceProxy.getBibliothequeById(bibliothequeId);
-            return response;
+            bibliotheque = livreServiceProxy.getBibliothequeById(bibliothequeId);
         } catch (FeignException e) {
-            ResponseEntity<?> response = null;
-            if (e.status() == 491) {
-                response = ResponseEntity.status(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorCode())
-                        .body(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
-            } else if (e.status() == 490) {
-                response = ResponseEntity.status(ErrorMessage.TECHNICAL_ERROR.getErrorCode())
-                        .body(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());
-            }
-            return response;
+            throw new TechnicalException(ErrorMessage.INTROUVABLE_EXCEPTION.getErrorMessage());
         }
+        return bibliotheque;
     }
+
 
 }

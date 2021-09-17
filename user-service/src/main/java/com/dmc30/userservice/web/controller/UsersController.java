@@ -2,6 +2,8 @@ package com.dmc30.userservice.web.controller;
 
 import com.dmc30.userservice.service.contract.UsersService;
 import com.dmc30.userservice.service.dto.UtilisateurDto;
+import com.dmc30.userservice.web.exception.ErrorMessage;
+import com.dmc30.userservice.web.exception.TechnicalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,8 +90,13 @@ public class UsersController {
      */
     @PostMapping("/signin")
     public UtilisateurDto createAbonne(@RequestBody UtilisateurDto utilisateurDto,
-                                                                  @RequestParam Long paysId) {
-        UtilisateurDto createdAbonne = usersService.createAbonne(utilisateurDto, paysId);
+                                                                  @RequestParam Long paysId) throws TechnicalException {
+        UtilisateurDto createdAbonne;
+        try {
+            createdAbonne = usersService.createAbonne(utilisateurDto, paysId);
+        } catch (TechnicalException e) {
+            throw new TechnicalException(ErrorMessage.DUPLICATE_KEY_ERROR.getErrorMessage());
+        }
         return createdAbonne;
     }
 

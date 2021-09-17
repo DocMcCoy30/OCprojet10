@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -53,14 +54,14 @@ public class AccueilController {
     @GetMapping("/")
     public ModelAndView showIndex(@RequestParam(value = "username", required = false) String username) {
         UtilisateurBean abonneDto = new UtilisateurBean();
+        List<BibliothequeBean> bibliotheques = new ArrayList<>();
+        String errorMessage="";
         ModelAndView theModel = new ModelAndView("index");
-        ResponseEntity<?> response = bibliothequeService.getBibliotheques();
-        int status = response.getStatusCodeValue();
-        if (status == 202) {
-            List<BibliothequeBean> bibliotheques = (List<BibliothequeBean>) response.getBody();
+        try {
+            bibliotheques = bibliothequeService.getBibliotheques();
             theModel.addObject("bibliotheques", bibliotheques);
-        } else {
-            String errorMessage = (String) response.getBody();
+        } catch (TechnicalException e) {
+            errorMessage = e.getMessage();
             theModel.addObject("errorMessage", errorMessage);
         }
         return theModel;

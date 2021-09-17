@@ -61,10 +61,11 @@ CREATE SEQUENCE public.reservation_id_seq
 CREATE TABLE public.reservation (
 	id integer NOT NULL DEFAULT nextval('public.reservation_id_seq'::regclass),
 	date_reservation date,
-	date_mail date,
 	expiree boolean,
 	mail_envoye boolean,
 	date_envoi_mail date,
+    date_reservation_tz timestamptz,
+    date_envoi_mail_tz timestamptz,
 	id_utilisateur integer,
 	id_livre integer,
 	id_bibliotheque integer,

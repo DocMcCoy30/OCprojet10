@@ -3,6 +3,7 @@ package com.dmc30.clientui.service.impl;
 import com.dmc30.clientui.proxy.LivreServiceProxy;
 import com.dmc30.clientui.proxy.ReservationServiceProxy;
 import com.dmc30.clientui.service.contract.*;
+import com.dmc30.clientui.shared.bean.bibliotheque.BibliothequeBean;
 import com.dmc30.clientui.shared.bean.bibliotheque.EmpruntBean;
 import com.dmc30.clientui.shared.bean.livre.LivreResponseModelBean;
 import com.dmc30.clientui.shared.bean.reservation.ReservationBean;
@@ -10,6 +11,7 @@ import com.dmc30.clientui.shared.bean.reservation.ReservationModelBean;
 import com.dmc30.clientui.shared.bean.utilisateur.UtilisateurBean;
 import com.dmc30.clientui.web.exception.ErrorMessage;
 import com.dmc30.clientui.web.exception.TechnicalException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +36,7 @@ public class ReservationServiceImpl implements ReservationService {
     EmpruntService empruntService;
     OuvrageService ouvrageService;
     UserService userService;
+    BibliothequeService bibliothequeService;
 
     @Autowired
     public ReservationServiceImpl(ReservationServiceProxy reservationServiceProxy,
@@ -41,13 +44,15 @@ public class ReservationServiceImpl implements ReservationService {
                                   LivreService livreService,
                                   EmpruntService empruntService,
                                   OuvrageService ouvrageService,
-                                  UserService userService) {
+                                  UserService userService,
+                                  BibliothequeService bibliothequeService) {
         this.reservationServiceProxy = reservationServiceProxy;
         this.livreServiceProxy = livreServiceProxy;
         this.livreService = livreService;
         this.empruntService = empruntService;
         this.ouvrageService = ouvrageService;
         this.userService = userService;
+        this.bibliothequeService = bibliothequeService;
     }
 
     /**
@@ -156,8 +161,10 @@ public class ReservationServiceImpl implements ReservationService {
      */
     @Override
     public List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException {
+        ObjectMapper mapper = new ObjectMapper();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
         Long livreId;
+        List<Long> reservationToReturnIds = new ArrayList<>();
         List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
         // recupérer les reservations de l'utilisateur.
         try {
@@ -176,19 +183,27 @@ public class ReservationServiceImpl implements ReservationService {
                     LivreResponseModelBean livreResponseModelBean = (LivreResponseModelBean) response.getBody();
                     reservationModelBean.setTitreDuLivre(livreResponseModelBean.getTitre());
                 }
+                // récupérer la liste des bibliothèques
+                List<BibliothequeBean> bibliotheques = bibliothequeService.getBibliotheques();
                 // récupérer la liste des resa par livre et biblio ordonnée par date
-                List<ReservationBean> reservationsOrdonnees = reservationServiceProxy.getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(livreId, bibliothequeId);
-                for (ReservationBean reservationParLivre : reservationsOrdonnees) {
-                    // récupérer le numéro dans la file d'attente
-                    if (reservationParLivre.getUtilisateurId().equals(userId)) {
-                        int index = reservationsOrdonnees.indexOf(reservationParLivre);
-                        reservationModelBean.setNumeroAttente(index + 1);
-                        //récupérer la date de retour prévu
-                        reservationModelBean.setDateRetourPrevu(empruntService.getDateDeRetourPrevue(livreId, bibliothequeId));
+                for (BibliothequeBean bibliotheque : bibliotheques) {
+                    List<ReservationBean> reservationsOrdonnees = reservationServiceProxy.getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(livreId, bibliotheque.getId());
+                    for (ReservationBean reservationParLivre : reservationsOrdonnees) {
+                        // récupérer le numéro dans la file d'attente
+                        if (reservationParLivre.getUtilisateurId().equals(userId)) {
+                            int index = reservationsOrdonnees.indexOf(reservationParLivre);
+                            reservationModelBean.setNumeroAttente(index + 1);
+                            reservationModelBean.setBibliotheque(bibliotheque.getNom());
+                            //récupérer la date de retour prévu
+                            reservationModelBean.setDateRetourPrevu(empruntService.getDateDeRetourPrevue(livreId, bibliothequeId));
+                            //construire la liste des reservationListeModel
+                            if (!reservationToReturnIds.contains(reservationModelBean.getId())) {
+                                reservationsToReturn.add(reservationModelBean);
+                                reservationToReturnIds.add(reservationModelBean.getId());
+                            }
+                        }
                     }
                 }
-                //construire la liste des reservationListeModel
-                reservationsToReturn.add(reservationModelBean);
             }
         } catch (FeignException e) {
             throw new TechnicalException(ErrorMessage.TECHNICAL_ERROR.getErrorMessage());

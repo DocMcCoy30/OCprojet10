@@ -121,11 +121,21 @@ public class UserServiceImpl implements UserService {
         userServiceProxy.updateUser(userDetails);
     }
 
+    /**
+     * Récupère un utilisateur par son numéro d'abonné
+     * @param numAbonne le némero
+     * @return l'utilisateur
+     */
     @Override
     public UtilisateurBean getUtilisateurByNumAbonne(String numAbonne) {
         return userServiceProxy.getUtilisateurByNumAbonne(numAbonne);
     }
 
+    /**
+     * Récupère une liste d'utilisateurs par un numéro d'abonné partiel
+     * @param numAbonne le numero partiel
+     * @return la liste d'utilisateurs
+     */
     @Override
     public List<UtilisateurBean> getUtilisateursByNumAbonne(String numAbonne) {
         return userServiceProxy.getUtilisateursByNumAbonne(numAbonne);

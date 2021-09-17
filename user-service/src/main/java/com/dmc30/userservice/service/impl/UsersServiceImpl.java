@@ -10,11 +10,14 @@ import com.dmc30.userservice.data.repository.UtilisateurRepository;
 import com.dmc30.userservice.service.contract.UsersService;
 import com.dmc30.userservice.service.dto.AdresseDto;
 import com.dmc30.userservice.service.dto.UtilisateurDto;
+import com.dmc30.userservice.web.exception.ErrorMessage;
+import com.dmc30.userservice.web.exception.TechnicalException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -77,15 +80,13 @@ public class UsersServiceImpl implements UsersService {
      * @return l'utilisateur créé
      */
     @Override
-    public UtilisateurDto createAbonne(UtilisateurDto utilisateurDto, Long paysId) {
+    public UtilisateurDto createAbonne(UtilisateurDto utilisateurDto, Long paysId) throws TechnicalException {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         utilisateurDto.setPublicId(UUID.randomUUID().toString());
         //get Adresse de l'abonné
         AdresseDto adresseDto = utilisateurDto.getAdresse();
         //set Date de Création Compte
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date date = new Date();
         utilisateurDto.setDateCreationCompte(new Date());
         //Set Numero d'abonné
         utilisateurDto.setNumAbonne(utilisateurDto.getPrenom().substring(0,2).toUpperCase() + utilisateurDto.getNom().substring(0,2).toUpperCase() + "-" + utilisateurDto.getPublicId().substring(0,4));
@@ -106,7 +107,11 @@ public class UsersServiceImpl implements UsersService {
         }
         utilisateurEntity.setAdresse(adresseEntity);
         //Save Abonne in DB
-        utilisateurRepository.save(utilisateurEntity);
+        try {
+            utilisateurRepository.save(utilisateurEntity);
+        } catch (DuplicateKeyException e) {
+            throw new TechnicalException(ErrorMessage.DUPLICATE_KEY_ERROR.getErrorMessage());
+        }
         //Map Return VAlue
         UtilisateurDto returnValue = modelMapper.map(utilisateurEntity, UtilisateurDto.class);
         return returnValue;

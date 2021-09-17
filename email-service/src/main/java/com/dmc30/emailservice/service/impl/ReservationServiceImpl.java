@@ -51,7 +51,6 @@ public class ReservationServiceImpl implements ReservationService {
      */
     private List<LivreBean> checkLivresRestitues() {
         ObjectMapper mapper = new ObjectMapper();
-        List<ArrayList<LivreBean>> listOfLivresParBibliotheque = new ArrayList<ArrayList<LivreBean>>();
         List<LivreBean> livresRestitues = new ArrayList<>();
         List<EmpruntBean> empruntsRestitues = empruntServiceProxy.getEmpruntRestitue();
         for (EmpruntBean empruntRestitue : empruntsRestitues) {
