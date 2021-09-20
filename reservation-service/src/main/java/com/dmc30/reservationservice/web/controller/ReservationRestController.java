@@ -2,6 +2,7 @@ package com.dmc30.reservationservice.web.controller;
 
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 import com.dmc30.reservationservice.service.contract.ReservationService;
+import com.dmc30.reservationservice.web.exception.ErrorMessage;
 import com.dmc30.reservationservice.web.exception.TechnicalException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +42,7 @@ public class ReservationRestController {
      * @return la réservation concernée
      */
     @GetMapping(path = "/{reservationId}")
-    public ReservationDto getReservationById(@PathVariable(name = "reservationId") Long reservationId) {
+    public ReservationDto getReservationById(@PathVariable(name = "reservationId") Long reservationId) throws TechnicalException {
         return reservationService.getReservationById(reservationId);
     }
 
@@ -52,7 +53,11 @@ public class ReservationRestController {
      * @return le reservation enregistrée
      */
     @PostMapping("/")
-    public ReservationDto createReservation(@RequestBody ReservationDto reservationDto) {
+    public ReservationDto createReservation(@RequestBody ReservationDto reservationDto) throws TechnicalException {
+        logger.info("into createReservation");
+        if(reservationDto==null) {
+            throw new TechnicalException(ErrorMessage.SQL_UPDATE_ERROR.getErrorMessage());
+        }
         return reservationService.createReservation(reservationDto);
     }
 
@@ -63,7 +68,7 @@ public class ReservationRestController {
      * @return la liste
      */
     @GetMapping("/user/{userId}")
-    public List<ReservationDto> getReservationsByUserId(@PathVariable(name = "userId") Long userId) {
+    public List<ReservationDto> getReservationsByUserId(@PathVariable(name = "userId") Long userId) throws TechnicalException {
         return reservationService.getReservationsByUserId(userId);
     }
 
@@ -76,7 +81,7 @@ public class ReservationRestController {
      */
     @GetMapping("/nbResa/{livreId}&{bibliothequeId}")
     public Integer getNombreDeReservation(@PathVariable(name = "livreId") Long livreId,
-                                          @PathVariable(name = "bibliothequeId") Long bibliothequeId) {
+                                          @PathVariable(name = "bibliothequeId") Long bibliothequeId) throws TechnicalException {
         Integer nbReservation = reservationService.getNombreDeReservation(livreId, bibliothequeId);
         return nbReservation;
     }
@@ -90,7 +95,7 @@ public class ReservationRestController {
      */
     @GetMapping("/listeAttente/{livreId}&{bibliothequeId}")
     public List<ReservationDto> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(@PathVariable(name = "livreId") Long livreId,
-                                                                                                  @PathVariable(name = "bibliothequeId") Long bibliothequeId) {
+                                                                                                  @PathVariable(name = "bibliothequeId") Long bibliothequeId) throws TechnicalException {
         List<ReservationDto> reservationDtos = reservationService.getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(livreId, bibliothequeId);
         return reservationDtos;
     }
@@ -104,7 +109,7 @@ public class ReservationRestController {
     public String deleteReservation(@PathVariable(name = "reservationId") Long reservationId) throws TechnicalException {
         ReservationDto reservationDto = reservationService.getReservationById(reservationId);
         if (reservationDto == null) {
-            throw new TechnicalException("La reservation n'existe pas");
+            throw new TechnicalException(ErrorMessage.SQL_DELETE_ERROR.getErrorMessage());
         }else {
             reservationService.deleteReservation(reservationId);
         }
@@ -119,8 +124,8 @@ public class ReservationRestController {
      * @return la liste
      */
     @GetMapping("/livre/{livreId}")
-    public List<ReservationDto> getReservationsByLivreId(@PathVariable(name = "livreId") Long livreId) {
-        return reservationService.getReservationsByLivreId(livreId);
+    public List<ReservationDto> getReservationsByLivreIdOrderByDateReservation(@PathVariable(name = "livreId") Long livreId) throws TechnicalException {
+        return reservationService.getReservationsByLivreIdOrderByDateReservation(livreId);
     }
 
     /**
@@ -128,7 +133,8 @@ public class ReservationRestController {
      * @param reservationDto la réservation à mettre à jour
      */
     @PutMapping("/update")
-    public void updateReservation (@RequestBody ReservationDto reservationDto) {
+    public void updateReservation (@RequestBody ReservationDto reservationDto) throws TechnicalException {
+        reservationService.getReservationById(reservationDto.getId());
         reservationService.updateReservation(reservationDto);
     }
 }
