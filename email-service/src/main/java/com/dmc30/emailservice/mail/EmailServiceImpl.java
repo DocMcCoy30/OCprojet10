@@ -16,6 +16,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -133,7 +134,8 @@ public class EmailServiceImpl implements EmailService {
             mailForReservationModel.setUsername(utilisateur.getUsername());
             mailForReservationModel.setEmail("dmc30dev@gmail.com");
             mailForReservationModel.setTitre(livre.getTitre());
-            mailForReservationModel.setDateReservation(dateFormat.format(reservation.getDateReservation()));
+            String dateReservation = (DateTimeFormatter.ofPattern("EEEE dd LLLL yyyy").format(reservation.getDateReservationTz()));
+            mailForReservationModel.setDateReservation(dateReservation);
             mailForReservationModel.setBibliotheque(bibliotheque.getNom());
 
             mailForReservationModels.add(mailForReservationModel);

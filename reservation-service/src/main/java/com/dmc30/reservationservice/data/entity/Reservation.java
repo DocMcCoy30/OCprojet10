@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -22,6 +23,9 @@ public class Reservation {
     @Column(name = "date_reservation")
     private Date dateReservation;
 
+    @Column(name = "date_reservation_tz")
+    private ZonedDateTime dateReservationTz;
+
     @Column(name = "expiree")
     private boolean expiree;
 
@@ -30,6 +34,9 @@ public class Reservation {
 
     @Column(name = "date_envoi_mail")
     private Date dateEnvoiMail;
+
+    @Column(name = "date_envoi_mail_tz")
+    private ZonedDateTime dateEnvoiMailTz;
 
     @Column(name = "id_utilisateur")
     private Long utilisateurId;

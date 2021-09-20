@@ -20,6 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,7 +74,10 @@ public class ReservationServiceImpl implements ReservationService {
         try {
             UtilisateurBean utilisateurBean = userService.getUtilisateurByUsername(username);
             ReservationBean newReservation = new ReservationBean();
-            newReservation.setDateReservation(new Date());
+            ZoneId zoneId = ZoneId.of( "Europe/Paris" );
+            ZonedDateTime zdt = ZonedDateTime.ofInstant( Instant.now() , zoneId );
+            logger.info(zdt);
+            newReservation.setDateReservationTz(zdt);
             newReservation.setExpiree(false);
             newReservation.setUtilisateurId(utilisateurBean.getId());
             newReservation.setLivreId(livreId);
@@ -162,7 +169,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException {
         ObjectMapper mapper = new ObjectMapper();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
         Long livreId;
         List<Long> reservationToReturnIds = new ArrayList<>();
         List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
@@ -174,8 +181,10 @@ public class ReservationServiceImpl implements ReservationService {
             for (ReservationBean reservationParUser : reservationsParUser) {
                 ReservationModelBean reservationModelBean = new ReservationModelBean();
                 livreId = reservationParUser.getLivreId();
+                ZonedDateTime dateToFormat = (reservationParUser.getDateReservationTz()).withZoneSameInstant(ZoneId.of("Europe/Paris"));
                 reservationModelBean.setId(reservationParUser.getId());
-                String dateReservation = dateFormat.format(reservationParUser.getDateReservation());
+                String dateReservation = (DateTimeFormatter.ofPattern("EEEE dd LLLL yyyy").format(dateToFormat));
+//                String dateReservation = dateFormat.format(reservationParUser.getDateReservationTz());
                 reservationModelBean.setDateReservation(dateReservation);
                 reservationModelBean.setExpiree(reservationParUser.isExpiree());
                 ResponseEntity<?> response = livreService.getLivreById(livreId);

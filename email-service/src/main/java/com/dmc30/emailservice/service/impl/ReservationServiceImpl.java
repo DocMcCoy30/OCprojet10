@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -63,51 +66,6 @@ public class ReservationServiceImpl implements ReservationService {
         return livresRestitues;
     }
 
-//    private List<ArrayList<LivreBean>> checkLivresRestitues() {
-//        ObjectMapper mapper = new ObjectMapper();
-//        ResponseEntity<?> responseEntity;
-//        LivreBean livreRestitue;
-//        List<ArrayList<LivreBean>> listOfLivresParBibliotheque = new ArrayList<ArrayList<LivreBean>>();
-//        ArrayList<LivreBean> livresRestituesB1 = new ArrayList<>();
-//        ArrayList<LivreBean> livresRestituesB2 = new ArrayList<>();
-//        ArrayList<LivreBean> livresRestituesB3 = new ArrayList<>();
-//        ArrayList<LivreBean> livresRestituesB4 = new ArrayList<>();
-//        List<EmpruntBean> empruntsRestitues = empruntServiceProxy.getEmpruntRestitue();
-//        for (EmpruntBean empruntRestitue : empruntsRestitues) {
-//            Long ouvrageId = empruntRestitue.getOuvrageId();
-//            OuvrageBean ouvrageRestitue = livreServiceProxy.getOuvrageById(ouvrageId);
-//            Long livreId = ouvrageRestitue.getLivreId();
-//            Long bibliothequeId = ouvrageRestitue.getBibliothequeId();
-//            switch (bibliothequeId.intValue()) {
-//                case 1 :
-//                    responseEntity = livreServiceProxy.getLivreById(livreId);
-//                    livreRestitue = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
-//                    livresRestituesB1.add(livreRestitue);
-//                    listOfLivresParBibliotheque.add(livresRestituesB1);
-//                    break;
-//                case 2 :
-//                    responseEntity = livreServiceProxy.getLivreById(livreId);
-//                    livreRestitue = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
-//                    livresRestituesB2.add(livreRestitue);
-//                    listOfLivresParBibliotheque.add(livresRestituesB2);
-//                    break;
-//                case 3 :
-//                    responseEntity = livreServiceProxy.getLivreById(livreId);
-//                    livreRestitue = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
-//                    livresRestituesB3.add(livreRestitue);
-//                    listOfLivresParBibliotheque.add(livresRestituesB3);
-//                    break;
-//                case 4 :
-//                    responseEntity = livreServiceProxy.getLivreById(livreId);
-//                    livreRestitue = mapper.convertValue(responseEntity.getBody(), LivreBean.class);
-//                    livresRestituesB4.add(livreRestitue);
-//                    listOfLivresParBibliotheque.add(livresRestituesB4);
-//                    break;
-//            }
-//        }
-//        return listOfLivresParBibliotheque;
-//    }
-
     /**
      * Récupère une liste de réservations concernées par un retour d'emprunt, vérifie que la réservation n'est pas expirée,
      * met à jour la réservation si la date d'expiration est dépassée et retourne la liste des reservations pour envoi d'un mail.
@@ -117,8 +75,9 @@ public class ReservationServiceImpl implements ReservationService {
      */
     private List<ReservationBean> checkReservationsAndSetExpirees(List<LivreBean> listOfLivresRestitues) {
         Calendar c = Calendar.getInstance();
-        Date today = new Date();
-        Date dateExpiration = null;
+        ZoneId zoneId = ZoneId.of( "Europe/Paris" );
+        ZonedDateTime today = ZonedDateTime.ofInstant( Instant.now() , zoneId );
+        ZonedDateTime dateExpiration = null;
         List<ReservationBean> reservationsForMail = new ArrayList<>();
         List<ReservationBean> reservationsByLivre;
 //        for(List<LivreBean> livresRestituesParBibliotheque : listOfLivresRestitues) {
@@ -130,24 +89,25 @@ public class ReservationServiceImpl implements ReservationService {
                 if (reservationsByLivre.size() > 0) {
                     //vérifier les dates d'expiration et update
                     for (ReservationBean reservationByLivre : reservationsByLivre) {
-                        if (reservationByLivre.getDateEnvoiMail() != null) {
-                            c.setTime(reservationByLivre.getDateEnvoiMail());
-                            c.add(Calendar.DAY_OF_YEAR, 2);
-                            dateExpiration = c.getTime();
+                        if (reservationByLivre.getDateEnvoiMailTz() != null) {
+                            dateExpiration = (reservationByLivre.getDateEnvoiMailTz()).plusDays(2);
+//                            c.setTime(reservationByLivre.getDateEnvoiMailTz());
+//                            c.add(Calendar.DAY_OF_YEAR, 2);
+//                            dateExpiration = c.getTime();
                         }
-                        if ((reservationByLivre.isMailEnvoye()) && (today.after(dateExpiration))) {
+                        if ((reservationByLivre.isMailEnvoye()) && (today.isAfter(dateExpiration))) {
                             reservationByLivre.setExpiree(true);
                             reservationServiceProxy.updateReservation(reservationByLivre);
                         }
                         //si date expiration ok, vérifier si mail envoyé
-                        if ((reservationByLivre.isMailEnvoye()) && (today.before(dateExpiration))) {
+                        if ((reservationByLivre.isMailEnvoye()) && (today.isBefore(dateExpiration))) {
                             //si mailEnvoye et !expiree  dans la liste on ne fait rien
                             mailEnvoye = true;
                         }
                         if ((!mailEnvoye) && (!reservationByLivre.isExpiree())) {
                             //si !mailEnvoye on ajoute à la liste à retourner et on passe à la liste de reservation pour le livre suivant
                             reservationByLivre.setMailEnvoye(true);
-                            reservationByLivre.setDateEnvoiMail(new Date());
+                            reservationByLivre.setDateEnvoiMailTz(today);
                             reservationServiceProxy.updateReservation(reservationByLivre);
                             reservationsForMail.add(reservationByLivre);
                             mailEnvoye = true;
