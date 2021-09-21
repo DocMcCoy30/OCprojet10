@@ -1,4 +1,4 @@
-package com.dmc30.reservationservice.service;
+package com.dmc30.reservationservice.service.impl;
 
 
 import com.dmc30.reservationservice.data.entity.Reservation;
@@ -27,6 +27,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+
+//DONE T3 Tests unitaires réservation
 
 @ExtendWith(MockitoExtension.class)
 public class ReservationServiceImplTest {
@@ -317,18 +319,4 @@ public class ReservationServiceImplTest {
                 1L, 111L, 1L);
     }
 
-    private List<ReservationDto> getListOfReservationDtostub() {
-        List<ReservationDto> reservationDtos = new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            Long reservationId = (long) i;
-            Long userId = (long) i + 5;
-            Long livreId = (long) i + 10;
-            Long bibliothequeId = (long) i;
-            reservationDtos.add(new ReservationDto(reservationId, new Date(),
-                    ZonedDateTime.now(), false, false,
-                    new Date(), ZonedDateTime.now(),
-                    userId, livreId, bibliothequeId));
-        }
-        return reservationDtos;
-    }
 }

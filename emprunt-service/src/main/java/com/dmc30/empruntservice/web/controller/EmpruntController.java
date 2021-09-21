@@ -3,6 +3,7 @@ package com.dmc30.empruntservice.web.controller;
 import com.dmc30.empruntservice.service.dto.EmpruntDto;
 import com.dmc30.empruntservice.service.contract.EmpruntService;
 import com.dmc30.empruntservice.service.dto.CreateEmpruntDto;
+import com.dmc30.empruntservice.web.exception.TechnicalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class EmpruntController {
      * @return l'enmprunt enregistré
      */
     @PostMapping("/create")
-    public EmpruntDto createEmprunt(@RequestBody CreateEmpruntDto createEmpruntDto) {
+    public EmpruntDto createEmprunt(@RequestBody CreateEmpruntDto createEmpruntDto) throws TechnicalException {
         EmpruntDto empruntDto = empruntService.createEmprunt(createEmpruntDto);
         return empruntDto;
     }
@@ -38,7 +39,7 @@ public class EmpruntController {
      * @return la liste des emprunts en cours
      */
     @GetMapping("/encours")
-    public List<EmpruntDto> findEmpruntEnCours(@RequestParam Long bibliothequeId) {
+    public List<EmpruntDto> findEmpruntEnCours(@RequestParam Long bibliothequeId) throws TechnicalException {
         List<EmpruntDto> empruntDtoList = empruntService.findEmpruntEnCours(bibliothequeId);
         return empruntDtoList;
     }
@@ -49,7 +50,7 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/utilisateur")
-    public List<EmpruntDto> findEmpruntByUtilisateurId (@RequestParam Long utilisateurId) {
+    public List<EmpruntDto> findEmpruntByUtilisateurId (@RequestParam Long utilisateurId) throws TechnicalException {
         List<EmpruntDto> empruntDtoList = empruntService.findEmpruntByUtilisateurId(utilisateurId);
         return empruntDtoList;
     }
@@ -60,7 +61,7 @@ public class EmpruntController {
      * @param ouvrageId l'identifiant de l'ouvrage
      */
     @GetMapping("/retour")
-    public void retournerEmprunt(@RequestParam Long empruntId, @RequestParam String ouvrageId) {
+    public void retournerEmprunt(@RequestParam Long empruntId, @RequestParam String ouvrageId) throws TechnicalException {
         empruntService.retournerEmprunt(empruntId, ouvrageId);
     }
 
@@ -69,7 +70,7 @@ public class EmpruntController {
      * @param empruntId l'identifiant de l'emprunt concerné
      */
     @GetMapping("/prolongation")
-    public void prolongerEmprunt(@RequestParam Long empruntId) {
+    public void prolongerEmprunt(@RequestParam Long empruntId) throws TechnicalException {
         empruntService.prolongerEmprunt(empruntId);
     }
 
@@ -78,8 +79,8 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/expired")
-    List<EmpruntDto> findExpiredemprunts() {
-        return empruntService.findExpiredemprunts();
+    List<EmpruntDto> findExpiredemprunts() throws TechnicalException {
+        return empruntService.findExpiredEmprunts();
     }
 
     /**
@@ -88,8 +89,8 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/expiredByUtilisateur")
-    List<EmpruntDto> findExpiredempruntsByUtilisateurId(@RequestParam Long utilisateurId) {
-        List<EmpruntDto> empruntDtos = empruntService.findExpiredempruntsByUtilisateurId(utilisateurId);
+    List<EmpruntDto> findExpiredempruntsByUtilisateurId(@RequestParam Long utilisateurId) throws TechnicalException {
+        List<EmpruntDto> empruntDtos = empruntService.findExpiredEmpruntsByUtilisateurId(utilisateurId);
          return empruntDtos;
     }
 
@@ -98,7 +99,7 @@ public class EmpruntController {
      * @return la liste
      */
     @GetMapping("/expiredUsers")
-    List<Long> findUtilisateurEnRetard() {
+    List<Long> findUtilisateurEnRetard() throws TechnicalException {
         return empruntService.findUtilisateurEnRetard();
     }
 
@@ -108,7 +109,7 @@ public class EmpruntController {
      * @return l'ouvrage en cours d'emprunt
      */
     @GetMapping("/ouvrage/{ouvrageId}")
-    public EmpruntDto getEmpruntEnCoursByOuvrageId(@PathVariable(name = "ouvrageId") Long ouvrageId) {
+    public EmpruntDto getEmpruntEnCoursByOuvrageId(@PathVariable(name = "ouvrageId") Long ouvrageId) throws TechnicalException {
         EmpruntDto emprunt = empruntService.getEmpruntEnCoursByOuvrageId(ouvrageId);
         return emprunt;
     }
@@ -118,7 +119,7 @@ public class EmpruntController {
     // ---------------------Mail Service Methode --------------------------
 
     @GetMapping("/restitues")
-    public List<EmpruntDto> empruntsRestitues () {
+    public List<EmpruntDto> empruntsRestitues () throws TechnicalException {
         List<EmpruntDto> empruntsRestitues = empruntService.getEmpruntsRestitues();
         return empruntsRestitues;
     }

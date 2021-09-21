@@ -11,7 +11,7 @@ public interface EmpruntRepository extends JpaRepository<Emprunt, Long> {
     @Query(value = "SELECT * FROM emprunt ORDER BY id_ouvrage", nativeQuery = true)
     List<Emprunt> findAll();
 
-    @Query(value = "SELECT * FROM emprunt WHERE id_utilisateur=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM emprunt WHERE id_utilisateur=?1 ORDER BY date_restitution", nativeQuery = true)
     List<Emprunt> findEmpruntByUtilisateurId(Long utilisateurId);
 
     @Query(value = "(select * from emprunt where restitution = false " +
@@ -20,7 +20,7 @@ public interface EmpruntRepository extends JpaRepository<Emprunt, Long> {
             "and prolongation = true and date_prolongation < now()group by id_utilisateur, id) " +
             "order by date_emprunt",
             nativeQuery = true)
-    List<Emprunt> findExpiredemprunts();
+    List<Emprunt> findExpiredEmprunts();
 
     @Query(value = "(select id_utilisateur from emprunt where restitution = false " +
             "and date_restitution < now() group by id_utilisateur, id) UNION " +
@@ -36,7 +36,7 @@ public interface EmpruntRepository extends JpaRepository<Emprunt, Long> {
             "and prolongation = true and date_prolongation < now() " +
             "and id_utilisateur=?1)",
             nativeQuery = true)
-    List<Emprunt> findExpiredempruntsByUtilisateurId(Long utilisateurId);
+    List<Emprunt> findExpiredEmpruntsByUtilisateurId(Long utilisateurId);
 
     @Query(value = "SELECT * FROM emprunt WHERE id_ouvrage=?1 AND restitution=false ORDER BY id_ouvrage", nativeQuery = true)
     Emprunt getEmpruntEnCoursByOuvrageId(Long ouvrageId);

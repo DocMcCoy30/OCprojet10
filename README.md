@@ -10,7 +10,6 @@
 + SpringDoc / Actuator / Lombok / DevTools
 + PostgreSQL
 + SpringSecurity
-+ SpringCloud Gateway
 + SpringMail / SpringScheduler
 + Eureka
 + Feign
@@ -86,8 +85,6 @@ $mvn install pour chaque service si nécessaire
 
 4- clientUI / email-service
 
-5- gateway-server
-
 Pour chaque service
 ```
 $ cd ../path/to/the/file/target
@@ -96,7 +93,7 @@ $ java -jar nom-du-service.jar
 
 ### Utilisation et fonctionnalités ###
 
-Page d'accueil accessible à : https://localhost:8999/ (gateway)
+Page d'accueil accessible à : https://localhost:9000/
 
 Pour les besoins des tests des cas d'utilisation des nouvelles fonctionnalités, 8 utilisateurs sont créés dans 
 la base de données (ainsi qu'un certain nombre de prêts et de réservations) :

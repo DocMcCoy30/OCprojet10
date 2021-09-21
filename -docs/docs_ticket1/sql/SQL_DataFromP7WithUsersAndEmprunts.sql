@@ -421,18 +421,18 @@ INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, nume
 -- Data for Name: emprunt; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (8, '2021-09-17', '2021-10-18', NULL, false, false, 194, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (9, '2021-09-17', '2021-10-18', NULL, false, false, 195, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (10, '2021-09-17', '2021-10-18', NULL, false, false, 184, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (11, '2021-09-17', '2021-10-18', NULL, false, false, 185, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (12, '2021-09-17', '2021-10-18', NULL, false, false, 186, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (13, '2021-09-17', '2021-10-18', NULL, false, false, 175, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (14, '2021-09-17', '2021-10-18', NULL, false, false, 176, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (15, '2021-09-17', '2021-10-18', NULL, false, false, 177, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (16, '2021-09-17', '2021-10-18', NULL, false, false, 166, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (17, '2021-09-17', '2021-10-18', NULL, false, false, 167, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (18, '2021-09-17', '2021-10-18', NULL, false, false, 168, 3);
 INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (7, '2021-08-01', '2021-09-02', NULL, false, false, 193, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (8, '2021-09-01', '2021-10-02', NULL, false, false, 194, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (9, '2021-09-02', '2021-10-03', NULL, false, false, 195, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (10, '2021-09-03', '2021-10-04', NULL, false, false, 184, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (11, '2021-09-04', '2021-10-05', NULL, false, false, 185, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (12, '2021-09-05', '2021-10-06', NULL, false, false, 186, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (13, '2021-09-06', '2021-10-07', NULL, false, false, 175, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (14, '2021-09-07', '2021-10-08', NULL, false, false, 176, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (15, '2021-09-08', '2021-10-09', NULL, false, false, 177, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (16, '2021-09-09', '2021-10-10', NULL, false, false, 166, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (17, '2021-09-10', '2021-10-11', NULL, false, false, 167, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (18, '2021-09-11', '2021-10-12', NULL, false, false, 168, 3);
 
 
 --
