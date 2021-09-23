@@ -89,6 +89,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     //DONE T1: checkReservationPossible
+    //DONE T3: tests unitaires
 
     /**
      * Vérifie qu'une réservation peut être effectuée
@@ -129,7 +130,6 @@ public class ReservationServiceImpl implements ReservationService {
         return nbReservation;
     }
 
-    //TODO T3:TEST?
     //DONE T1: liste des réservations en cours pour la page profil utilisateur
 
     /**
@@ -207,7 +207,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 //-------------------------Méthodes de classe----------------------------------------
 
-    //TODO T3:TEST
+    //DONE T3: Tests unitaires Check1, Check2, Check3
     //DONE T1: Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
 
     /**
@@ -236,6 +236,8 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
+    //DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+
     /**
      * Vérifie que la RG "pas de réservation en cours pour ce livre et cet utilisateur" est respectée.
      *
@@ -243,7 +245,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param username le username de l'utilisateur.
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-//DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+
     public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
@@ -257,6 +259,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
+    //DONE T1: Check3 :  la liste d'attente n'est pas complète
     /**
      * Vérifie que la RG "la liste d'attente n'est pas complète" est respectée.
      *
@@ -264,7 +267,6 @@ public class ReservationServiceImpl implements ReservationService {
      * @param bibliothequeId l'identifiant de la bibliotheque
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-//DONE T1: Check3 :  la liste d'attente n'est pas complète
     public boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
         boolean reservation = true;
         // récupérer le nombre de réservation (nbReservation) pour ce livre et cette bibliotheque

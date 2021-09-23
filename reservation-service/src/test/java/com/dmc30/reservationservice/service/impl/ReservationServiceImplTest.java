@@ -5,7 +5,6 @@ import com.dmc30.reservationservice.data.entity.Reservation;
 import com.dmc30.reservationservice.data.repository.ReservationRepository;
 import com.dmc30.reservationservice.model.dto.ReservationDto;
 import com.dmc30.reservationservice.model.mappers.ReservationMapper;
-import com.dmc30.reservationservice.service.impl.ReservationServiceImpl;
 import com.dmc30.reservationservice.web.exception.TechnicalException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -61,8 +61,6 @@ public class EmpruntServiceImpl implements EmpruntService {
         return empruntDto;
     }
 
-    //DONE : javadoc
-
     /**
      * Récupère les emprunts en cours pour une bibliotheque
      *

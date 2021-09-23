@@ -11,9 +11,9 @@ un prêt si la date de fin de prêt est dépassée.
 
 #### Exemple dans la version actuelle de l'application ####
 
-![img.png](../../.README_images/bug-prolongation1.png)
+![img.png](../.README_images/bug-prolongation1.png)
 
-![img.png](../../.README_images/bug-prolongation2.png)
+![img.png](../.README_images/bug-prolongation2.png)
 
 La correction de cette anomalie est urgente car elle nous pose de gros problèmes de gestion. Actuellement beaucoup trop 
 de personnes attendent le mail de rappel pour prolonger leur prêt. Cela entraîne la plainte de certains usagers à qui 
@@ -26,4 +26,4 @@ sur les autres évolutions demandées.
 
 ## CORRECTION DU BUG ##
 
-![img.png](../../.README_images/bug-prolongation-fixed.png)
+![img.png](../.README_images/bug-prolongation-fixed.png)

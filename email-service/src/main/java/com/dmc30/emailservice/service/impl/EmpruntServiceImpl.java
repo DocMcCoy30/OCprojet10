@@ -18,8 +18,6 @@ public class EmpruntServiceImpl implements EmpruntService {
         this.empruntServiceProxy = empruntServiceProxy;
     }
 
-    //TODO : javadoc
-
     @Override
     public List<EmpruntBean> findExpiredemprunts() {
         List<EmpruntBean> empruntBeans = empruntServiceProxy.findExpiredemprunts();

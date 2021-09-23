@@ -20,8 +20,6 @@ public class EmpruntController {
         this.empruntService = empruntService;
     }
 
-    //DONE : javadoc
-
     /**
      * Enregistre un emprunt dans la BdD
      * @param createEmpruntDto DTO formulaire de création d'un emprunt

@@ -35,8 +35,6 @@ public class ReservationServiceImpl implements ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
-    //DONE javadoc
-
     /**
      * Permet d'enregister une réservation dans la BdD. Interface entre le controller et le repository
      *

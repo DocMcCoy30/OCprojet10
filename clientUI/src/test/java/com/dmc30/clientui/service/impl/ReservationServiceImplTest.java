@@ -31,7 +31,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-//DONE: TICKET3 tests unitaires ReservationService : règles métier dans clientUI
+//DONE: T3 tests unitaires ReservationService : règles métier dans clientUI
 
 @ExtendWith(MockitoExtension.class)
 public class ReservationServiceImplTest {
