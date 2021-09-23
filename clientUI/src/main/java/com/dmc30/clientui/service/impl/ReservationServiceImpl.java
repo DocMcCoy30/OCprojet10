@@ -218,7 +218,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      * @throws TechnicalException
      */
-    private boolean reservationPossibleCheck1(Long livreId, String username) throws TechnicalException {
+    public boolean reservationPossibleCheck1(Long livreId, String username) throws TechnicalException {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
         List<EmpruntBean> emprunts = empruntService.getEmpruntByUtilisateurId(userId);
@@ -244,7 +244,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
 //DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
-    private boolean reservationPossibleCheck2(Long livreId, String username) {
+    public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
         List<ReservationBean> reservationBeans = reservationServiceProxy.getReservationsByUserId(userId);
@@ -265,12 +265,12 @@ public class ReservationServiceImpl implements ReservationService {
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
 //DONE T1: Check3 :  la liste d'attente n'est pas complète
-    private boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
+    public boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
         boolean reservation = true;
         // récupérer le nombre de réservation (nbReservation) pour ce livre et cette bibliotheque
         Integer nbReservation = reservationServiceProxy.getNombreDeReservation(livreId, bibliothequeId);
         logger.info("nbReservation =" + nbReservation);
-        // récupérer le nombre d'ouvrage X2 (nbOuvrage) correspondant à ce livre dans cette bibliotheque
+        // récupérer le nombre d'ouvrage (nbOuvrage) correspondant à ce livre dans cette bibliotheque
         Integer nbOuvrage = ouvrageService.getNombreDOuvrage(livreId, bibliothequeId);
         logger.info("nbOuvrage = " + nbOuvrage);
         // vérifier que nbReservation est < à nbOuvrage
