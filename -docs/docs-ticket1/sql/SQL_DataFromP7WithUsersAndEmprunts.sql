@@ -5,7 +5,7 @@
 -- Dumped from database version 13.4
 -- Dumped by pg_dump version 13.4
 
--- Started on 2021-09-17 17:56:07
+-- Started on 2021-09-28 13:20:35
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3179 (class 0 OID 23673)
+-- TOC entry 3179 (class 0 OID 25103)
 -- Dependencies: 222
 -- Data for Name: pays; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -28,7 +28,7 @@ INSERT INTO public.pays (id, nom, code_alpha2, code_alpha3, code) VALUES (1, 'Fr
 
 
 --
--- TOC entry 3158 (class 0 OID 23583)
+-- TOC entry 3158 (class 0 OID 25013)
 -- Dependencies: 201
 -- Data for Name: adresse; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -48,7 +48,7 @@ INSERT INTO public.adresse (id, rue, code_postal, ville, id_pays) VALUES (15, '3
 
 
 --
--- TOC entry 3160 (class 0 OID 23592)
+-- TOC entry 3160 (class 0 OID 25022)
 -- Dependencies: 203
 -- Data for Name: auteur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -105,7 +105,7 @@ INSERT INTO public.auteur (id, nom, prenom, date_naissance, date_deces) VALUES (
 
 
 --
--- TOC entry 3162 (class 0 OID 23601)
+-- TOC entry 3162 (class 0 OID 25031)
 -- Dependencies: 205
 -- Data for Name: bibliotheque; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -117,7 +117,7 @@ INSERT INTO public.bibliotheque (id, code, numero_siret, nom, id_adresse) VALUES
 
 
 --
--- TOC entry 3164 (class 0 OID 23610)
+-- TOC entry 3164 (class 0 OID 25040)
 -- Dependencies: 207
 -- Data for Name: editeur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -131,7 +131,7 @@ INSERT INTO public.editeur (id, nom_maison_edition) VALUES (6, 'Ace');
 
 
 --
--- TOC entry 3170 (class 0 OID 23637)
+-- TOC entry 3170 (class 0 OID 25067)
 -- Dependencies: 213
 -- Data for Name: langue; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -144,7 +144,7 @@ INSERT INTO public.langue (id, code, langue) VALUES (1, 'fr', 'Français');
 
 
 --
--- TOC entry 3172 (class 0 OID 23646)
+-- TOC entry 3172 (class 0 OID 25076)
 -- Dependencies: 215
 -- Data for Name: livre; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -188,7 +188,7 @@ INSERT INTO public.livre (id, titre, resume, date_edition, numero_isbn13, id_edi
 
 
 --
--- TOC entry 3177 (class 0 OID 23664)
+-- TOC entry 3177 (class 0 OID 25094)
 -- Dependencies: 220
 -- Data for Name: ouvrage; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -357,9 +357,6 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (178, 'SER_DUN4_15_1', false, 4, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (179, 'SER_DUN4_15_2', false, 4, 15);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (180, 'SER_DUN4_15_3', false, 4, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (181, 'CEN_DUN5_16_1', false, 1, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (182, 'CEN_DUN5_16_2', false, 1, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (183, 'CEN_DUN5_16_3', false, 1, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (187, 'JDO_DUN5_16_1', false, 3, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (188, 'JDO_DUN5_16_2', false, 3, 16);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (189, 'JDO_DUN5_16_3', false, 3, 16);
@@ -385,22 +382,25 @@ INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre)
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (10, 'SER_VOY_1_1', false, 4, 1);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (133, 'CEN_DUN1_12_1', false, 1, 12);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (135, 'CEN_DUN1_12_3', false, 1, 12);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (184, 'VAL_DUN5_16_1', false, 2, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (185, 'VAL_DUN5_16_2', false, 2, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (186, 'VAL_DUN5_16_3', false, 2, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (175, 'JDO_DUN4_15_1', false, 3, 15);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (176, 'JDO_DUN4_15_2', false, 3, 15);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (177, 'JDO_DUN4_15_3', false, 3, 15);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (166, 'SER_DUN3_14_1', false, 4, 14);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (167, 'SER_DUN3_14_2', false, 4, 14);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (168, 'SER_DUN3_14_3', false, 4, 14);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (193, 'CEN_DUN6_17_1', true, 1, 17);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (194, 'CEN_DUN6_17_2', true, 1, 17);
 INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (195, 'CEN_DUN6_17_3', true, 1, 17);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (184, 'VAL_DUN5_16_1', true, 2, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (185, 'VAL_DUN5_16_2', true, 2, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (186, 'VAL_DUN5_16_3', true, 2, 16);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (175, 'JDO_DUN4_15_1', true, 3, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (176, 'JDO_DUN4_15_2', true, 3, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (177, 'JDO_DUN4_15_3', true, 3, 15);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (166, 'SER_DUN3_14_1', true, 4, 14);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (167, 'SER_DUN3_14_2', true, 4, 14);
-INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (168, 'SER_DUN3_14_3', true, 4, 14);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (181, 'CEN_DUN5_16_1', true, 1, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (182, 'CEN_DUN5_16_2', true, 1, 16);
+INSERT INTO public.ouvrage (id, id_interne, emprunte, id_bibliotheque, id_livre) VALUES (183, 'CEN_DUN5_16_3', true, 1, 16);
 
 
 --
--- TOC entry 3184 (class 0 OID 23697)
+-- TOC entry 3184 (class 0 OID 25127)
 -- Dependencies: 227
 -- Data for Name: utilisateur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -416,27 +416,21 @@ INSERT INTO public.utilisateur (id, username, prenom, nom, email, password, nume
 
 
 --
--- TOC entry 3185 (class 0 OID 23824)
+-- TOC entry 3185 (class 0 OID 25254)
 -- Dependencies: 228
 -- Data for Name: emprunt; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (7, '2021-08-01', '2021-09-02', NULL, false, false, 193, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (8, '2021-09-01', '2021-10-02', NULL, false, false, 194, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (9, '2021-09-02', '2021-10-03', NULL, false, false, 195, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (10, '2021-09-03', '2021-10-04', NULL, false, false, 184, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (11, '2021-09-04', '2021-10-05', NULL, false, false, 185, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (12, '2021-09-05', '2021-10-06', NULL, false, false, 186, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (13, '2021-09-06', '2021-10-07', NULL, false, false, 175, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (14, '2021-09-07', '2021-10-08', NULL, false, false, 176, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (15, '2021-09-08', '2021-10-09', NULL, false, false, 177, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (16, '2021-09-09', '2021-10-10', NULL, false, false, 166, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (17, '2021-09-10', '2021-10-11', NULL, false, false, 167, 3);
-INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (18, '2021-09-11', '2021-10-12', NULL, false, false, 168, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (19, '2021-09-28', '2021-10-29', NULL, false, false, 193, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (20, '2021-09-28', '2021-10-29', NULL, false, false, 194, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (21, '2021-09-28', '2021-10-29', NULL, false, false, 195, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (23, '2021-09-28', '2021-10-29', NULL, false, false, 182, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (24, '2021-09-28', '2021-10-29', NULL, false, false, 183, 3);
+INSERT INTO public.emprunt (id, date_emprunt, date_restitution, date_prolongation, prolongation, restitution, id_ouvrage, id_utilisateur) VALUES (22, '2021-08-27', '2021-09-28', NULL, false, false, 181, 3);
 
 
 --
--- TOC entry 3166 (class 0 OID 23619)
+-- TOC entry 3166 (class 0 OID 25049)
 -- Dependencies: 209
 -- Data for Name: genre; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -464,7 +458,7 @@ INSERT INTO public.genre (id, genre) VALUES (3, 'Litterature Etrangere');
 
 
 --
--- TOC entry 3168 (class 0 OID 23628)
+-- TOC entry 3168 (class 0 OID 25058)
 -- Dependencies: 211
 -- Data for Name: illustration; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -489,7 +483,7 @@ INSERT INTO public.illustration (id, url, type_illustration, id_livre) VALUES (1
 
 
 --
--- TOC entry 3173 (class 0 OID 23653)
+-- TOC entry 3173 (class 0 OID 25083)
 -- Dependencies: 216
 -- Data for Name: many_livre_has_many_auteur; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -514,7 +508,7 @@ INSERT INTO public.many_livre_has_many_auteur (id_livre, id_auteur) VALUES (17, 
 
 
 --
--- TOC entry 3174 (class 0 OID 23656)
+-- TOC entry 3174 (class 0 OID 25086)
 -- Dependencies: 217
 -- Data for Name: many_livre_has_many_genre; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -556,7 +550,7 @@ INSERT INTO public.many_livre_has_many_genre (id_livre, id_genre) VALUES (17, 9)
 
 
 --
--- TOC entry 3182 (class 0 OID 23688)
+-- TOC entry 3182 (class 0 OID 25118)
 -- Dependencies: 225
 -- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -568,7 +562,7 @@ INSERT INTO public.role (id, role, description) VALUES (4, 'ROLE_ADMIN', 'accès
 
 
 --
--- TOC entry 3175 (class 0 OID 23659)
+-- TOC entry 3175 (class 0 OID 25089)
 -- Dependencies: 218
 -- Data for Name: many_utilisateur_has_many_role; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -585,25 +579,20 @@ INSERT INTO public.many_utilisateur_has_many_role (id_utilisateur, id_role) VALU
 
 
 --
--- TOC entry 3187 (class 0 OID 23832)
+-- TOC entry 3187 (class 0 OID 25262)
 -- Dependencies: 230
 -- Data for Name: reservation; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (1, '2021-09-17', false, false, NULL, NULL, NULL, 7, 17, 1);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (2, '2021-09-17', false, false, NULL, NULL, NULL, 7, 16, 2);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (3, '2021-09-17', false, false, NULL, NULL, NULL, 7, 15, 3);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (4, '2021-09-17', false, false, NULL, NULL, NULL, 7, 14, 4);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (5, '2021-09-17', false, false, NULL, NULL, NULL, 6, 17, 1);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (6, '2021-09-17', false, false, NULL, NULL, NULL, 6, 16, 2);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (7, '2021-09-17', false, false, NULL, NULL, NULL, 6, 15, 3);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (8, '2021-09-17', false, false, NULL, NULL, NULL, 6, 14, 4);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (9, '2021-09-17', false, false, NULL, NULL, NULL, 9, 16, 2);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (10, '2021-09-17', false, false, NULL, NULL, NULL, 9, 15, 3);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (11, '2021-09-17', false, false, NULL, NULL, NULL, 9, 14, 4);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (12, '2021-09-17', false, false, NULL, NULL, NULL, 10, 15, 3);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (13, '2021-09-17', false, false, NULL, NULL, NULL, 10, 14, 4);
-INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (14, '2021-09-17', false, false, NULL, NULL, NULL, 8, 14, 4);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (15, NULL, false, false, NULL, '2021-09-28 13:13:33.643388+02', NULL, 4, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (16, NULL, false, false, NULL, '2021-09-28 13:14:09.844336+02', NULL, 5, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (17, NULL, false, false, NULL, '2021-09-28 13:15:12.579769+02', NULL, 6, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (18, NULL, false, false, NULL, '2021-09-28 13:15:35.9324+02', NULL, 7, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (19, NULL, false, false, NULL, '2021-09-28 13:16:01.117814+02', NULL, 8, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (20, NULL, false, false, NULL, '2021-09-28 13:16:27.340571+02', NULL, 9, 17, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (21, NULL, false, false, NULL, '2021-09-28 13:17:04.94068+02', NULL, 4, 16, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (22, NULL, false, false, NULL, '2021-09-28 13:17:26.105919+02', NULL, 5, 16, 1);
+INSERT INTO public.reservation (id, date_reservation, expiree, mail_envoye, date_envoi_mail, date_reservation_tz, date_envoi_mail_tz, id_utilisateur, id_livre, id_bibliotheque) VALUES (23, NULL, false, false, NULL, '2021-09-28 13:17:52.265642+02', NULL, 6, 16, 1);
 
 
 --
@@ -702,7 +691,7 @@ SELECT pg_catalog.setval('public.pays_id_seq1', 1, false);
 -- Name: pret_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pret_id_seq1', 18, true);
+SELECT pg_catalog.setval('public.pret_id_seq1', 24, true);
 
 
 --
@@ -711,7 +700,7 @@ SELECT pg_catalog.setval('public.pret_id_seq1', 18, true);
 -- Name: reservation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reservation_id_seq', 14, true);
+SELECT pg_catalog.setval('public.reservation_id_seq', 23, true);
 
 
 --
@@ -732,7 +721,7 @@ SELECT pg_catalog.setval('public.role_id_seq1', 1, false);
 SELECT pg_catalog.setval('public.utilisateur_id_seq', 10, true);
 
 
--- Completed on 2021-09-17 17:56:07
+-- Completed on 2021-09-28 13:20:35
 
 --
 -- PostgreSQL database dump complete

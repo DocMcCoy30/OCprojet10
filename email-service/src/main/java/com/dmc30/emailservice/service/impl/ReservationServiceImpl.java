@@ -75,46 +75,45 @@ public class ReservationServiceImpl implements ReservationService {
      */
     private List<ReservationBean> checkReservationsAndSetExpirees(List<LivreBean> listOfLivresRestitues) {
         Calendar c = Calendar.getInstance();
-        ZoneId zoneId = ZoneId.of( "Europe/Paris" );
-        ZonedDateTime today = ZonedDateTime.ofInstant( Instant.now() , zoneId );
+        ZoneId zoneId = ZoneId.of("Europe/Paris");
+        ZonedDateTime today = ZonedDateTime.ofInstant(Instant.now(), zoneId);
         ZonedDateTime dateExpiration = null;
         List<ReservationBean> reservationsForMail = new ArrayList<>();
         List<ReservationBean> reservationsByLivre;
-//        for(List<LivreBean> livresRestituesParBibliotheque : listOfLivresRestitues) {
-            for (LivreBean livreRestitue : listOfLivresRestitues) {
-                boolean mailEnvoye = false;
-                Long livreId = livreRestitue.getId();
-                reservationsByLivre = reservationServiceProxy.getReservationsByLivreId(livreId);
-                //si la liste est >0
-                if (reservationsByLivre.size() > 0) {
-                    //vérifier les dates d'expiration et update
-                    for (ReservationBean reservationByLivre : reservationsByLivre) {
-                        if (reservationByLivre.getDateEnvoiMailTz() != null) {
-                            dateExpiration = (reservationByLivre.getDateEnvoiMailTz()).plusDays(2);
+        for (LivreBean livreRestitue : listOfLivresRestitues) {
+            boolean mailEnvoye = false;
+            Long livreId = livreRestitue.getId();
+            reservationsByLivre = reservationServiceProxy.getReservationsByLivreId(livreId);
+            //si la liste est >0
+            if (reservationsByLivre.size() > 0) {
+                //vérifier les dates d'expiration et update
+                for (ReservationBean reservationByLivre : reservationsByLivre) {
+                    if (reservationByLivre.getDateEnvoiMailTz() != null) {
+                        dateExpiration = (reservationByLivre.getDateEnvoiMailTz()).plusDays(2);
 //                            c.setTime(reservationByLivre.getDateEnvoiMailTz());
 //                            c.add(Calendar.DAY_OF_YEAR, 2);
 //                            dateExpiration = c.getTime();
-                        }
-                        if ((reservationByLivre.isMailEnvoye()) && (today.isAfter(dateExpiration))) {
-                            reservationByLivre.setExpiree(true);
-                            reservationServiceProxy.updateReservation(reservationByLivre);
-                        }
-                        //si date expiration ok, vérifier si mail envoyé
-                        if ((reservationByLivre.isMailEnvoye()) && (today.isBefore(dateExpiration))) {
-                            //si mailEnvoye et !expiree  dans la liste on ne fait rien
-                            mailEnvoye = true;
-                        }
-                        if ((!mailEnvoye) && (!reservationByLivre.isExpiree())) {
-                            //si !mailEnvoye on ajoute à la liste à retourner et on passe à la liste de reservation pour le livre suivant
-                            reservationByLivre.setMailEnvoye(true);
-                            reservationByLivre.setDateEnvoiMailTz(today);
-                            reservationServiceProxy.updateReservation(reservationByLivre);
-                            reservationsForMail.add(reservationByLivre);
-                            mailEnvoye = true;
-                        }
+                    }
+                    if ((reservationByLivre.isMailEnvoye()) && (today.isAfter(dateExpiration))) {
+                        reservationByLivre.setExpiree(true);
+                        reservationServiceProxy.updateReservation(reservationByLivre);
+                    }
+                    //si date expiration ok, vérifier si mail envoyé
+                    if ((reservationByLivre.isMailEnvoye()) && (today.isBefore(dateExpiration))) {
+                        //si mailEnvoye et !expiree  dans la liste on ne fait rien
+                        mailEnvoye = true;
+                    }
+                    if ((!mailEnvoye) && (!reservationByLivre.isExpiree())) {
+                        //si !mailEnvoye on ajoute à la liste à retourner et on passe à la liste de reservation pour le livre suivant
+                        reservationByLivre.setMailEnvoye(true);
+                        reservationByLivre.setDateEnvoiMailTz(today);
+                        reservationServiceProxy.updateReservation(reservationByLivre);
+                        reservationsForMail.add(reservationByLivre);
+                        mailEnvoye = true;
                     }
                 }
             }
+        }
 //        }
         return reservationsForMail;
     }

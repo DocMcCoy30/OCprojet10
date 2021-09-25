@@ -48,7 +48,7 @@ public class ScheduledTasks {
 
     //DONE T1 : Scheduled Methodde pour envoi mail notification réservation.
 
-//    @Scheduled(cron = "0 */1 * * * *") // toutes les minutes
+//    @Scheduled(cron = "0 */1 * * * *") // toutes les 1 minutes
     @Scheduled(cron = "*/30 * * * * *") // toutes les 30 secondes
     public void scheduledMailServiceForReservation() throws MessagingException {
         System.out.println("scheduledMailServiceForReservation is running.");

@@ -10,7 +10,7 @@ Pour la release qui est en cours de développement, merci de mettre en place une
 2. Des tests d’intégration de l’API via un outil de tests d’API (ex : Postman, Soap-UI)
 Pour les tests de l’application web et du batch, on verra dans un second temps. Je vous tiendrai au courant…
 
-#### 1- Tests Unitaires ####
+### 1- Tests Unitaires ###
 
 + ReservationService Tests : 
 
@@ -30,18 +30,25 @@ Pour les tests de l’application web et du batch, on verra dans un second temps
 
 ![img_2.png](../.README_images/jaccoco_clientui.png)
 
-#### 2- Tests d'Intégration ####
+### 2- Tests d'Intégration ###
 
 Une série de tests d'intégration automatisés est réalisée avec Postman.
 
-![img.png](../.README_images/postman_TI.png)
-
 Le workflow est le suivant : 
+
+#### WorkFlow#1 ####
 
 + les 3 exemplaires du livre Shinning de la Bibliotheque du Carré d'Art sont empruntés afin d'ouvrir la possibilité de le réserver
 + 2 réservations sont crées pour ce livre pour 2 abonnés différents
-+ un exemplaire est rendu à la bibliothèque
++ un exemplaire est rendu à la bibliothèque : un mail est envoyé au premier utilisateur sur la liste d'attente
 
+![img.png](../.README_images/postman_TI_W1.png)
 
-+ dmc30dev@gmail.com : 
-On peut vérifier qu'un mail a été envoyé au premier abonné qui a effectué la réservation 
+#### WorkFlow#2 ####
+
++ un update est effectué sur la réservation : la date d'envoi du mail est fixée au 20/09 => 
+la date d'expiration de la réservation est dépassée
++ la reservation est notée expirée
++ un mail est envoyé à l'utilisateur suivant sur la liste d'attente
+
+![img.png](../.README_images/postman_TI_W2.png)
