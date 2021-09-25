@@ -10,7 +10,6 @@
 + SpringDoc / Actuator / Lombok / DevTools
 + PostgreSQL
 + SpringSecurity
-+ SpringCloud Gateway
 + SpringMail / SpringScheduler
 + Eureka
 + Feign
@@ -25,9 +24,12 @@ La documentation du projet pour les différents tickets se trouve dans le dossie
   et script de migration (cf modèle physique de données dans dossier -docs/docs_ticket1/sql)
   + documentation : Document_de_Conception_P10_Ticket1.pdf (-docs/docs_ticket1/documentation)
     + enjeux et objectifs du ticket 1 
-    + comparaison entre l'existant (Projet 7)
-    et l'implémentation à réaliser
+    + comparaison entre l'existant (Projet 7) et l'implémentation à réaliser
       (architecture du projet, diagrammes UML, arborescence du site, modèle physique de données)
++ ticket2 :
+  + ReadMe-ticket2.md
++ ticket3
+  + ReadMe-ticket3.md
 
 
 ### Modification de la configuration : application.properties ###
@@ -86,8 +88,6 @@ $mvn install pour chaque service si nécessaire
 
 4- clientUI / email-service
 
-5- gateway-server
-
 Pour chaque service
 ```
 $ cd ../path/to/the/file/target
@@ -96,7 +96,7 @@ $ java -jar nom-du-service.jar
 
 ### Utilisation et fonctionnalités ###
 
-Page d'accueil accessible à : https://localhost:8999/ (gateway)
+Page d'accueil accessible à : https://localhost:9000/
 
 Pour les besoins des tests des cas d'utilisation des nouvelles fonctionnalités, 8 utilisateurs sont créés dans 
 la base de données (ainsi qu'un certain nombre de prêts et de réservations) :

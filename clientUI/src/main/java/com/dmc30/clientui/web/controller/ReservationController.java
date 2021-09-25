@@ -33,8 +33,6 @@ public class ReservationController {
         this.livreService = livreService;
     }
 
-    //TODO : javadoc
-
     /**
      * Enregistre une réservation d'un livre dans la base de données
      *

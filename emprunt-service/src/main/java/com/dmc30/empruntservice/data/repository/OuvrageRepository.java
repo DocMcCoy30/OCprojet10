@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface OuvrageRepository extends JpaRepository<Ouvrage, Long> {
 
     @Query(value = "SELECT * FROM ouvrage WHERE id_interne=?1", nativeQuery = true)
-    Optional<Ouvrage> findByIdInterne(String ouvrageId);
+    Ouvrage findByIdInterne(String ouvrageId);
 }

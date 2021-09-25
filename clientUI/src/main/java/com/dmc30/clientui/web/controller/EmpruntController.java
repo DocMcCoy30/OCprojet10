@@ -41,8 +41,6 @@ public class EmpruntController {
         this.empruntService = empruntService;
     }
 
-    //DONE : javadoc
-
     /**
      * Récupère les données at affiche la page d'enregistrement d'un emprunt (employé)
      * @param bibliothequeId l'identifiant de la bibliothèque

@@ -34,4 +34,5 @@ public class UtilisateurBean implements Serializable {
     private String matricule;
     private Date dateEntree;
     private Date dateSortie;
+
 }

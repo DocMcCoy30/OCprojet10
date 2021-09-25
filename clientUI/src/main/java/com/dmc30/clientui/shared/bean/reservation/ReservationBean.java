@@ -1,6 +1,8 @@
 package com.dmc30.clientui.shared.bean.reservation;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
@@ -8,6 +10,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class ReservationBean {
 
     private Long id;

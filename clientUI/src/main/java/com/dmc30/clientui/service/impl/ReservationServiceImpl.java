@@ -19,13 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -91,6 +89,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     //DONE T1: checkReservationPossible
+    //DONE T3: tests unitaires
 
     /**
      * Vérifie qu'une réservation peut être effectuée
@@ -131,31 +130,6 @@ public class ReservationServiceImpl implements ReservationService {
         return nbReservation;
     }
 
-    /**
-     * Récupère la liste des réservations d'un utilisateur
-     *
-     * @param userId l'identifiant de l'utilisateur
-     * @return la liste
-     */
-    @Override
-    public List<ReservationBean> getReservationByUserId(Long userId) {
-        List<ReservationBean> reservations = reservationServiceProxy.getReservationsByUserId(userId);
-        return reservations;
-    }
-
-    /**
-     * Récupère la liste des réservations par livre et par bibliothèque ordonnée par date
-     *
-     * @param livreId        l'identifiant du livre
-     * @param bibliothequeId l'identifiant de la bibliothèque
-     * @return la liste
-     */
-    @Override
-    public List<ReservationBean> getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(Long livreId, Long bibliothequeId) {
-        List<ReservationBean> reservations = reservationServiceProxy.getReservationByLivreIdAndAndBibliothequeIdOrderByDateReservation(livreId, bibliothequeId);
-        return reservations;
-    }
-
     //DONE T1: liste des réservations en cours pour la page profil utilisateur
 
     /**
@@ -169,7 +143,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationModelBean> getListeReservationsEnCours(String username, Long bibliothequeId) throws TechnicalException {
         ObjectMapper mapper = new ObjectMapper();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
         Long livreId;
         List<Long> reservationToReturnIds = new ArrayList<>();
         List<ReservationModelBean> reservationsToReturn = new ArrayList<>();
@@ -184,7 +157,6 @@ public class ReservationServiceImpl implements ReservationService {
                 ZonedDateTime dateToFormat = (reservationParUser.getDateReservationTz()).withZoneSameInstant(ZoneId.of("Europe/Paris"));
                 reservationModelBean.setId(reservationParUser.getId());
                 String dateReservation = (DateTimeFormatter.ofPattern("EEEE dd LLLL yyyy").format(dateToFormat));
-//                String dateReservation = dateFormat.format(reservationParUser.getDateReservationTz());
                 reservationModelBean.setDateReservation(dateReservation);
                 reservationModelBean.setExpiree(reservationParUser.isExpiree());
                 ResponseEntity<?> response = livreService.getLivreById(livreId);
@@ -235,7 +207,8 @@ public class ReservationServiceImpl implements ReservationService {
 
 //-------------------------Méthodes de classe----------------------------------------
 
-//DONE T1: Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
+    //DONE T3: Tests unitaires Check1, Check2, Check3
+    //DONE T1: Check1 : pas d'emprunt en cours pour ce livre pour cet utilisateur
 
     /**
      * Vérifie que la RG "pas d'emprunt en cours pour ce livre et cet utilisateur" est respectée.
@@ -263,6 +236,8 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
+    //DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+
     /**
      * Vérifie que la RG "pas de réservation en cours pour ce livre et cet utilisateur" est respectée.
      *
@@ -270,7 +245,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @param username le username de l'utilisateur.
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-//DONE T1: Check2 : pas de réservation déjà en cours pour ce livre pour cet utilisateur
+
     public boolean reservationPossibleCheck2(Long livreId, String username) {
         boolean reservation = true;
         Long userId = (userService.getUtilisateurByUsername(username)).getId();
@@ -284,6 +259,7 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
+    //DONE T1: Check3 :  la liste d'attente n'est pas complète
     /**
      * Vérifie que la RG "la liste d'attente n'est pas complète" est respectée.
      *
@@ -291,13 +267,12 @@ public class ReservationServiceImpl implements ReservationService {
      * @param bibliothequeId l'identifiant de la bibliotheque
      * @return true si la réservation est possible, false si une des RG n'est pas respectée.
      */
-//DONE T1: Check3 :  la liste d'attente n'est pas complète
     public boolean reservationPossibleCheck3(Long livreId, Long bibliothequeId) {
         boolean reservation = true;
         // récupérer le nombre de réservation (nbReservation) pour ce livre et cette bibliotheque
         Integer nbReservation = reservationServiceProxy.getNombreDeReservation(livreId, bibliothequeId);
         logger.info("nbReservation =" + nbReservation);
-        // récupérer le nombre d'ouvrage X2 (nbOuvrage) correspondant à ce livre dans cette bibliotheque
+        // récupérer le nombre d'ouvrage (nbOuvrage) correspondant à ce livre dans cette bibliotheque
         Integer nbOuvrage = ouvrageService.getNombreDOuvrage(livreId, bibliothequeId);
         logger.info("nbOuvrage = " + nbOuvrage);
         // vérifier que nbReservation est < à nbOuvrage
